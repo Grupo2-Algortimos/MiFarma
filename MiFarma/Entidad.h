@@ -41,7 +41,7 @@ public:
 	}
 	
 	//metodos getter y setter
-	string    getUser() { return user; }
+	string getUser() { return user; }
 	string getPassword(){ return password; }
 	string getNombre(){ return nombre; }
 	string getApellido(){ return apellido; }
