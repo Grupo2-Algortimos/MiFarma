@@ -9,7 +9,7 @@
 #include "ListaEmpleados.h"
 
 using namespace std;
-// hola hola 
+// hola holp99ya ttjteteej
 class Programa {
 private:
 	//declarando lista
