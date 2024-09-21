@@ -12,6 +12,7 @@
 #define archivoReclamo "ListaReclamo.txt"
 #define archivoProveedor "ListaProveedor.txt"
 
+
 class Programa {
 private:
 	//declarando lista
@@ -214,19 +215,24 @@ public:
 	}
 
 	void loginUsuario() {
-		string user, password;		
+		string user, password;
 		do
 		{
 			cout << "=============:: Login ::=============" << endl;
 			cout << "Ingresar Usuario: "; cin >> user; cout << endl;
+			cout << "Ingresar contraseña: "; cin >> password; cout << endl;
 			for (int i = 0; i < l_usuario->longitud(); i++)
 			{
 				if (l_usuario->obtenerPos(i)->getUser() == user)
 				{
-					cout << "Ingresar contraseña: "; cin >> password; cout << endl;
 					if (l_usuario->obtenerPos(i)->getPassword() == password)
 					{
 						cout << "Registro exitoso..." << endl;
+						userOpciones();
+						break;
+					}
+					else {
+						cout << "La contrasena ingresada es incorrecta...." << endl;
 					}
 				}
 				else
@@ -234,7 +240,7 @@ public:
 					cout << "El usuario ingresado es incorrecto...." << endl;
 				}
 			}
-			
+
 		} while (true);
 	}
 
@@ -303,18 +309,18 @@ public:
 			{
 			case 1:
 				system("cls");
-				login();
+				loginEmpleado();
 				break;
 			case 2:
 				system("cls");
-				registro(coni);
+				registroEmpleado(coni);
 				coni++;
 				break;
 			}
 		} while (op != 3);				
 	}
 
-	void login() {
+	void loginEmpleado() {
 		string user, password;
 		string C_user, C_password;
 		Empleado* aux;
@@ -333,7 +339,7 @@ public:
 				if (C_password == password)
 				{
 					adminOpciones();
-					break;					
+					break;
 				}
 				else
 				{
@@ -344,12 +350,42 @@ public:
 			{
 				cout << "EL usuario ingresado no es correcto..." << endl;
 			}
-		} while (true);		
+		} while (true);
 	}
 
-	void registro(int coni) {
-		string user,password,nombre,apellido,telefono,sexo,distrito,idTrabajador,puesto;
-		Empleado* aux;				
+	void userOpciones() {
+		int opcionM;
+		int i = 0;
+		int p = 0;
+		while (true)
+		{
+			cout << "=============:: User Menu ::=============" << endl;
+			//cout << "[1] Ingresar Productos" << endl;
+			cout << "[2] Elegir Categoria" << endl;
+			cout << "[3] Buscar Productos" << endl;
+			cout << "[4] Comprar Producto" << endl;
+			cout << "[5] Ver Carrito" << endl;
+			cout << "[6] Ingresar Reclamo" << endl;
+			//cout << "[7] Ingresar Proveedor" << endl;
+			//cout << "[8] Ver Proveedor" << endl;
+			//cout << "[9] Buscar Proveedor" << endl;
+			//cout << "[10] Ver Boletas" << endl;
+			cout << "[11] Salir" << endl;
+			cout << "Seleccione una opcion : "; cin >> opcionM;
+			switch (opcionM)
+			{
+			case 1:
+				break;
+			case 11:
+				break;
+				break;
+			}
+		}
+	}
+
+	void registroEmpleado(int coni) {
+		string user, password, nombre, apellido, telefono, sexo, distrito, idTrabajador, puesto;
+		Empleado* aux;
 		cout << "=============:: Resgistro ::=============" << endl;
 		cout << "Ingresar un Usuario: "; cin >> user; cout << endl;
 		cout << "Ingresar una contraseña: "; cin >> password; cout << endl;
@@ -359,9 +395,9 @@ public:
 		cout << "Ingrese su genero: "; cin >> sexo; cout << endl;
 		cout << "Ingrese su distrito: "; cin >> distrito; cout << endl;
 		cout << "Ingrese su idTrabajador: "; cin >> idTrabajador; cout << endl;
-		cout << "Ingrese su puesto: "; cin >> puesto; cout << endl;	
+		cout << "Ingrese su puesto: "; cin >> puesto; cout << endl;
 		aux = new Empleado(user, password, nombre, apellido, telefono, sexo, distrito, idTrabajador, puesto);
-		l_empleados->agregaPos(aux, coni);		
+		l_empleados->agregaPos(aux, coni);
 	}
 
 
@@ -557,10 +593,5 @@ public:
 			}
 		}
 	}
-
-
-
-
-
 
 };
