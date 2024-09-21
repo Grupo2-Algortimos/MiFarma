@@ -33,6 +33,5 @@ public:
 		cout << "Distrito: " << getdistrito() << endl;
 		cout << "Producto: " << getproducto() << endl;
 	}
-
 };
 

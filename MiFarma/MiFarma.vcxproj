@@ -112,15 +112,20 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Boleta.h" />
+    <ClInclude Include="CompraInterfaz.h" />
     <ClInclude Include="ControllerProgram.h" />
+    <ClInclude Include="DeliveryInterfaz.h" />
     <ClInclude Include="Empleado.h" />
     <ClInclude Include="Entidad.h" />
     <ClInclude Include="Funciones.h" />
     <ClInclude Include="Lista.h" />
+    <ClInclude Include="MainInterfaz.h" />
     <ClInclude Include="Nodo.h" />
     <ClInclude Include="Producto.h" />
+    <ClInclude Include="ProductosInterfaz.h" />
     <ClInclude Include="Proveedor.h" />
     <ClInclude Include="Reclamos.h" />
+    <ClInclude Include="Repartidor.h" />
     <ClInclude Include="Usuario.h" />
   </ItemGroup>
   <ItemGroup>
