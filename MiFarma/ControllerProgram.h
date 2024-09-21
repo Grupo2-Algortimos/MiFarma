@@ -22,12 +22,7 @@ class Programa {
 private:
 	//declarando lista
 	Lista<Empleado*>* l_empleados;
-
 	Lista<Producto<string>*>* l_productos;
-	Lista<Producto<string>*>* l_productos_mayor_menor;
-	Lista<Producto<string>*>* l_productos_menor_mayor;
-	Lista<Producto<string>*>* l_productos_a-z;
-
 	Lista<Usuario*>* l_usuario;
 	Lista<Reclamo<string>*>* l_reclamo;
 	Lista<Proveedor*>* l_proveedor;
@@ -233,19 +228,14 @@ public:
 		{
 			cout << "=============:: Login ::=============" << endl;
 			cout << "Ingresar Usuario: "; cin >> user; cout << endl;
-			cout << "Ingresar contraseña: "; cin >> password; cout << endl;
 			for (int i = 0; i < l_usuario->longitud(); i++)
 			{
 				if (l_usuario->obtenerPos(i)->getUser() == user)
 				{
+					cout << "Ingresar contraseña: "; cin >> password; cout << endl;
 					if (l_usuario->obtenerPos(i)->getPassword() == password)
 					{
 						cout << "Registro exitoso..." << endl;
-						userOpciones();
-						break;
-					}
-					else {
-						cout << "La contrasena ingresada es incorrecta...." << endl;
 					}
 				}
 				else
@@ -309,36 +299,6 @@ public:
 		l_usuario->agregaPos(auxUsuario,i);
 	}
 
-	void userOpciones() {
-		int opcionM;
-		int i = 0;
-		int p = 0;
-		while (true)
-		{
-			cout << "=============:: User Menu ::=============" << endl;
-			//cout << "[1] Ingresar Productos" << endl;
-			cout << "[2] Elegir Categoria" << endl;
-			cout << "[3] Buscar Productos" << endl;
-			cout << "[4] Comprar Producto" << endl;
-			cout << "[5] Ver Carrito" << endl;
-			cout << "[6] Ingresar Reclamo" << endl;
-			//cout << "[7] Ingresar Proveedor" << endl;
-			//cout << "[8] Ver Proveedor" << endl;
-			//cout << "[9] Buscar Proveedor" << endl;
-			//cout << "[10] Ver Boletas" << endl;
-			cout << "[11] Salir" << endl;
-			cout << "Seleccione una opcion : "; cin >> opcionM;
-			switch (opcionM)
-			{
-			case 1:
-				break;
-			case 11:
-				break;
-				break;
-			}
-		}
-	}
-
 	void vistaEmpleado() {
 		int op = 0;
 		int coni = 0;
@@ -352,18 +312,18 @@ public:
 			{
 			case 1:
 				system("cls");
-				loginEmpleado();
+				login();
 				break;
 			case 2:
 				system("cls");
-				registroEmpleado(coni);
+				registro(coni);
 				coni++;
 				break;
 			}
 		} while (op != 3);				
 	}
 
-	void loginEmpleado() {
+	void login() {
 		string user, password;
 		string C_user, C_password;
 		Empleado* aux;
@@ -396,7 +356,7 @@ public:
 		} while (true);		
 	}
 
-	void registroEmpleado(int coni) {
+	void registro(int coni) {
 		string user,password,nombre,apellido,telefono,sexo,distrito,idTrabajador,puesto;
 		Empleado* aux;				
 		cout << "=============:: Resgistro ::=============" << endl;
@@ -502,12 +462,7 @@ public:
 		cout << "Ingresar cantidad del Producto: "; cin >> cantidad; cout << endl;
 		cout << "Ingresar Fecha de caducidad del Producto: "; cin >> fechaCad; cout << endl;
 		auxProduct = new Producto<string>(idProduct,nombre,precio,cantidad,fechaCad);
-
-		l_productos->agregaPos(auxProduct, i);	
-
-		l_productos_mayor_menor->agregaPos(auxProduct, i);
-		l_productos_menor_mayor->agregaPos(auxProduct, i);
-		l_productos_a-z->agregaPos(auxProduct, i);
+		l_productos->agregaPos(auxProduct, i);		
 	}
 
 	void buscarProducto() {

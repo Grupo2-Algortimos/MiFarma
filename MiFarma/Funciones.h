@@ -4,8 +4,6 @@
 #include <cstdlib>
 #include "Usuario.h"
 #include "Producto.h"
-#include "ListaEmpleados.h"
-
 
 
 using namespace std;
@@ -30,64 +28,6 @@ string generarNombreUsuario(int caracterMax, string nombreUsuario, string userNo
 }
 
 //Funcion para retornar el Producto más caro
-
-
-//Ordenamiento Shell con Lista de productos de mayor a menor
-void ordShellProdcutoMayorAMenor(Lista<Producto<string>*>* l_productosOrdenar) {
-	int n = l_productosOrdenar->longitud();
-	int i, j, k, intervalo = n / 2;
-	Producto<string>* productoJ;
-	Producto<string>* productoK;
-	Producto<string>* temp;
-
-	while (intervalo > 0) {
-		for (i = intervalo; i < n; i++) {
-			j = i - intervalo;
-			while (j >= 0) {
-				k = j + intervalo;
-				productoJ = l_productosOrdenar->obtenerPos(j);
-				productoK = l_productosOrdenar->obtenerPos(k);
-			}
-			if (stod(productoJ->getPrecio()) >= stod(productoK->getPrecio())) {
-				break;
-			}
-			else {
-				temp = productoJ;
-				l_productosOrdenar->modificarPos(productoJ, k);
-				l_productosOrdenar->modificarPos(productoK, j);
-			}
-		}
-	}
-}
-
-
-//Ordenamiento Shell con Lista de productos de menor a mayor
-void ordShellProdcutoMenorAMayor(Lista<Producto<string>*>* l_productosOrdenar) {
-	int n = l_productosOrdenar->longitud();
-	int i, j, k, intervalo = n / 2;
-	Producto<string>* productoJ;
-	Producto<string>* productoK;
-	Producto<string>* temp;
-
-	while (intervalo > 0) {
-		for (i = intervalo; i < n; i++) {
-			j = i - intervalo;
-			while (j >= 0) {
-				k = j + intervalo;
-				productoJ = l_productosOrdenar->obtenerPos(j);
-				productoK = l_productosOrdenar->obtenerPos(k);
-			}
-			if (stod(productoJ->getPrecio()) <= stod(productoK->getPrecio())) {
-				break;
-			}
-			else {
-				temp = productoJ;
-				l_productosOrdenar->modificarPos(productoJ, k);
-				l_productosOrdenar->modificarPos(productoK, j);
-			}
-		}
-	}
-}
 
 
 
