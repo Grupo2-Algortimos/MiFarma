@@ -48,6 +48,9 @@
     <ClInclude Include="Boleta.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Repartidor.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source.cpp">

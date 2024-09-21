@@ -42,8 +42,3 @@ public:
 		cout << "Fecha de vencimiento: " << getFechaCad() << endl;		
 	}
 };
-
-
-
-
-

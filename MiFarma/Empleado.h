@@ -9,7 +9,8 @@ private:
 
 public:
     // Constructor
-    Empleado() {
+    Empleado():Entidad()
+    {
         this->idTrabajador = "";
         this->puesto = "";
     }
