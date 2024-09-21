@@ -7,8 +7,16 @@
 #include "Proveedor.h"
 #include "Funciones.h"
 #include "ListaEmpleados.h"
-//Tratando de solucionar el error
-//Cambio 1
+#include <fstream>	//Gestion de Archivo
+#include <string>	//getline
+#include <sstream>	//stream
+//definimos predeterminados
+#define archivoEmpleados "ListaEmpleados.txt"
+#define archivoProductos "ListaProductos.txt"
+#define archivoReclamo "ListaReclamo.txt"
+#define archivoProveedor "ListaProveedor.txt"
+
+
 using namespace std;
 class Programa {
 private:
@@ -26,6 +34,145 @@ public:
 		l_usuario = new Lista<Usuario*>();
 		l_reclamo = new Lista<Reclamo<string>*>();
 		l_proveedor = new Lista<Proveedor*>();
+	}
+	//importacion de archivos
+	void lecturaArchivoEmpleados() {
+		ifstream archIN;
+		archIN.open(archivoEmpleados, ios::in); //Apertura
+		if (!archIN.is_open())
+		{
+			cout << "Error: No se pudo abrir el archivo !!!" << endl;
+			exit(1);
+		}
+		string linea;
+		char delimitador = '|'; //Separador de cada columna de la línea
+		int i = 0;
+		Empleado* auxE;
+		// Encabezado: Leemos la primera línea para descartarla, pues es el encabezado
+		getline(archIN, linea);
+		// Contenido: Leemos todas las líneas
+		while (getline(archIN, linea))
+		{
+			stringstream stream(linea); // Convertir la cadena a un stream			
+			string user, password, nombre, apellido, telefono, sexo, distrito, idTrabajador, puesto;
+			// Extraer todos los valores de esa fila [considerando 3 columans]
+			getline(stream, user, delimitador);
+			getline(stream, password, delimitador);
+			getline(stream, nombre, delimitador);
+			getline(stream, apellido, delimitador);
+			getline(stream, telefono, delimitador);
+			getline(stream, sexo, delimitador);
+			getline(stream, distrito, delimitador);
+			getline(stream, idTrabajador, delimitador);
+			getline(stream, puesto, delimitador);
+
+			auxE = new Empleado(user, password, nombre, apellido, telefono, sexo, distrito, idTrabajador, puesto);
+			l_empleados->agregaPos(auxE, i);
+			i++;
+		}
+		// Cerramos Archivo
+		archIN.close();
+	}
+
+	void lecturaArchivoProductos() {
+		ifstream archIN;
+		archIN.open(archivoProductos, ios::in); //Apertura
+		if (!archIN.is_open())
+		{
+			cout << "Error: No se pudo abrir el archivo !!!" << endl;
+			exit(1);
+		}
+		string linea;
+		char delimitador = '|'; //Separador de cada columna de la línea
+		int i = 0;
+		Producto<string>* aux;
+		// Encabezado: Leemos la primera línea para descartarla, pues es el encabezado
+		getline(archIN, linea);
+		// Contenido: Leemos todas las líneas
+		while (getline(archIN, linea))
+		{
+			stringstream stream(linea); // Convertir la cadena a un stream			
+			string idProduct, nombre, precio, cantidad, fechaCaducidad;
+			// Extraer todos los valores de esa fila [considerando 3 columans]
+			getline(stream, idProduct, delimitador);
+			getline(stream, nombre, delimitador);
+			getline(stream, precio, delimitador);
+			getline(stream, cantidad, delimitador);
+			getline(stream, fechaCaducidad, delimitador);
+			aux = new Producto<string>(idProduct, nombre, precio, cantidad, fechaCaducidad);
+			l_productos->agregaPos(aux, i);
+			i++;
+		}
+		// Cerramos Archivo
+		archIN.close();
+	}
+	void lecturaArchivoReclamo() {
+		ifstream archIN;
+		archIN.open(archivoReclamo, ios::in); //Apertura
+		if (!archIN.is_open())
+		{
+			cout << "Error: No se pudo abrir el archivo !!!" << endl;
+			exit(1);
+		}
+		string linea;
+		char delimitador = '|'; //Separador de cada columna de la línea
+		int i = 0;
+		Reclamo<string>* auxR;
+		// Encabezado: Leemos la primera línea para descartarla, pues es el encabezado
+		getline(archIN, linea);
+		// Contenido: Leemos todas las líneas
+		while (getline(archIN, linea))
+		{
+			stringstream stream(linea); // Convertir la cadena a un stream			
+			string iDReclamo, fecha, nombre, telefono, distrito, nombreProducto, tipo, detalle, pedido;
+			// Extraer todos los valores de esa fila [considerando 3 columans]
+			getline(stream, iDReclamo, delimitador);
+			getline(stream, fecha, delimitador);
+			getline(stream, nombre, delimitador);
+			getline(stream, telefono, delimitador);
+			getline(stream, distrito, delimitador);
+			getline(stream, nombreProducto, delimitador);
+			getline(stream, tipo, delimitador);
+			getline(stream, detalle, delimitador);
+			getline(stream, pedido, delimitador);
+			auxR = new Reclamo<string>(iDReclamo, fecha, nombre, telefono, distrito, nombreProducto, tipo, detalle, pedido);
+			l_reclamo->agregaPos(auxR, i);
+			i++;
+		}
+		// Cerramos Archivo
+		archIN.close();
+	}
+	void lecturaArchivoProveedor() {
+		ifstream archIN;
+		archIN.open(archivoProveedor, ios::in); //Apertura
+		if (!archIN.is_open())
+		{
+			cout << "Error: No se pudo abrir el archivo !!!" << endl;
+			exit(1);
+		}
+		string linea;
+		char delimitador = '|'; //Separador de cada columna de la línea
+		int i = 0;
+		Proveedor* auxP;
+		// Encabezado: Leemos la primera línea para descartarla, pues es el encabezado
+		getline(archIN, linea);
+		// Contenido: Leemos todas las líneas
+		while (getline(archIN, linea))
+		{
+			stringstream stream(linea); // Convertir la cadena a un stream			
+			string nombre, telefono, distrito, producto;
+			// Extraer todos los valores de esa fila [considerando 3 columans]
+			getline(stream, nombre, delimitador);
+			getline(stream, telefono, delimitador);
+			getline(stream, distrito, delimitador);
+			getline(stream, producto, delimitador);
+
+			auxP = new Proveedor(nombre, telefono, distrito, producto);
+			l_proveedor->agregaPos(auxP, i);
+			i++;
+		}
+		// Cerramos Archivo
+		archIN.close();
 	}
 
 	//Menu del programa
@@ -379,10 +526,15 @@ public:
 	}
 
 	void verReclamos() {
+		int num = 1;
 		for (int i = 0; i < l_reclamo->longitud(); i++)
 		{
+			cout << "--------------------------------" << endl;
+			cout << "Reclamo Numero: " << num << endl;
+			cout << "--------------------------------" << endl;
 			l_reclamo->obtenerPos(i)->mostrarReclamo();
 			cout << "--------------------------------" << endl;
+			num++;
 		}
 	}
 

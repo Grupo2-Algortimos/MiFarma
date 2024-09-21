@@ -111,6 +111,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Boleta.h" />
     <ClInclude Include="ControllerProgram.h" />
     <ClInclude Include="Empleado.h" />
     <ClInclude Include="Entidad.h" />
