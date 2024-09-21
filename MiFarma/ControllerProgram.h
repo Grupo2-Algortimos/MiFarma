@@ -8,6 +8,7 @@
 #include "Funciones.h"
 #include "ListaEmpleados.h"
 //Tratando de solucionar el error
+//Cambio 1
 using namespace std;
 class Programa {
 private:
