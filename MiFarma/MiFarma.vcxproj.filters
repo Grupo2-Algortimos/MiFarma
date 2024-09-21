@@ -27,7 +27,7 @@
     <ClInclude Include="Funciones.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ListaEmpleados.h">
+    <ClInclude Include="Lista.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Nodo.h">

@@ -6,7 +6,7 @@
 #include "Reclamos.h"
 #include "Proveedor.h"
 #include "Funciones.h"
-#include "ListaEmpleados.h"
+#include "Lista.h"
 #include <fstream>	//Gestion de Archivo
 #include <string>	//getline
 #include <sstream>	//stream
