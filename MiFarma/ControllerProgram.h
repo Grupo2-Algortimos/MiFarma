@@ -1,21 +1,16 @@
 #pragma once
-#include <iostream>
-#include "Empleado.h"
-#include "Producto.h"
-#include "Usuario.h"
-#include "Reclamos.h"
-#include "Proveedor.h"
-#include "Funciones.h"
-#include "Lista.h"
-#include <fstream>//Gestion de Archivo
-#include <string>//getline
-#include <sstream>//stream
+#include"Empleado.h"
+#include"Reclamos.h"
+#include"Proveedor.h"
+#include"Funciones.h"
+#include<fstream>//Gestion de Archivo
+#include<string>//getline
+#include<sstream>//stream
 //definimos predeterminados
 #define archivoEmpleados "ListaEmpleados.txt"
 #define archivoProductos "ListaProductos.txt"
 #define archivoReclamo "ListaReclamo.txt"
 #define archivoProveedor "ListaProveedor.txt"
-using namespace std;
 
 class Programa {
 private:
