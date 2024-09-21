@@ -31,7 +31,7 @@ public:
 		cout << "Nombre del Proveedor: " << getnombre() << endl;
 		cout << "Telefono: " << gettelefono() << endl;
 		cout << "Distrito: " << getdistrito() << endl;
-		cout << "Producto: " << getproducto() << endl;		
+		cout << "Producto: " << getproducto() << endl;
 	}
 
 

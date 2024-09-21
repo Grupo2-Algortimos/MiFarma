@@ -45,9 +45,6 @@
     <ClInclude Include="Usuario.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Boleta.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source.cpp">
