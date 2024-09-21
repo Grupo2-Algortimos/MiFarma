@@ -1,0 +1,22 @@
+usuario|password|nombre|apellido|telefono|sexo|distrito|idTrabajador|puesto
+a|a|q|w|e|r|t|y|u
+cmartinez|abc123|Carlos|Martinez|987654321|M|Miraflores|cmartinez|Farmacéutico
+jgomez|123abc|Juliana|Gomez|912345678|F|San Isidro|jgomez|Auxiliar de Farmacia
+jrojas|def456|Juan|Rojas|976543210|M|Surco|jrojas|Técnico en Farmacia
+mfernandez|ghi789|Marta|Fernandez|945678901|F|Lince|mfernandez|Cajera
+rlopez|jkl123|Raúl|Lopez|998765432|M|Magdalena|rlopez|Encargado de Inventario
+fperez|mno456|Fernanda|Perez|954321678|F|La Molina|fperez|Vendedor
+alima|pqr789|Alberto|Lima|935678901|M|Barranco|alima|Jefe de Farmacia
+pgarcia|stu123|Paola|Garcia|943210987|F|Miraflores|pgarcia|Farmacéutica
+hramirez|vwx456|Hugo|Ramirez|956789012|M|San Miguel|hramirez|Auxiliar de Farmacia
+yvaldez|yza123|Yolanda|Valdez|934567890|F|Santiago de Surco|yvaldez|Encargada de Almacén
+lsantos|bcd345|Luis|Santos|912345987|M|Chorrillos|lsantos|Vendedor
+cibarra|efg678|Claudia|Ibarra|951234876|F|San Borja|cibarra|Técnica en Farmacia
+damaya|hij901|Diego|Amaya|944321765|M|Jesús María|damaya|Cajero
+gcastro|klm234|Gabriela|Castro|989765432|F|Callao|gcastro|Farmacéutica
+fsalas|nop567|Francisco|Salas|998123456|M|Independencia|fsalas|Encargado de Inventario
+erivera|qrs890|Elena|Rivera|961234578|F|Los Olivos|erivera|Auxiliar de Farmacia
+jvasquez|tuv123|Javier|Vasquez|997654321|M|La Victoria|jvasquez|Técnico en Farmacia
+mreyes|wxy345|María|Reyes|912345600|F|Pueblo Libre|mreyes|Vendedora
+dmedina|zab678|Daniel|Medina|943210500|M|Comas|dmedina|Jefe de Farmacia
+rgutierrez|cde901|Rosa|Gutierrez|953214689|F|San Juan de Lurigancho|rgutierrez|Farmacéutica

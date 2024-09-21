@@ -34,6 +34,5 @@ public:
 		cout << "Producto: " << getproducto() << endl;
 	}
 
-
 };
 

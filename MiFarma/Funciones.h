@@ -1,15 +1,17 @@
 #pragma once
+#include "Usuario.h"
+#include "Producto.h"
+#include "Lista.h"
 #include <iostream>
 #include <string>
 #include <cstdlib>
-#include "Usuario.h"
-#include "Producto.h"
-#include "ListaEmpleados.h"
-
-
-
+#include <iomanip>
+#include <ctime>
+#include <sstream>
+#include <vector>
 using namespace std;
-
+//Recursivas
+// 
 //Contraseña de 10 caracteres máx
 string generarContrasena(int caracterMax, string contrasena = "") {
 	string caracteresDisponibles = "abcdefghijklmnopqrstuvwxyz123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ@#!¡";
@@ -29,11 +31,41 @@ string generarNombreUsuario(int caracterMax, string nombreUsuario, string userNo
 	return generarNombreUsuario(caracterMax + 1, nombreUsuario, userNombre);
 }
 
-//Funcion para retornar el Producto más caro
+//Función para retornar el Producto con mayor cantidad en el almacén
+Producto<string>* buscarProductoConMasCantidad(Lista<Producto<string>*>* l_productos, int index = 0, Producto<string>* maxCant = nullptr) {
+	if (index >= l_productos->longitud()) return maxCant;
+	Producto<string>* productoActual = l_productos->obtenerPos(index);
+	if (maxCant == nullptr || productoActual->getCantidad() > maxCant->getCantidad()) {
+		maxCant = productoActual;
+	}
+	return buscarProductoConMasCantidad(l_productos, index + 1, maxCant);
+}
 
+//Lambdas
+//Función lambda que retorna un string de la fecha y hora -> Se obtuvo cierto apoyo del ChatGPT
+auto obtenerFechaYHora = [] {
+	auto t = time(nullptr);
+	auto tm = *localtime(&t);
 
+	stringstream ss;
+	ss << put_time(&tm, "%d-%m-%Y %H:%M");
+
+	return ss.str();
+	};
+
+//Función lambda que retorna la suma de los precios del carrito para calcular el total
+auto obtenerSumaTotal = [](vector<int>ListaCarrito) {
+	int suma = 0;
+	for (int n : ListaCarrito) {
+		suma += n;
+	}
+	return suma;
+};
+
+//Ordenamiento:
+//
 //Ordenamiento Shell con Lista de productos de mayor a menor
-void ordShellProdcutoMayorAMenor(Lista<Producto<string>*>* l_productosOrdenar) {
+void ordShellProdcutoMayorAMenor(Lista<Producto<string>*>*l_productosOrdenar) {
 	int n = l_productosOrdenar->longitud();
 	int i, j, k, intervalo = n / 2;
 	Producto<string>* productoJ;
@@ -59,7 +91,6 @@ void ordShellProdcutoMayorAMenor(Lista<Producto<string>*>* l_productosOrdenar) {
 		}
 	}
 }
-
 
 //Ordenamiento Shell con Lista de productos de menor a mayor
 void ordShellProdcutoMenorAMayor(Lista<Producto<string>*>* l_productosOrdenar) {
@@ -88,6 +119,3 @@ void ordShellProdcutoMenorAMayor(Lista<Producto<string>*>* l_productosOrdenar) {
 		}
 	}
 }
-
-
-
