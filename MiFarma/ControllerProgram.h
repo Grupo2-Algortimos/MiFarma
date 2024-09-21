@@ -7,7 +7,7 @@
 #include "Proveedor.h"
 #include "Funciones.h"
 #include "ListaEmpleados.h"
-
+//Tratando de solucionar el error
 using namespace std;
 class Programa {
 private:
@@ -81,7 +81,7 @@ public:
 			{
 				if (l_usuario->obtenerPos(i)->getUser() == user)
 				{
-					cout << "Ingresar contraseña: "; cin >> password; cout << endl;
+					cout << "Ingresar contraseÃ±a: "; cin >> password; cout << endl;
 					if (l_usuario->obtenerPos(i)->getPassword() == password)
 					{
 						cout << "Registro exitoso..." << endl;
@@ -109,8 +109,8 @@ public:
 		cout << "Ingresar telefono: "; cin >> telefono; cout << endl;
 		cout << "Ingresar sexo (M/F): "; cin >> sexo; cout << endl;
 		cout << "Ingresar distrito: "; cin >> distrito; cout << endl;
-		//Luego se implementaran los métodos recursivos para generar contraseña y nombre de usuario
-		cout << "¿Desea crear su nombre de usuario o desea generarlo aleatoriamente?: " << endl;
+		//Luego se implementaran los mÃ©todos recursivos para generar contraseÃ±a y nombre de usuario
+		cout << "Â¿Desea crear su nombre de usuario o desea generarlo aleatoriamente?: " << endl;
 		cout << "[1] Crearlo" << endl;
 		cout << "[2] Generarlo aleatoriamente" << endl;
 		do {
@@ -127,7 +127,7 @@ public:
 		op = 0;
 
 		do {
-			cout << "¿Desea crear su contrasena o desea generarla aleatoriamente?: " << endl;
+			cout << "Â¿Desea crear su contrasena o desea generarla aleatoriamente?: " << endl;
 			cout << "[1] Crearla" << endl;
 			cout << "[2] Generarla aleatoriamente" << endl;
 			cout << "Seleccione una opcion... ";  cin >> op;
@@ -185,7 +185,7 @@ public:
 			C_user = l_empleados->buscarUsuario(aux);
 			if (C_user == user)
 			{
-				cout << "Ingresar contraseña: "; cin >> password; cout << endl;
+				cout << "Ingresar contraseÃ±a: "; cin >> password; cout << endl;
 				aux2 = new Empleado("", password, "", "", "", "", "", "", "");
 				C_password = l_empleados->buscarPassword(aux2);
 				if (C_password == password)
@@ -195,7 +195,7 @@ public:
 				}
 				else
 				{
-					cout << "La contraseña ingresada no es correcta..." << endl;
+					cout << "La contraseÃ±a ingresada no es correcta..." << endl;
 				}
 			}
 			else
@@ -210,7 +210,7 @@ public:
 		Empleado* aux;				
 		cout << "=============:: Resgistro ::=============" << endl;
 		cout << "Ingresar un Usuario: "; cin >> user; cout << endl;
-		cout << "Ingresar una contraseña: "; cin >> password; cout << endl;
+		cout << "Ingresar una contraseÃ±a: "; cin >> password; cout << endl;
 		cout << "Ingresar un nombre: "; cin >> nombre; cout << endl;
 		cout << "Ingresar un apellido: "; cin >> apellido; cout << endl;
 		cout << "Ingresar un telefono: "; cin >> telefono; cout << endl;
