@@ -1,6 +1,5 @@
 #pragma once
-#include <iostream>
-using namespace std;
+#include"Libreria.h"
 
 template<class T>
 class Boleta

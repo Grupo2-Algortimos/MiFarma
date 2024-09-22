@@ -118,9 +118,11 @@
     <ClInclude Include="Empleado.h" />
     <ClInclude Include="Entidad.h" />
     <ClInclude Include="Funciones.h" />
+    <ClInclude Include="Libreria.h" />
     <ClInclude Include="Lista.h" />
     <ClInclude Include="MainInterfaz.h" />
     <ClInclude Include="Nodo.h" />
+    <ClInclude Include="Pedido.h" />
     <ClInclude Include="Producto.h" />
     <ClInclude Include="ProductosInterfaz.h" />
     <ClInclude Include="Proveedor.h" />

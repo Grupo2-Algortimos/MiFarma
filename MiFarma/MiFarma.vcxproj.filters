@@ -63,6 +63,12 @@
     <ClInclude Include="ProductosInterfaz.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Pedido.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Libreria.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source.cpp">
