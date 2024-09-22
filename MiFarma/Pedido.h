@@ -24,7 +24,6 @@ public:
 		productosComprados = p_productosComprados;
 		estado = p_estado; // "Pendiente", "En camino", "Entregado"
 		modoEntrega = p_modoEntrega; // "Motocicleta", "Bicicleta"
-		calcularCostoTotal();
 	}
 	~Pedido(){}
 
@@ -64,7 +63,7 @@ public:
 		Console::SetCursorPosition(x + 30, y + 1);
 		cout << "Modo Entrega: " << getModoEntrega();
 		Console::SetCursorPosition(x + 30, y + 2);
-		cout << "Costo Total: " << calcularCostoTotal();
+		cout << "Costo Total: ";
 	}
 
 	void mostrarProductosComprados(int x, int y)
@@ -74,15 +73,5 @@ public:
 			Console::SetCursorPosition(x, y + i);
 			productosComprados->obtenerPos(i)->getNombre();
 		}
-	}
-
-	float calcularCostoTotal()
-	{
-		costoTotal = 0;
-		for (int i = 0; i < productosComprados->longitud(); i++)
-		{
-			costoTotal += stof(productosComprados->obtenerPos(i)->getPrecio());
-		}
-		return costoTotal;
 	}
 };
