@@ -1,9 +1,8 @@
 #pragma once
-#include <iostream>
-using namespace std;
+#include"Libreria.h"
 
 template<class T>
-class Reclamo 
+class Reclamo
 {
 private:
 	T iDReclamo;
@@ -29,43 +28,56 @@ public:
 		this->pedido = _pedido;
 	}
 	// metodos getter and setter
-	T getiDReclamo() { return iDReclamo; }
-	T getfecha() { return fecha; }
-	T getnombre() { return nombre; }
-	T gettelefono() { return telefono; }
-	T getdistrito() { return distrito; }
-	T getnombreProducto() { return nombreProducto; }
-	T gettipo() { return tipo; }
-	T getdetalle() { return detalle; }
-	T getpedido() { return pedido; }
+	T getIdReclamo() { return iDReclamo; }
+	T getFecha() { return fecha; }
+	T getNombre() { return nombre; }
+	T getTelefono() { return telefono; }
+	T getDistrito() { return distrito; }
+	T getNombreProducto() { return nombreProducto; }
+	T getTipo() { return tipo; }
+	T getDetalle() { return detalle; }
+	T getPedido() { return pedido; }
 
-	T setiDReclamo(T _iDReclamo) { iDReclamo = _iDReclamo; }
-	T setfecha(T _fecha) { fecha = _fecha; }
-	T setnombre(T _nombre) { fecha = _nombre; }
-	T settelefono(T _tele) { fecha = _tele; }
-	T setdistrito(T _dis) { fecha = _dis; }
-	T setnombreProducto(T _nombreProducto) { nombreProducto = _nombreProducto; }
-	T settipo(T _tipo) { tipo = _tipo; }
-	T setdetalle(T _detalle) { detalle = _detalle; }
-	T setpedido(T _pedido) { pedido = _pedido; }
+	T setIdReclamo(T _iDReclamo) { iDReclamo = _iDReclamo; }
+	T setFecha(T _fecha) { fecha = _fecha; }
+	T setNombre(T _nombre) { fecha = _nombre; }
+	T setTelefono(T _tele) { fecha = _tele; }
+	T setDistrito(T _dis) { fecha = _dis; }
+	T setNombreProducto(T _nombreProducto) { nombreProducto = _nombreProducto; }
+	T setTipo(T _tipo) { tipo = _tipo; }
+	T setDetalle(T _detalle) { detalle = _detalle; }
+	T setPedido(T _pedido) { pedido = _pedido; }
 	//mostrar reclamo
 
-	void mostrarReclamo() {
-		cout << "ID Reclamo: " << getiDReclamo() << endl;
-		cout << "Fecha: " << getfecha() << endl;
+	void mostrarReclamo(int x, int y) {
+		Console::SetCursorPosition(x, y + 0);
+		cout << "ID Reclamo: " << getIdReclamo();
+		Console::SetCursorPosition(x, y + 1);
+		cout << "Fecha: " << getFecha();
+		Console::SetCursorPosition(x, y + 2);
+		cout << "Informacion del usuario";
+		Console::SetCursorPosition(x, y + 3);
 		cout << "-------------------------------------" << endl;
-		cout << "informacion del usuario" << endl;
-		cout << "-------------------------------------" << endl;
-		cout << "Nombre: " << getnombre() << endl;
-		cout << "Telefono: " << gettelefono() << endl;
-		cout << "Distrito: " << getdistrito() << endl;
-		cout << "-------------------------------------" << endl;
-		cout << "informacion del Reclamo" << endl;
-		cout << "-------------------------------------" << endl;
-		cout << "Nombre del Producto: " << getnombreProducto() << endl;		
-		cout << "Tipo de reclamo (R: reclamo || Q: queja): " << gettipo() << endl;
-		cout << "Detalle: " << getdetalle() << endl;
-		cout << "Pedido: " << getpedido() << endl;
+		Console::SetCursorPosition(x, y + 4);
+		cout << "Nombre: " << getNombre();
+		Console::SetCursorPosition(x, y + 5);
+		cout << "Telefono: " << getTelefono();
+		Console::SetCursorPosition(x, y + 6);
+		cout << "Distrito: " << getDistrito();
+		Console::SetCursorPosition(x, y + 7);
+		cout << "-------------------------------------";
+		Console::SetCursorPosition(x, y + 8);
+		cout << "informacion del Reclamo";
+		Console::SetCursorPosition(x, y + 9);
+		cout << "-------------------------------------";
+		Console::SetCursorPosition(x, y + 10);
+		cout << "Nombre del Producto: " << getNombreProducto();
+		Console::SetCursorPosition(x, y + 11);
+		cout << "Tipo de reclamo (R: reclamo || Q: queja): " << getTipo();
+		Console::SetCursorPosition(x, y + 12);
+		cout << "Detalle: " << getDetalle();
+		Console::SetCursorPosition(x, y + 13);
+		cout << "Pedido: " << getPedido();
 	}
 
 };

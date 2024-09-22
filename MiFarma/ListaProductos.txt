@@ -1,51 +1,71 @@
-idProduct|nombre|precio|cantidad|fechaCaducidad
-A001|Paracetamol|5.50|100|12/05/2025
-A002|Ibuprofeno|8.00|50|15/07/2025
-A003|Omeprazol|12.30|30|20/06/2025
-A004|Amoxicilina|18.00|45|10/08/2025
-A005|Loratadina|6.20|60|05/04/2025
-A006|Azitromicina|22.50|25|28/02/2025
-A007|Diclofenaco|9.75|70|14/12/2025
-A008|Salbutamol|15.00|80|11/03/2025
-A009|Ciprofloxacina|19.99|40|30/10/2025
-A010|Metformina|3.50|100|21/09/2025
-A011|Enalapril|10.40|90|09/11/2025
-A012|Prednisona|7.80|75|19/01/2025
-A013|Furosemida|12.99|55|04/07/2025
-A014|Levotiroxina|11.50|65|23/05/2025
-A015|Ranitidina|5.80|110|17/06/2025
-A016|Clonazepam|25.30|35|28/08/2025
-A017|Aspirina|4.90|120|12/12/2025
-A018|Simvastatina|16.75|45|27/04/2025
-A019|Warfarina|21.60|50|03/09/2025
-A020|Losartan|13.90|70|13/03/2025
-A021|Insulina|75.00|15|08/06/2025
-A022|Metoclopramida|9.20|90|15/10/2025
-A023|Dexametasona|14.10|80|11/11/2025
-A024|Nitrofurantoina|18.40|40|02/05/2025
-A025|Hidrocortisona|11.80|60|09/12/2025
-A026|Benzocaina|6.70|100|12/04/2025
-A027|Captopril|7.50|95|30/07/2025
-A028|Tamsulosina|22.10|30|19/06/2025
-A029|Amlodipino|10.30|85|18/01/2025
-A030|Ketorolaco|8.99|50|05/11/2025
-A031|Atorvastatina|24.50|25|16/05/2025
-A032|Omeprazol 40mg|14.90|40|23/08/2025
-A033|Clindamicina|19.75|45|27/02/2025
-A034|Cefalexina|16.50|55|30/10/2025
-A035|Fluconazol|20.00|35|22/07/2025
-A036|Sertralina|32.90|20|04/06/2025
-A037|Escitalopram|29.50|25|13/11/2025
-A038|Diazepam|9.80|80|26/04/2025
-A039|Loperamida|4.60|100|02/09/2025
-A040|Aciclovir|8.30|95|18/08/2025
-A041|Butilhioscina|6.50|120|12/12/2025
-A042|Clorfenamina|4.20|130|03/02/2025
-A043|Naproxeno|15.60|70|28/03/2025
-A044|Clotrimazol|13.40|75|14/05/2025
-A045|Carbamazepina|23.50|40|22/07/2025
-A046|Valproato|18.20|35|19/10/2025
-A047|Salbutamol Inhalador|28.99|20|27/01/2025
-A048|Doxorrubicina|35.00|15|21/04/2025
-A049|Ciclosporina|42.75|10|09/06/2025
-A050|Risperidona|19.99|60|05/03/2025
+idProduct|nombre|precio|categoria|cantidad|fechaCaducidad
+A001|Paracetamol|5.50|Farmaco|100|12/05/2025
+A002|Ibuprofeno|8.00|Farmaco|50|15/07/2025
+A003|Omeprazol|12.30|Farmaco|30|20/06/2025
+A004|Amoxicilina|18.00|Farmaco|45|10/08/2025
+A005|Loratadina|6.20|Farmaco|60|05/04/2025
+A006|Azitromicina|22.50|Farmaco|25|28/02/2025
+A007|Diclofenaco|9.75|Farmaco|70|14/12/2025
+A008|Salbutamol|15.00|Farmaco|80|11/03/2025
+A009|Ciprofloxacina|19.99|Farmaco|40|30/10/2025
+A010|Metformina|3.50|Farmaco|100|21/09/2025
+A011|Enalapril|10.40|Farmaco|90|09/11/2025
+A012|Prednisona|7.80|Farmaco|75|19/01/2025
+A013|Furosemida|12.99|Farmaco|55|04/07/2025
+A014|Levotiroxina|11.50|Farmaco|65|23/05/2025
+A015|Ranitidina|5.80|Farmaco|110|17/06/2025
+A016|Clonazepam|25.30|Farmaco|35|28/08/2025
+A017|Aspirina|4.90|Farmaco|120|12/12/2025
+A018|Simvastatina|16.75|Farmaco|45|27/04/2025
+A019|Warfarina|21.60|Farmaco|50|03/09/2025
+A020|Losartan|13.90|Farmaco|70|13/03/2025
+A021|Insulina|75.00|Farmaco|15|08/06/2025
+A022|Metoclopramida|9.20|Farmaco|90|15/10/2025
+A023|Dexametasona|14.10|Farmaco|80|11/11/2025
+A024|Nitrofurantoina|18.40|Farmaco|40|02/05/2025
+A025|Hidrocortisona|11.80|Farmaco|60|09/12/2025
+A026|Benzocaina|6.70|Farmaco|100|12/04/2025
+A027|Captopril|7.50|Farmaco|95|30/07/2025
+A028|Tamsulosina|22.10|Farmaco|30|19/06/2025
+A029|Amlodipino|10.30|Farmaco|85|18/01/2025
+A030|Ketorolaco|8.99|Farmaco|50|05/11/2025
+A031|Atorvastatina|24.50|Farmaco|25|16/05/2025
+A032|Omeprazol 40mg|14.90|Farmaco|40|23/08/2025
+A033|Clindamicina|19.75|Farmaco|45|27/02/2025
+A034|Cefalexina|16.50|Farmaco|55|30/10/2025
+A035|Fluconazol|20.00|Farmaco|35|22/07/2025
+A036|Sertralina|32.90|Farmaco|20|04/06/2025
+A037|Escitalopram|29.50|Farmaco|25|13/11/2025
+A038|Diazepam|9.80|Farmaco|80|26/04/2025
+A039|Loperamida|4.60|Farmaco|100|02/09/2025
+A040|Aciclovir|8.30|Farmaco|95|18/08/2025
+A041|Butilhioscina|6.50|Farmaco|120|12/12/2025
+A042|Clorfenamina|4.20|Farmaco|130|03/02/2025
+A043|Naproxeno|15.60|Farmaco|70|28/03/2025
+A044|Clotrimazol|13.40|Farmaco|75|14/05/2025
+A045|Carbamazepina|23.50|Farmaco|40|22/07/2025
+A046|Valproato|18.20|Farmaco|35|19/10/2025
+A047|Salbutamol Inhalador|28.99|Farmaco|20|27/01/2025
+A048|Doxorrubicina|35.00|Farmaco|15|21/04/2025
+A049|Ciclosporina|42.75|Farmaco|10|09/06/2025
+A050|Risperidona|19.99|Farmaco|60|05/03/2025
+A051|Crema Facial|35.50|Cosmeticos|100|01/12/2026
+A052|Labial Hidratante|15.80|Cosmeticos|150|15/07/2026
+A053|Locion Corporal|25.90|Cosmeticos|80|22/06/2026
+A054|Polvo Compacto|19.99|Cosmeticos|120|30/05/2026
+A055|Delineador de Ojos|12.50|Cosmeticos|75|12/08/2026
+A056|Toallitas Humedas|5.20|Cuidado para bebes|200|14/09/2026
+A057|Panales Desechables|32.50|Cuidado para bebes|180|03/07/2026
+A058|Shampoo para Bebes|14.60|Cuidado para bebes|130|27/04/2026
+A059|Talco para Bebes|8.40|Cuidado para bebes|220|01/03/2026
+A060|Jabon Liquido Bebes|7.99|Cuidado para bebes|160|20/06/2026
+A061|Desodorante|9.20|Cuidado personal|120|30/10/2026
+A062|Crema Dental|3.75|Cuidado personal|150|18/07/2026
+A063|Enjuague Bucal|11.30|Cuidado personal|100|08/02/2026
+A064|Champu Anticaspa|15.50|Cuidado personal|90|25/12/2026
+A065|Gel de Afeitar|6.70|Cuidado personal|110|14/03/2026
+A066|Suplemento Vitaminico|29.90|Personas mayores|50|17/11/2026
+A067|Crema para Artritis|22.50|Personas mayores|40|05/06/2026
+A068|Andador|75.00|Personas mayores|10|23/01/2026
+A069|Baston de Apoyo|45.99|Personas mayores|25|09/12/2026
+A070|Almohadilla Electrica|38.50|Personas mayores|15|11/08/2026

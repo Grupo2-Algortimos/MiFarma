@@ -1,6 +1,5 @@
 #pragma once
-#include <iostream>
-using namespace std;
+#include"Libreria.h"
 
 class Proveedor
 {
@@ -27,11 +26,15 @@ public:
 	void setdistrito(string distri) { distrito = distri; }
 	void setproducto(string product) { producto = product; }
 	//mostrar proveedor
-	void mostrar() {
-		cout << "Nombre del Proveedor: " << getnombre() << endl;
-		cout << "Telefono: " << gettelefono() << endl;
-		cout << "Distrito: " << getdistrito() << endl;
-		cout << "Producto: " << getproducto() << endl;
+	void mostrar(int x, int y) {
+		Console::SetCursorPosition(x, y + 0);
+		cout << "Nombre del Proveedor: " << getnombre();
+		Console::SetCursorPosition(x, y + 1);
+		cout << "Telefono: " << gettelefono();
+		Console::SetCursorPosition(x, y + 2);
+		cout << "Distrito: " << getdistrito();
+		Console::SetCursorPosition(x, y + 3);
+		cout << "Producto: " << getproducto();
 	}
 };
 

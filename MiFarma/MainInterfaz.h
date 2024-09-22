@@ -1,9 +1,5 @@
 ﻿#pragma once
-#include<iostream>
-using namespace System;
-using namespace std;
-int ANCHO = Console::WindowWidth;
-int ALTO = Console::WindowHeight;
+#include"Libreria.h"
 class MainInterfaz
 {
 protected:
@@ -19,6 +15,7 @@ public:
 		logoSimbolo(ANCHO - 10, 2);
 		logoMiFarma(ANCHO / 4, ALTO / 2.5);
 		encuadrar();
+		_sleep(1000);
 	}
 
 	void logoMiFarma(int x, int y) {
@@ -76,6 +73,8 @@ public:
 			Console::Write("-");
 		}
 		Console::Write("+");
+		logoSimbolo(ANCHO - 10, 2);
+		Console::ForegroundColor = ConsoleColor(15);
 	}
 
 };

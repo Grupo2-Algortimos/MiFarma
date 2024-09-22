@@ -20,13 +20,19 @@ public:
 	int getDinero() { return dinero; }
 	void setDinero(int p_dinero) { dinero = p_dinero; }
 	//mostrar
-	void mostrar() {		
-		cout << "Nombre: " << getNombre() << endl;
-		cout << "Apellido: " << getApellido() << endl;
-		cout << "Teléfono: " << getTelefono() << endl;
-		cout << "Sexo: " << getSexo() << endl;
-		cout << "Distrito: " << getDistrito() << endl;
-		cout << "Dinero: " << getDinero() << endl;
+	void mostrar(int x, int y) {		
+		Console::SetCursorPosition(x, y + 0);
+		cout << "Nombre: " << getNombre();
+		Console::SetCursorPosition(x, y + 1);
+		cout << "Apellido: " << getApellido();
+		Console::SetCursorPosition(x, y + 2);
+		cout << "Teléfono: " << getTelefono();
+		Console::SetCursorPosition(x, y + 3);
+		cout << "Sexo: " << getSexo();
+		Console::SetCursorPosition(x, y + 4);
+		cout << "Distrito: " << getDistrito();
+		Console::SetCursorPosition(x, y + 5);
+		cout << "Dinero: " << getDinero();
 	}
 };
 

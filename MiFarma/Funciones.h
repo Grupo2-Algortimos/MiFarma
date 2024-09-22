@@ -1,14 +1,7 @@
 #pragma once
-#include "Usuario.h"
-#include "Producto.h"
-#include "Lista.h"
-#include <iostream>
-#include <string>
-#include <cstdlib>
-#include <iomanip>
-#include <ctime>
-#include <sstream>
-#include <vector>
+#include"Usuario.h"
+#include"Producto.h"
+#include"Pedido.h"
 using namespace std;
 //Recursivas
 // 
