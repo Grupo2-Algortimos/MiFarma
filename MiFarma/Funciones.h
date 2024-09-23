@@ -44,15 +44,6 @@ auto obtenerFechaYHora = [] {
 	ss << put_time(&tm, "%d-%m-%Y %H:%M");
 
 	return ss.str();
-	};
-
-//Función lambda que retorna la suma de los precios del carrito para calcular el total
-auto obtenerSumaTotal = [](vector<int>ListaCarrito) {
-	int suma = 0;
-	for (int n : ListaCarrito) {
-		suma += n;
-	}
-	return suma;
 };
 
 //Ordenamiento:

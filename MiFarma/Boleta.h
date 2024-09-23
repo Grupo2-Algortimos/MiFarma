@@ -5,24 +5,45 @@ template<class T>
 class Boleta
 {
 private:
+	T idBoleta;
 	T nombre;
 	T fecha;
-	T monto;
+	T montoUsuario;
+	T costoPedido;
 public:
-	Boleta(T _nombre, T _fecha, T _monto) {
+	Boleta(T _idBoleta, T _nombre, T _fecha, T _montoUsuario, T _costoPedido) {
+		this->idBoleta = _idBoleta;
 		this->nombre = _nombre;
 		this->fecha = _fecha;
-		this->monto = _monto;
+		this->montoUsuario = _montoUsuario;
+		this->montoUsuario = _costoPedido;
 	}
 	//metodos getter and setter
-	T getnombre() { return nombre; }
-	T getfecha() { return fecha; }
-	T getmonto() { return monto; }
+	T getIdBoleta() { return idBoleta; }
+	T getNombre() { return nombre; }
+	T getFecha() { return fecha; }
+	T getMontoUsuario() { return montoUsuario; }
+	T getCostoPedido() { return costoPedido; }
 
-	void setnombre(T _nombre) { nombre = _nombre; }
-	void setfecha(T _fecha) { fecha = _fecha; }
-	void setmonto(T _monto) { monto = _monto; }
+	void setIdBoleta(T _idBoleta) { idBoleta = _idBoleta; }
+	void setNombre(T _nombre) { nombre = _nombre; }
+	void setFecha(T _fecha) { fecha = _fecha; }
+	void setMontoUsuario(T _montoUsuario) { montoUsuario = _montoUsuario; }
+	void setCostoPedido(T _costoPedido) { costoPedido = _costoPedido; }
 
+	void mostrarInformacion(int x, int y)
+	{
+		Console::SetCursorPosition(x, y + 0);
+		cout << "ID de Boleta: " << getIdBoleta();
+		Console::SetCursorPosition(x, y + 1);
+		cout << "Nombre del comprador: " << getNombre();
+		Console::SetCursorPosition(x, y + 2);
+		cout << "Fecha de la Boleta: " << getFecha();
+		Console::SetCursorPosition(x, y + 3);
+		cout << "Monto de la compra: " << getMontoUsuario();
+		Console::SetCursorPosition(x, y + 4);
+		cout << "Monto de la compra: " << getCostoPedido();
+	}
 
 };
 

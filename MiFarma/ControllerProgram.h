@@ -3,39 +3,58 @@
 #include"Reclamos.h"
 #include"Proveedor.h"
 #include"Funciones.h"
-#include"Repartidor.h"
 #include"DeliveryInterfaz.h"
 #include"CompraInterfaz.h"
 #include"ProductosInterfaz.h"
+#include"Boleta.h"
 
 class Programa {
 private:
 	//declarando lista
 	Lista<Empleado*>* l_empleados;
 	Lista<Producto<string>*>* l_productos;
+	Lista<Producto<string>*>* l_productos_comprados;
 	Lista<Usuario*>* l_usuario;
 	Lista<Reclamo<string>*>* l_reclamo;
 	Lista<Proveedor*>* l_proveedor;
+	Lista<Boleta<string>*>* l_boletas;
 	//Declaron Interfaces
 	MainInterfaz* mainInterfaz;
 	ProductosInterfaz* productosInterfaz;
 	DeliveryInterfaz* deliveryInterfaz;
 	CompraInterfaz* compraInterfaz;
 	//Declarando colas
-	queue<Pedido> c_Pedidos;
+	queue<Pedido*> c_pedidos;
+	//Declarando usuario
+	Usuario* usario_actual;
+	Pedido* pedido_usuario;
 public:
 	Programa() {
 		//Listas
 		l_empleados = new Lista<Empleado*>();
 		l_productos = new Lista<Producto<string>*>();
+		l_productos_comprados = new Lista<Producto<string>*>();
 		l_usuario = new Lista<Usuario*>();
 		l_reclamo = new Lista<Reclamo<string>*>();
 		l_proveedor = new Lista<Proveedor*>();
+		l_boletas = new Lista<Boleta<string>*>();
 		//Interfaces o decoracion
 		mainInterfaz = new MainInterfaz();
 		productosInterfaz = new ProductosInterfaz();
 		deliveryInterfaz = new DeliveryInterfaz();
 		compraInterfaz = new CompraInterfaz();
+
+		//Leer los archivos preestablecidos
+		lecturaArchivoEmpleados();
+		lecturaArchivoProductos();
+		lecturaArchivoReclamo();
+		lecturaArchivoProveedor();
+		lecturaArchivoBoletas();
+		lecturaArchivoUsuario();
+		agregandoPedidos();
+
+		//Usuario ingresado
+		usario_actual = new Usuario();
 	}
 	//importacion de archivos
 	void lecturaArchivoEmpleados() {
@@ -164,7 +183,7 @@ public:
 		{
 			stringstream stream(linea); // Convertir la cadena a un stream			
 			string nombre, telefono, distrito, producto;
-			// Extraer todos los valores de esa fila [considerando 3 columans]
+			// Extraer todos los valores de esa fila [considerando 4 columnas]
 			getline(stream, nombre, delimitador);
 			getline(stream, telefono, delimitador);
 			getline(stream, distrito, delimitador);
@@ -178,64 +197,192 @@ public:
 		archIN.close();
 	}
 
+	void lecturaArchivoBoletas() {
+		ifstream archIN;
+		archIN.open(archivoBoletas, ios::in); //Apertura
+		if (!archIN.is_open())
+		{
+			cout << "Error: No se pudo abrir el archivo !!!";
+			exit(1);
+		}
+		string linea;
+		char delimitador = '|'; //Separador de cada columna de la línea
+		int i = 0;
+		Boleta<string>* auxB;
+		// Encabezado: Leemos la primera línea para descartarla, pues es el encabezado
+		getline(archIN, linea);
+		// Contenido: Leemos todas las líneas
+		while (getline(archIN, linea))
+		{
+			stringstream stream(linea); // Convertir la cadena a un stream			
+			string idBoleta, nombre, fecha, montoUsuario, costoPedido;
+			// Extraer todos los valores de esa fila [considerando 4 columans]
+			getline(stream, idBoleta, delimitador);
+			getline(stream, nombre, delimitador);
+			getline(stream, fecha, delimitador);
+			getline(stream, montoUsuario, delimitador);
+			getline(stream, costoPedido, delimitador);
+
+			auxB = new Boleta<string>(idBoleta, nombre, fecha, montoUsuario, costoPedido);
+			l_boletas->agregaPos(auxB, i);
+			i++;
+		}
+		// Cerramos Archivo
+		archIN.close();
+	}
+
+	void lecturaArchivoUsuario() {
+		ifstream archIN;
+		archIN.open(archivoUsuarios, ios::in); //Apertura
+		if (!archIN.is_open())
+		{
+			cout << "Error: No se pudo abrir el archivo !!!";
+			exit(1);
+		}
+		string linea;
+		char delimitador = '|'; //Separador de cada columna de la línea
+		int i = 0;
+		Usuario* auxU;
+		// Encabezado: Leemos la primera línea para descartarla, pues es el encabezado
+		getline(archIN, linea);
+		// Contenido: Leemos todas las líneas
+		while (getline(archIN, linea))
+		{
+			stringstream stream(linea); // Convertir la cadena a un stream			
+			string user, password, nombre, apellido, telefono, sexo, distrito, dinero;
+			// Extraer todos los valores de esa fila [considerando 3 columans]
+			getline(stream, user, delimitador);
+			getline(stream, password, delimitador);
+			getline(stream, nombre, delimitador);
+			getline(stream, apellido, delimitador);
+			getline(stream, telefono, delimitador);
+			getline(stream, sexo, delimitador);
+			getline(stream, distrito, delimitador);
+			getline(stream, dinero, delimitador);
+
+			auxU = new Usuario(user, password, nombre, apellido, telefono, sexo, distrito, stod(dinero));
+			l_usuario->agregaPos(auxU, i);
+			i++;
+		}
+		// Cerramos Archivo
+		archIN.close();
+	}
+
+	void agregandoPedidos()
+	{
+		Random r;
+		Lista<Producto<string>*>* l_productosAleatorios = new Lista<Producto<string>*>();
+		int catidad_productos = r.Next(1, 5); // [1-4]
+		int num_alea;
+		for (int j = 0; j < catidad_productos; j++)
+		{
+			num_alea = r.Next(0, l_productos->longitud() + 1);
+			l_productosAleatorios->agregaPos(l_productos->obtenerPos(num_alea), j);
+		}
+		Pedido* pedido1 = new Pedido("P01", "Jose", "Kevin", "Puente Piedra", l_productosAleatorios, "En Camino", "Bicicleta");
+		c_pedidos.push(pedido1);
+
+		l_productosAleatorios = new Lista<Producto<string>*>();
+		catidad_productos = r.Next(1, 5); // [1-4]
+		for (int j = 0; j < catidad_productos; j++)
+		{
+			num_alea = r.Next(0, l_productos->longitud() + 1);
+			l_productosAleatorios->agregaPos(l_productos->obtenerPos(num_alea), j);
+		}
+		Pedido* pedido2 = new Pedido("P02", "Maria", "Luz", "San miguel", l_productosAleatorios, "Pendiente", "Motocicleta");
+		c_pedidos.push(pedido2);
+
+		l_productosAleatorios = new Lista<Producto<string>*>();
+		catidad_productos = r.Next(1, 5); // [1-4]
+		for (int j = 0; j < catidad_productos; j++)
+		{
+			num_alea = r.Next(0, l_productos->longitud() + 1);
+			l_productosAleatorios->agregaPos(l_productos->obtenerPos(num_alea), j);
+		}
+		Pedido* pedido3 = new Pedido("P03", "Pepe", "Manuel", "San miguel", l_productosAleatorios, "Pendiente", "Bicicleta");
+		c_pedidos.push(pedido3);
+	}
 
 	//Menu del programa
 	void menu(){
+		srand(time(NULL));
 		//mainInterfaz->inicio();
-		system("cls");
-		//Leer los archivos preestablecidos
-		lecturaArchivoEmpleados();
-		lecturaArchivoProductos();
-		lecturaArchivoReclamo();
-		lecturaArchivoProveedor();
 		//Menu
 		int opcion;
-		mainInterfaz->encuadrar();
-		Console::SetCursorPosition(ANCHO / 3, ALTO / 2.5 + 0);
-		cout << "=============:: Menu ::=============";
-		Console::SetCursorPosition(ANCHO / 3, ALTO / 2.5 + 1);
-		cout << "[1] Vista Empleado";
-		Console::SetCursorPosition(ANCHO / 3, ALTO / 2.5 + 2);
-		cout << "[2] Vista Usuario";
-		Console::SetCursorPosition(ANCHO / 3, ALTO / 2.5 + 3);
-		cout << "Seleccione una opcion: "; cin >> opcion;
-		switch (opcion)
-		{
-		case 1: 
-			vistaEmpleado();
-			break;
-		case 2:
-			vistaUsuario();
-			break;
-		}
-	}
-
-	void vistaEmpleado() {
-		int op = 0;
-		int coni = 0;
-		do
+		while (true)
 		{
 			system("cls");
 			mainInterfaz->encuadrar();
 			Console::SetCursorPosition(ANCHO / 3, ALTO / 2.5 + 0);
 			cout << "=============:: Menu ::=============";
 			Console::SetCursorPosition(ANCHO / 3, ALTO / 2.5 + 1);
+			cout << "[1] Vista Empleado";
+			Console::SetCursorPosition(ANCHO / 3, ALTO / 2.5 + 2);
+			cout << "[2] Vista Usuario";
+			Console::SetCursorPosition(ANCHO / 3, ALTO / 2.5 + 3);
+			cout << "[3] Salir del Programa";
+			Console::SetCursorPosition(ANCHO / 3, ALTO / 2.5 + 4);
+			cout << "Seleccione una opcion: "; cin >> opcion;
+			if (opcion == 3)break;
+			switch (opcion)
+			{
+			case 1:
+				vistaEmpleado();
+				break;
+			case 2:
+				vistaUsuario();
+				break;
+			}
+			system("pause>>null");
+		}
+
+	}
+
+	void vistaEmpleado() {
+		int op = 0;
+		int coni = 0;
+		string master_key = "";
+		do
+		{
+			system("cls");
+			mainInterfaz->encuadrar();
+			Console::SetCursorPosition(ANCHO / 3, ALTO / 2.5 + 0);
+			cout << "=============:: Vista de Empleado ::=============";
+			Console::SetCursorPosition(ANCHO / 3, ALTO / 2.5 + 1);
 			cout << "[1] Ingresar";
 			Console::SetCursorPosition(ANCHO / 3, ALTO / 2.5 + 2);
 			cout << "[2] Registrar";
 			Console::SetCursorPosition(ANCHO / 3, ALTO / 2.5 + 3);
+			cout << "[3] Salir";
+			Console::SetCursorPosition(ANCHO / 3, ALTO / 2.5 + 4);
 			cout << "Seleccione una opcion... ";  cin >> op;
+			if (op == 3)break;
 			switch (op)
 			{
 			case 1:
 				loginEmpleado();
 				break;
 			case 2:
-				registroEmpleado(coni);
-				coni++;
+				system("cls");
+				mainInterfaz->encuadrar();
+				Console::SetCursorPosition(ANCHO / 3, ALTO / 2.5 + 0);
+				cin.ignore();
+				cout << "Ingresar la master key: "; getline(cin, master_key);
+				if (master_key == "mifarma")
+				{
+					registroEmpleado(coni);
+					coni++;
+				}
+				else
+				{
+					Console::SetCursorPosition(ANCHO / 3, ALTO / 2.5 + 1);
+					cout << "Master key incorrecta!";
+				}
 				break;
 			}
-		} while (op != 3);
+			system("pause>>null");
+
+		} while (true);
 	}
 
 	void vistaUsuario(){
@@ -246,13 +393,16 @@ public:
 			system("cls");
 			mainInterfaz->encuadrar();
 			Console::SetCursorPosition(ANCHO / 3, ALTO / 2.5 + 0);
-			cout << "=============:: Menu ::=============";
+			cout << "=============:: Vista de Usuario ::=============";
 			Console::SetCursorPosition(ANCHO / 3, ALTO / 2.5 + 1);
 			cout << "[1] Ingresar";
 			Console::SetCursorPosition(ANCHO / 3, ALTO / 2.5 + 2);
 			cout << "[2] Registrar";
 			Console::SetCursorPosition(ANCHO / 3, ALTO / 2.5 + 3);
+			cout << "[3] Salir";
+			Console::SetCursorPosition(ANCHO / 3, ALTO / 2.5 + 4);
 			cout << "Seleccione una opcion: ";  cin >> op;
+			if (op == 3)break;
 			switch (op)
 			{
 			case 1:
@@ -272,12 +422,14 @@ public:
 
 	void loginEmpleado() {
 		string user, password;
-		do
+		bool salir = false;
+		while (true)
 		{
+			if (salir)break;
 			system("cls");
 			mainInterfaz->encuadrar();
 			Console::SetCursorPosition(ANCHO / 3, ALTO / 3 + 0);
-			cout << "=============:: Login ::=============";
+			cout << "=============:: Login de Empleado ::=============";
 			Console::SetCursorPosition(ANCHO / 3, ALTO / 3 + 1);
 			cout << "Ingresar Usuario: "; cin >> user;
 			if (user == "1") break;
@@ -295,6 +447,7 @@ public:
 						cout << "Ingreso exitoso...";
 						system("pause>>null");
 						adminOpciones();
+						salir = true;
 						break;
 					}
 					else {
@@ -303,6 +456,7 @@ public:
 						Console::SetCursorPosition(ANCHO / 3, ALTO / 3 + 0);
 						cout << "La contrasena ingresada es incorrecta....";
 						system("pause>>null");
+						salir = true;
 						break;
 					}
 				}
@@ -313,21 +467,23 @@ public:
 					Console::SetCursorPosition(ANCHO / 3, ALTO / 3 + 0);
 					cout << "El usuario ingresado es incorrecto....";
 					system("pause>>null");
+					salir = true;
 					break;
 				}
 			}
-
-		} while (true);
+		}
 	}
 
 	void loginUsuario() {
 		string user, password;
-		do
+		bool salir = false;
+		while(true)
 		{
+			if (salir)break;
 			system("cls");
 			mainInterfaz->encuadrar();
 			Console::SetCursorPosition(ANCHO / 3, ALTO / 3 + 0);
-			cout << "=============:: Login ::=============";
+			cout << "=============:: Login de Usuario ::=============";
 			Console::SetCursorPosition(ANCHO / 3, ALTO / 3 + 1);
 			cout << "Ingresar Usuario: "; cin >> user;
 			if (user == "1") break;
@@ -342,9 +498,11 @@ public:
 						system("cls");
 						mainInterfaz->encuadrar();
 						Console::SetCursorPosition(ANCHO / 3, ALTO / 3 + 0);
+						usario_actual = l_usuario->obtenerPos(i);
 						cout << "Ingreso exitoso...";
 						system("pause>>null");
 						userOpciones();
+						salir = true;
 						break;
 					}
 					else {
@@ -353,6 +511,7 @@ public:
 						Console::SetCursorPosition(ANCHO / 3, ALTO / 3 + 0);
 						cout << "La contrasena ingresada es incorrecta....";
 						system("pause>>null");
+						salir = true;
 						break;
 					}
 				}
@@ -363,11 +522,12 @@ public:
 					Console::SetCursorPosition(ANCHO / 3, ALTO / 3 + 0);
 					cout << "El usuario ingresado es incorrecto....";
 					system("pause>>null");
+					salir = true;
 					break;
 				}
 			}
 
-		} while (true);
+		}
 	}
 
 	void registroEmpleado(int coni) {
@@ -376,7 +536,7 @@ public:
 		string user, password, nombre, apellido, telefono, sexo, distrito, idTrabajador, puesto;
 		Empleado* aux;
 		Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 0);
-		cout << "=============:: Resgistro ::=============";
+		cout << "=============:: Resgistro de Empleado ::=============";
 		Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 1);
 		cout << "Ingresar un Usuario: "; cin >> user;
 		Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 2);
@@ -407,7 +567,7 @@ public:
 		int pos = 0;
 		int op = 0;
 		Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 0);
-		cout << "=============:: Resgistro ::=============";
+		cout << "=============:: Resgistro de Usuario ::=============";
 		Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 1);
 		cout << "Ingresar nombre: "; cin >> nombre;
 		Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 2);
@@ -488,43 +648,43 @@ public:
 		int opcionM;
 		int i = 0;
 		int p = 0;
+		bool comprado = false;
 		while (true)
 		{
+			if (comprado == true)break;
+			system("cls");
+			mainInterfaz->encuadrar();
 			Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 0);
 			cout << "=============:: User Menu ::=============";
 			Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 1);
-			cout << "[1] Elegir Categoria";
+			cout << "[1] Listar Productos";
 			Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 2);
 			cout << "[2] Ver Carrito";
 			Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 3);
 			cout << "[3] Ingresar Reclamo";
 			Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 4);
-			cout << "[4] Salir";
+			cout << "[4] Comprar Productos";
 			Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 5);
+			cout << "[5] Salir";
+			Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 6);
 			cout << "Seleccione una opcion : "; cin >> opcionM;
-			if (opcionM == 10) break;
+			if (opcionM == 5) break;
+			system("cls");
+			mainInterfaz->encuadrar();
 			switch (opcionM)
 			{
 			case 1:
-
+				listarProducto();
 				break;
 			case 2:
-
+				verCarrito();
 				break;
 			case 3:
-
+				ingresarReclamo();
 				break;
 			case 4:
-				break;
-			case 5:
-				break;
-			case 6:
-				break;
-			case 7:
-				break;
-			case 8:
-				break;
-			case 9:
+				cin.ignore();
+				comprado = comprarProductos();
 				break;
 			}
 			system("pause>>null");
@@ -562,43 +722,35 @@ public:
 			Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 10);
 			cout << "Seleccione una opcion : "; cin >> opcionM;
 			if (opcionM == 9)break;
+			system("cls");
+			mainInterfaz->encuadrar();
 			switch (opcionM)
 			{
 			case 1: 
-				system("cls");
-				mainInterfaz->encuadrar();
 				ingresarProducto(i);
 				i++;
 				break;
 			case 2:
-				system("cls");
-				mainInterfaz->encuadrar();
 				buscarProducto();
 				break;
 			case 3:
-				system("cls");
-				mainInterfaz->encuadrar();
 				modificarProducto();
 				break;
 			case 4:
+				buscarPedidos();
 				break;
 			case 5:
-				system("cls");
-				mainInterfaz->encuadrar();
 				buscarReclamos();
 				break;
 			case 6:
-				system("cls");
-				mainInterfaz->encuadrar();
 				ingresarProveedor(p);
 				p++;
 				break;
 			case 7:
-				system("cls");
-				mainInterfaz->encuadrar();
 				buscarProveedor();
 				break;
 			case 8:
+				buscarBoletas();
 				break;
 			}
 			system("pause>>null");
@@ -695,7 +847,6 @@ public:
 					l_productos->obtenerPos(i)->mostrarProducto(ANCHO / 3, ALTO / 4 + 2);
 				}				
 			}
-
 			break;
 		}
 	}
@@ -737,8 +888,53 @@ public:
 		}
 	}
 
+	void buscarPedidos()
+	{
+		queue<Pedido*> c_pedidos_aux;
+		int contIdIncorrecto = 0;
+		c_pedidos_aux = this->c_pedidos;
+		string idPedido;
+		if (c_pedidos_aux.empty())
+		{
+			Console::SetCursorPosition(ANCHO / 2.5, ALTO / 2 + 0);
+			cout << "No hay pedidos a mostrar!";
+		}
+		else
+		{
+			Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 0);
+			cout << "=============:: Pedids ::=============";
+			Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 1);
+			cin.ignore();
+			cout << "Ingresar Id del Pedido: "; getline(cin, idPedido);
+			system("cls");
+			mainInterfaz->encuadrar();
+			for (int i = 0; i < c_pedidos_aux.size(); i++)
+			{
+				if (c_pedidos_aux.back()->getIdPedido() == idPedido && i == c_pedidos_aux.size() - 1)
+				{
+					c_pedidos_aux.back()->mostarInformacion(ANCHO / 4, ALTO / 5);
+				}
+				if (c_pedidos_aux.front()->getIdPedido() == idPedido)
+				{
+					c_pedidos_aux.front()->mostarInformacion(ANCHO / 4, ALTO / 5);
+				}
+				else
+				{
+					contIdIncorrecto++;
+				}
+				c_pedidos_aux.pop();
+			}
+		}
+		if (contIdIncorrecto == c_pedidos_aux.size() + 1)
+		{
+			Console::SetCursorPosition(ANCHO / 3, ALTO / 3 + 0);
+			cout << "No hay Pedidos con ese ID!";
+		}
+	}
+
 	void buscarReclamos() {
 		string idReclamo;
+		int contIdIncorrecto = 0;
 		Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 0);
 		cin.ignore();
 		cout << "Ingresar Id del Reclamo: "; getline(cin,idReclamo);
@@ -750,8 +946,16 @@ public:
 			{
 				l_reclamo->obtenerPos(i)->mostrarReclamo(ANCHO / 3, ALTO / 5 + 0);
 			}
+			else
+			{
+				contIdIncorrecto++;
+			}
 		}
-		cin.ignore();
+		if (contIdIncorrecto == l_reclamo->longitud())
+		{
+			Console::SetCursorPosition(ANCHO / 3, ALTO / 5 + 0);
+			cout << "No hay reclamos con ese ID!";
+		}	
 	}
 
 	void ingresarProveedor(int p) {
@@ -801,5 +1005,242 @@ public:
 		}
 	}
 
+	void buscarBoletas()
+	{
+		string idBoleta;
+		int contIdIncorrecto = 0;
+		if (l_boletas->esVacia())
+		{
+			Console::SetCursorPosition(ANCHO / 3, ALTO / 3 + 0);
+			cout << "No hay boletas a mostrar!";
+		}
+		else
+		{
+			Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 0);
+			cin.ignore();
+			cout << "Ingresar Id del Boleta: "; getline(cin, idBoleta);
+			system("cls");
+			mainInterfaz->encuadrar();
+			for (int i = 0; i < l_boletas->longitud(); i++)
+			{
+				if (l_boletas->obtenerPos(i)->getIdBoleta() == idBoleta)
+				{
+					l_boletas->obtenerPos(i)->mostrarInformacion(ANCHO / 3, ALTO / 5 + 0);
+				}
+				else
+				{
+					contIdIncorrecto++;
+				}
+			}
+			if (contIdIncorrecto == l_boletas->longitud())
+			{
+				Console::SetCursorPosition(ANCHO / 3, ALTO / 5 + 0);
+				cout << "No hay boletas con ese ID!";
+			}
+		}
 
+	}
+
+	void listarProducto()
+	{
+		int opcionesC, contNombreIncorrecto = 0;
+		string nombre, categoria;
+		Producto<string>* auxProducto;
+		int contP = 0;
+		while (true)
+		{
+			system("cls");
+			mainInterfaz->encuadrar();
+			Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 0);
+			cout << "===========:: Categorias ::=============";
+			Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 1);
+			cout << "[1] Farmaco";
+			Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 2);
+			cout << "[2] Cosmeticos";
+			Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 3);
+			cout << "[3] Cuidado para bebes";
+			Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 4);
+			cout << "[4] Cuidado personal";
+			Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 5);
+			cout << "[5] Personas mayores";
+			Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 6);
+			cout << "[6] Salir";
+			Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 7);
+			cout << "Ingresar opcion: "; cin >> opcionesC;
+			if (opcionesC == 6)break;
+			system("cls");
+			mainInterfaz->encuadrar();
+			switch (opcionesC)
+			{
+			case 1: categoria = "Farmaco"; break;
+			case 2: categoria = "Cosmeticos"; break;
+			case 3: categoria = "Cuidado para bebes"; break;
+			case 4: categoria = "Cuidado personal"; break;
+			case 5: categoria = "Personas mayores"; break;
+			}
+			Console::SetCursorPosition(ANCHO / 3, ALTO / 5 + 0);
+			cout << "=============:: Productos ::=============";
+			int contEspacios = 0;
+			for (int i = 0; i < l_productos->longitud(); i++)
+			{
+				if (contEspacios > 10) break;
+				if (l_productos->obtenerPos(i)->getCategoria() == categoria)
+				{
+					Console::SetCursorPosition(ANCHO / 3, ALTO / 5 + 1 + contEspacios);
+					cout << l_productos->obtenerPos(i)->getNombre();
+					contEspacios++;
+				}
+			}
+			Console::SetCursorPosition(ANCHO / 3, ALTO / 5 + 2 + contEspacios);
+			cin.ignore();
+			cout << "Ingresar nombre del producto: "; getline(cin, nombre);
+			system("cls");
+			mainInterfaz->encuadrar();
+			for (int i = 0; i < l_productos->longitud(); i++)
+			{
+				if (l_productos->obtenerPos(i)->getNombre() == nombre)
+				{
+					auxProducto = l_productos->obtenerPos(i);
+				}
+				else
+				{
+					contNombreIncorrecto++;
+				}
+			}
+			if (contNombreIncorrecto == l_productos->longitud())
+			{
+				Console::SetCursorPosition(ANCHO / 3, ALTO / 3 + 0);
+				cout << "No se encontro un producto con ese nombre!";
+			}
+			else
+			{
+				Console::SetCursorPosition(ANCHO / 3, ALTO / 3 + 0);
+				cout << "Producto Listado!";
+				l_productos_comprados->agregaPos(auxProducto, contP);
+				contP++;
+			}
+			system("pause>>null");
+		}
+	}
+
+	void verCarrito()
+	{
+		int opcCarrito = -1;
+		int contEspacios = 0;
+		if (l_productos_comprados->esVacia())
+		{
+			Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 1);
+			cout << "No has listado ningun producto!";
+		}
+		else
+		{
+			Console::SetCursorPosition(ANCHO / 3, ALTO / 5 + 0);
+			cout << "===========:: Carrito ::=============";
+			//Queriamos hacer un ordenamiento de menor a mayor, y mayor a menor para las compras
+			//Sin embargo no funcionaba.
+			/*Console::SetCursorPosition(ANCHO / 3, ALTO / 5 + 1);
+			cout << "[1] Ordenar de menor a mayor";
+			Console::SetCursorPosition(ANCHO / 3, ALTO / 5 + 2);
+			cout << "[2] Ordenar de mayor a menor";
+			Console::SetCursorPosition(ANCHO / 3, ALTO / 5 + 3);
+			cout << "Escoger opcion: "; cin >> opcCarrito;
+			if (l_productos_comprados->longitud() > 1)
+			{
+				switch (opcCarrito)
+				{
+				case 1:
+					ordShellProdcutoMenorAMayor(l_productos_comprados);
+					break;
+				case 2:
+					ordShellProdcutoMayorAMenor(l_productos_comprados);
+					break;
+				}
+			}*/
+
+			for (int i = 0; i < l_productos_comprados->longitud(); i++)
+			{
+				if (contEspacios > 10)
+				{
+					Console::SetCursorPosition(ANCHO / 3, ALTO / 5 + 1 + i);
+					cout << "............" << endl;
+					break;
+				}
+				Console::SetCursorPosition(ANCHO / 3, ALTO / 5 + 1 + i);
+				cout << "- " <<l_productos_comprados->obtenerPos(i)->getNombre() << " : " << l_productos_comprados->obtenerPos(i)->getPrecio();
+				contEspacios++;
+			}
+			pedido_usuario = new Pedido("P0" + to_string(c_pedidos.size()), usario_actual->getNombre(), "Javier", usario_actual->getDistrito(), l_productos_comprados, "Pendiente", "Motocicleta");
+			Console::SetCursorPosition(ANCHO - 25, ALTO / 2);
+			cout << "Total: " << pedido_usuario->conseguirCostoTotal();
+		}
+	}
+	void ingresarReclamo()
+	{
+		string idReclamo, fecha, nombreProducto, tipo, detalle, pedido;
+		Reclamo<string>* auxReclamo;
+		idReclamo = "R0" + to_string(l_reclamo->longitud());
+		fecha = obtenerFechaYHora();
+		Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 0);
+		cout << "=============:: Ingresar Reclamo ::=============";
+		Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 1);
+		cout << "Ingresar Nombre del Producto Inconforme: "; cin >> nombreProducto;
+		Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 2);
+		cout << "Ingresar Tipo (R: reclamo || Q: queja): "; cin >> tipo;
+		Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 3);
+		cout << "Ingresar Detalles: "; cin >> detalle;
+		Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 4);
+		cout << "Que solicita en el pedido?: "; cin >> pedido;
+		auxReclamo = new Reclamo<string>(idReclamo, fecha, usario_actual->getNombre(), usario_actual->getTelefono(), usario_actual->getDistrito(),
+			nombreProducto, tipo, detalle, pedido);
+		l_reclamo->agregaPos(auxReclamo, l_reclamo->longitud());
+	}
+	bool comprarProductos()
+	{
+		string montoUsuario = "50.5", fecha, idBoleta;
+		Boleta<string>* auxBoleta;
+		fecha = obtenerFechaYHora();
+		if (l_productos_comprados->esVacia())
+		{
+			Console::SetCursorPosition(ANCHO / 3, ALTO / 3 + 0);
+			cout << "No has listado ningun producto!";
+		}
+		else
+		{
+			while (true)
+			{
+				system("cls");
+				mainInterfaz->encuadrar();
+				Console::SetCursorPosition(ANCHO / 3, ALTO / 5 + 0);
+				cout << "=============:: Comprando Productos ::=============";
+				Console::SetCursorPosition(ANCHO / 3, ALTO / 5 + 1);
+				cout << "Monto total: " << pedido_usuario->conseguirCostoTotal();
+				Console::SetCursorPosition(ANCHO / 3, ALTO / 5 + 2);
+				cin.ignore();
+				cout << "Poner costo su monto: "; cin >> montoUsuario;
+				system("cls");
+				mainInterfaz->encuadrar();
+				if (stod(montoUsuario) >= pedido_usuario->conseguirCostoTotal())
+				{
+					idBoleta = "B03" + to_string(l_boletas->longitud());
+					c_pedidos.push(pedido_usuario);
+					auxBoleta = new Boleta<string>(idBoleta, usario_actual->getNombre(), fecha, montoUsuario, to_string(pedido_usuario->conseguirCostoTotal()));
+					l_boletas->agregaPos(auxBoleta, l_boletas->longitud());
+					compraInterfaz->compra();
+					system("pause>>null");
+					system("cls");
+					mainInterfaz->encuadrar();
+					Console::SetCursorPosition(ANCHO / 3, ALTO / 5);
+					cout << "=============:: Pronto llegara tu pedido ::=============";
+					auxBoleta->mostrarInformacion(ANCHO / 3, ALTO / 5 + 1);
+					return true;
+				}
+				else
+				{
+					Console::SetCursorPosition(ANCHO / 3, ALTO / 3);
+					cout << "El monto no alcanza! ";
+				}
+				system("pause>>null");
+			}
+		}
+	}
 };
