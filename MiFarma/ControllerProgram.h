@@ -28,6 +28,9 @@ private:
 	//Declarando usuario
 	Usuario* usario_actual;
 	Pedido* pedido_usuario;
+
+	// Otras variables
+	int cont_productos_comprados;
 public:
 	Programa() {
 		//Listas
@@ -43,7 +46,8 @@ public:
 		productosInterfaz = new ProductosInterfaz();
 		deliveryInterfaz = new DeliveryInterfaz();
 		compraInterfaz = new CompraInterfaz();
-
+		usario_actual = NULL;
+		pedido_usuario = NULL;
 		//Leer los archivos preestablecidos
 		lecturaArchivoEmpleados();
 		lecturaArchivoProductos();
@@ -55,6 +59,9 @@ public:
 
 		//Usuario ingresado
 		usario_actual = new Usuario();
+
+		//Otras variables
+		cont_productos_comprados = 0;
 	}
 	//importacion de archivos
 	void lecturaArchivoEmpleados() {
@@ -479,6 +486,8 @@ public:
 		bool salir = false;
 		while(true)
 		{
+			l_productos_comprados = new Lista<Producto<string>*>();
+			cont_productos_comprados = 0;
 			if (salir)break;
 			system("cls");
 			mainInterfaz->encuadrar();
@@ -651,7 +660,7 @@ public:
 		bool comprado = false;
 		while (true)
 		{
-			if (comprado == true)break;
+			if (comprado == true) break;
 			system("cls");
 			mainInterfaz->encuadrar();
 			Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 0);
@@ -683,7 +692,6 @@ public:
 				ingresarReclamo();
 				break;
 			case 4:
-				cin.ignore();
 				comprado = comprarProductos();
 				break;
 			}
@@ -1046,7 +1054,6 @@ public:
 		int opcionesC, contNombreIncorrecto = 0;
 		string nombre, categoria;
 		Producto<string>* auxProducto;
-		int contP = 0;
 		while (true)
 		{
 			system("cls");
@@ -1100,7 +1107,7 @@ public:
 			{
 				if (l_productos->obtenerPos(i)->getNombre() == nombre)
 				{
-					auxProducto = l_productos->obtenerPos(i);
+					auxProducto = this->l_productos->obtenerPos(i);
 				}
 				else
 				{
@@ -1116,8 +1123,8 @@ public:
 			{
 				Console::SetCursorPosition(ANCHO / 3, ALTO / 3 + 0);
 				cout << "Producto Listado!";
-				l_productos_comprados->agregaPos(auxProducto, contP);
-				contP++;
+				l_productos_comprados->agregaPos(auxProducto, cont_productos_comprados);
+				cont_productos_comprados++;
 			}
 			system("pause>>null");
 		}
@@ -1125,7 +1132,6 @@ public:
 
 	void verCarrito()
 	{
-		int opcCarrito = -1;
 		int contEspacios = 0;
 		if (l_productos_comprados->esVacia())
 		{
@@ -1174,7 +1180,7 @@ public:
 			cout << "Total: " << pedido_usuario->conseguirCostoTotal();
 		}
 	}
-	void ingresarReclamo()
+	const void ingresarReclamo()
 	{
 		string idReclamo, fecha, nombreProducto, tipo, detalle, pedido;
 		Reclamo<string>* auxReclamo;
@@ -1196,7 +1202,7 @@ public:
 	}
 	bool comprarProductos()
 	{
-		string montoUsuario = "50.5", fecha, idBoleta;
+		string montoUsuario, fecha, idBoleta;
 		Boleta<string>* auxBoleta;
 		fecha = obtenerFechaYHora();
 		if (l_productos_comprados->esVacia())
@@ -1215,7 +1221,6 @@ public:
 				Console::SetCursorPosition(ANCHO / 3, ALTO / 5 + 1);
 				cout << "Monto total: " << pedido_usuario->conseguirCostoTotal();
 				Console::SetCursorPosition(ANCHO / 3, ALTO / 5 + 2);
-				cin.ignore();
 				cout << "Poner costo su monto: "; cin >> montoUsuario;
 				system("cls");
 				mainInterfaz->encuadrar();

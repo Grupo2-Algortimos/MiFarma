@@ -17,32 +17,32 @@ private:
 public:
 	Pedido(string p_idPedido, string p_nombreUsuario, string p_nombreRepartidor, string p_distrito, Lista<Producto<string>*>* p_productosComprados,
 		string p_estado, string p_modoEntrega){
-		idPedido = p_idPedido;
-		nombreUsuario = p_nombreUsuario;
-		nombreRepartidor = p_nombreRepartidor;
-		distrito = p_distrito;
-		productosComprados = p_productosComprados;
-		estado = p_estado; // "Pendiente", "En camino", "Entregado"
-		modoEntrega = p_modoEntrega; // "Motocicleta", "Bicicleta"
+		this->idPedido = p_idPedido;
+		this->nombreUsuario = p_nombreUsuario;
+		this->nombreRepartidor = p_nombreRepartidor;
+		this->distrito = p_distrito;
+		this->productosComprados = p_productosComprados;
+		this->estado = p_estado; // "Pendiente", "En camino", "Entregado"
+		this->modoEntrega = p_modoEntrega; // "Motocicleta", "Bicicleta"
 	}
 	~Pedido(){}
 
 
-	string getIdPedido() { return idPedido; }
-	string getNombreUsuario() { return nombreUsuario; }
-	string getNombreRepartidor() { return nombreRepartidor; }
+	string getIdPedido() { return this->idPedido; }
+	string getNombreUsuario() { return this->nombreUsuario; }
+	string getNombreRepartidor() { return this->nombreRepartidor; }
 	string getDistrito() { return distrito; }
-	Lista<Producto<string>*>* getProductosComprados() { return productosComprados; }
-	string getEstado() { return estado; }
-	string getModoEntrega() { return modoEntrega; }
+	Lista<Producto<string>*>* getProductosComprados() { return this->productosComprados; }
+	string getEstado() { return this->estado; }
+	string getModoEntrega() { return this->modoEntrega; }
 
-	void setIdPedido(string p_idPedido) { idPedido=p_idPedido; }
-	void setNombreUsuario(string p_nombreUsuario) { nombreUsuario = p_nombreUsuario; }
-	void setNombreRepartidor(string p_nombreRepartidor) { nombreRepartidor = p_nombreRepartidor; }
-	void setDistrito(string p_distrito) { distrito = p_distrito; }
-	void setProductosComprados(Lista<Producto<string>*>* p_productosComprados) { productosComprados = p_productosComprados; }
-	void setEstado(string p_estado) { estado = p_estado; }
-	void setModoEntrega(string p_modoEntrega) { modoEntrega = p_modoEntrega; }
+	void setIdPedido(string p_idPedido) { this->idPedido = p_idPedido; }
+	void setNombreUsuario(string p_nombreUsuario) { this->nombreUsuario = p_nombreUsuario; }
+	void setNombreRepartidor(string p_nombreRepartidor) { this->nombreRepartidor = p_nombreRepartidor; }
+	void setDistrito(string p_distrito) { this->distrito = p_distrito; }
+	void setProductosComprados(Lista<Producto<string>*>* p_productosComprados) { this->productosComprados = p_productosComprados; }
+	void setEstado(string p_estado) { this->estado = p_estado; }
+	void setModoEntrega(string p_modoEntrega) { this->modoEntrega = p_modoEntrega; }
 
 	void mostarInformacion(int x, int y)
 	{
@@ -85,6 +85,6 @@ public:
 			}
 			return suma;
 		};
-		return obtenerSumaTotal(productosComprados);
+		return obtenerSumaTotal(getProductosComprados());
 	}
 };

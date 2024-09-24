@@ -13,13 +13,22 @@ protected:
 	T fechaCad;
 
 public:
+	Producto() {
+		this->idProduct = "";
+		this->nombre = "";
+		this->precio = "";
+		this->categoria = "";
+		this->cantidad = "";
+		this->fechaCad = "";
+	}
+
 	Producto(T _idProduct,T _nombre,T _precio,T _categoria, T _cantidad,T _fechaCad) {
 		this->idProduct = _idProduct;
 		this->nombre = _nombre;
 		this->precio = _precio;
+		this->categoria = _categoria;
 		this->cantidad = _cantidad;
 		this->fechaCad = _fechaCad;
-		this->categoria = _categoria;
 	}
 	//metodos detter and setter
 	T getIdProduct() { return idProduct; }

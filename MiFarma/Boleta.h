@@ -42,7 +42,7 @@ public:
 		Console::SetCursorPosition(x, y + 3);
 		cout << "Monto de la compra: " << getMontoUsuario();
 		Console::SetCursorPosition(x, y + 4);
-		cout << "Monto de la compra: " << getCostoPedido();
+		cout << "Costo del pedido: " << getCostoPedido();
 	}
 
 };
