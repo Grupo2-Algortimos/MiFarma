@@ -40,7 +40,7 @@ public:
 		Console::SetCursorPosition(x, y + 2);
 		cout << "Fecha de la Boleta: " << getFecha();
 		Console::SetCursorPosition(x, y + 3);
-		cout << "Monto de la compra: " << getMontoUsuario();
+		cout << "Costo de la compra: " << getCostoPedido();
 		Console::SetCursorPosition(x, y + 4);
 		cout << "Vuelto para el usuario: " << getVuelto();
 	}
