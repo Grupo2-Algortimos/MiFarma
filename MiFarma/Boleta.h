@@ -16,7 +16,7 @@ public:
 		this->nombre = _nombre;
 		this->fecha = _fecha;
 		this->montoUsuario = _montoUsuario;
-		this->montoUsuario = _costoPedido;
+		this->costoPedido = _costoPedido;
 	}
 	//metodos getter and setter
 	T getIdBoleta() { return idBoleta; }
@@ -42,8 +42,16 @@ public:
 		Console::SetCursorPosition(x, y + 3);
 		cout << "Monto de la compra: " << getMontoUsuario();
 		Console::SetCursorPosition(x, y + 4);
-		cout << "Costo del pedido: " << getCostoPedido();
+		cout << "Vuelto para el usuario: " << getVuelto();
 	}
 
+	double getVuelto()
+	{
+		auto obtenerVuelto = [](T montoUsuario, T costoPedido)
+		{
+				return (stod(montoUsuario) - stod(costoPedido));
+		};
+		return obtenerVuelto(getMontoUsuario(), getCostoPedido());
+	}
 };
 

@@ -49,12 +49,12 @@ auto obtenerFechaYHora = [] {
 //Ordenamiento:
 //
 //Ordenamiento Shell con Lista de productos de mayor a menor
-void ordShellProdcutoMayorAMenor(Lista<Producto<string>*>*l_productosOrdenar) {
+void ordShellProductoMayorAMenor(Lista<Producto<string>*>* l_productosOrdenar) {
 	int n = l_productosOrdenar->longitud();
 	int i, j, k, intervalo = n / 2;
-	Producto<string>* productoJ;
-	Producto<string>* productoK;
-	Producto<string>* temp;
+	Producto<string>* productoJ = NULL;
+	Producto<string>* productoK = NULL;
+	Producto<string>* temp = NULL;
 
 	while (intervalo > 0) {
 		for (i = intervalo; i < n; i++) {
@@ -63,26 +63,28 @@ void ordShellProdcutoMayorAMenor(Lista<Producto<string>*>*l_productosOrdenar) {
 				k = j + intervalo;
 				productoJ = l_productosOrdenar->obtenerPos(j);
 				productoK = l_productosOrdenar->obtenerPos(k);
-			}
-			if (stod(productoJ->getPrecio()) >= stod(productoK->getPrecio())) {
-				break;
-			}
-			else {
-				temp = productoJ;
-				l_productosOrdenar->modificarPos(productoJ, k);
-				l_productosOrdenar->modificarPos(productoK, j);
+				if (stod(productoJ->getPrecio()) >= stod(productoK->getPrecio())) {
+					j = -1;
+				}
+				else {
+					temp = productoJ;
+					l_productosOrdenar->modificarPos(productoK, j);
+					l_productosOrdenar->modificarPos(temp, k);
+					j -= intervalo;
+				}
 			}
 		}
+		intervalo /= 2;
 	}
 }
 
 //Ordenamiento Shell con Lista de productos de menor a mayor
-void ordShellProdcutoMenorAMayor(Lista<Producto<string>*>* l_productosOrdenar) {
+void ordShellProductoMenorAMayor(Lista<Producto<string>*>* l_productosOrdenar) {
 	int n = l_productosOrdenar->longitud();
 	int i, j, k, intervalo = n / 2;
-	Producto<string>* productoJ;
-	Producto<string>* productoK;
-	Producto<string>* temp;
+	Producto<string>* productoJ = NULL;
+	Producto<string>* productoK = NULL;
+	Producto<string>* temp = NULL;
 
 	while (intervalo > 0) {
 		for (i = intervalo; i < n; i++) {
@@ -91,15 +93,18 @@ void ordShellProdcutoMenorAMayor(Lista<Producto<string>*>* l_productosOrdenar) {
 				k = j + intervalo;
 				productoJ = l_productosOrdenar->obtenerPos(j);
 				productoK = l_productosOrdenar->obtenerPos(k);
-			}
-			if (stod(productoJ->getPrecio()) <= stod(productoK->getPrecio())) {
-				break;
-			}
-			else {
-				temp = productoJ;
-				l_productosOrdenar->modificarPos(productoJ, k);
-				l_productosOrdenar->modificarPos(productoK, j);
+
+				if (stod(productoJ->getPrecio()) <= stod(productoK->getPrecio())) {
+					j = -1;
+				}
+				else {
+					temp = productoJ;
+					l_productosOrdenar->modificarPos(productoK, j);
+					l_productosOrdenar->modificarPos(temp, k);
+					j -= intervalo;
+				}
 			}
 		}
+		intervalo /= 2;
 	}
 }

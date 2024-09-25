@@ -57,8 +57,6 @@ public:
 		lecturaArchivoUsuario();
 		agregandoPedidos();
 
-		//Usuario ingresado
-		usario_actual = new Usuario();
 
 		//Otras variables
 		cont_productos_comprados = 0;
@@ -1132,6 +1130,7 @@ public:
 
 	void verCarrito()
 	{
+		int opcCarrito;
 		int contEspacios = 0;
 		if (l_productos_comprados->esVacia())
 		{
@@ -1142,9 +1141,7 @@ public:
 		{
 			Console::SetCursorPosition(ANCHO / 3, ALTO / 5 + 0);
 			cout << "===========:: Carrito ::=============";
-			//Queriamos hacer un ordenamiento de menor a mayor, y mayor a menor para las compras
-			//Sin embargo no funcionaba.
-			/*Console::SetCursorPosition(ANCHO / 3, ALTO / 5 + 1);
+			Console::SetCursorPosition(ANCHO / 3, ALTO / 5 + 1);
 			cout << "[1] Ordenar de menor a mayor";
 			Console::SetCursorPosition(ANCHO / 3, ALTO / 5 + 2);
 			cout << "[2] Ordenar de mayor a menor";
@@ -1155,23 +1152,23 @@ public:
 				switch (opcCarrito)
 				{
 				case 1:
-					ordShellProdcutoMenorAMayor(l_productos_comprados);
+					ordShellProductoMenorAMayor(l_productos_comprados);
 					break;
 				case 2:
-					ordShellProdcutoMayorAMenor(l_productos_comprados);
+					ordShellProductoMayorAMenor(l_productos_comprados);
 					break;
 				}
-			}*/
+			}
 
 			for (int i = 0; i < l_productos_comprados->longitud(); i++)
 			{
 				if (contEspacios > 10)
 				{
-					Console::SetCursorPosition(ANCHO / 3, ALTO / 5 + 1 + i);
+					Console::SetCursorPosition(ANCHO / 3, ALTO / 5 + 4 + i);
 					cout << "............" << endl;
 					break;
 				}
-				Console::SetCursorPosition(ANCHO / 3, ALTO / 5 + 1 + i);
+				Console::SetCursorPosition(ANCHO / 3, ALTO / 5 + 4 + i);
 				cout << "- " <<l_productos_comprados->obtenerPos(i)->getNombre() << " : " << l_productos_comprados->obtenerPos(i)->getPrecio();
 				contEspacios++;
 			}
