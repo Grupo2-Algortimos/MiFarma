@@ -31,6 +31,7 @@ public:
 				cout << char(219);
 			}
 		}
+		Console::ForegroundColor = ConsoleColor(15);
 	}
 	void dibujarFarmaco(int x, int y)
 	{
@@ -43,6 +44,7 @@ public:
 				cout << char(219);
 			}
 		}
+		Console::ForegroundColor = ConsoleColor(15);
 	}
 	void dibujarCruz(int x, int y)
 	{
@@ -55,6 +57,7 @@ public:
 				cout << char(219);
 			}
 		}
+		Console::ForegroundColor = ConsoleColor(15);
 	}
 
 	void dibujarBiberon(int x, int y)
@@ -76,6 +79,7 @@ public:
 		cout << " ((__))";
 		Console::SetCursorPosition(x, y + 7);
 		cout << "  `--'";
+		Console::ForegroundColor = ConsoleColor(15);
 	}
 
 	void dibujarCuidadoPersonal(int x, int y)
@@ -89,6 +93,7 @@ public:
 				cout << char(219);
 			}
 		}
+		Console::ForegroundColor = ConsoleColor(15);
 	}
 
 	void dibujarPersonaMayor(int x, int y)
@@ -111,5 +116,6 @@ public:
 		Console::SetCursorPosition(x, y + 7);
 		cout << "/`   \\___|`\\";
 		Console::SetCursorPosition(x, y + 8);
+		Console::ForegroundColor = ConsoleColor(15);
 	}
 };

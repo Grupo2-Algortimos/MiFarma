@@ -785,7 +785,7 @@ public:
 	}
 
 	void buscarProducto() {
-		string nombre, categoria;
+		string nombre, categoria, auxCategoria;
 		int opcionesP, opcionesC, contEspacios = 0;
 		Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 0);
 		cout << "=============:: Buscar Producto ::=============";
@@ -795,11 +795,11 @@ public:
 		cout << "[2] Buscar por Nombre";
 		Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 3);
 		cout << "Seleccionar una opcion: "; cin >> opcionesP;
+		system("cls");
+		mainInterfaz->encuadrar();
 		switch (opcionesP)
 		{
 		case 1:
-			system("cls");
-			mainInterfaz->encuadrar();
 			Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 0);
 			cout << "=============:: Buscar por categoria ::=============";
 			Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 1);
@@ -816,15 +816,30 @@ public:
 			cout << "Ingresar opcion: "; cin >> opcionesC;
 			system("cls");
 			mainInterfaz->encuadrar();
-			Console::SetCursorPosition(ANCHO / 3, ALTO / 5 + 0);
+			Console::SetCursorPosition(ANCHO / 5 - 10, ALTO / 5 + 0);
 			cout << "=============:: Productos ::=============";
 			switch (opcionesC)
 			{
-			case 1: categoria = "Farmaco"; break;
-			case 2: categoria = "Cosmeticos"; break;
-			case 3: categoria = "Cuidado para bebes"; break;
-			case 4: categoria = "Cuidado personal"; break;
-			case 5: categoria = "Personas mayores"; break;
+			case 1: 
+				categoria = "Farmaco";
+				productosInterfaz->dibujarFarmaco(ANCHO-35, ALTO / 2 - 5);
+				break;
+			case 2: 
+				categoria = "Cosmeticos";
+				productosInterfaz->dibujarCosmetico(ANCHO - 35, ALTO / 2 - 5);
+				break;
+			case 3: 
+				categoria = "Cuidado para bebes";
+				productosInterfaz->dibujarBiberon(ANCHO - 35, ALTO / 2 - 5);
+				break;
+			case 4: 
+				categoria = "Cuidado personal";
+				productosInterfaz->dibujarCuidadoPersonal(ANCHO - 35, ALTO / 2 - 5);
+				break;
+			case 5: 
+				categoria = "Personas mayores";
+				productosInterfaz->dibujarPersonaMayor(ANCHO - 35, ALTO / 2 - 5);
+				break;
 			}
 			contEspacios = 0;
 			for (int i = 0; i < l_productos->longitud(); i++)
@@ -832,26 +847,48 @@ public:
 				if (contEspacios > 20) break;
 				if (l_productos->obtenerPos(i)->getCategoria() == categoria)
 				{
-					Console::SetCursorPosition(ANCHO / 3, ALTO / 5 + 1 + contEspacios);
-					cout << l_productos->obtenerPos(i)->getNombre();
+					Console::SetCursorPosition(ANCHO / 5, ALTO / 5 + 1 + contEspacios);
+					cout << l_productos->obtenerPos(i)->getNombre() << " : S/." << l_productos->obtenerPos(i)->getPrecio();
 					contEspacios++;
 				}
 			}
 			break;
 		case 2:
-			system("cls");
-			mainInterfaz->encuadrar();
-			Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 0);
-			cout << "=============:: Buscar por Nombre ::=============";
-			Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 1);
+			Console::SetCursorPosition(ANCHO / 5 - 10, ALTO / 4 + 0);
+			cout << "===========:: Buscar por Nombre ::===========";
+			Console::SetCursorPosition(ANCHO / 5 - 10, ALTO / 4 + 1);
 			cout << "Ingresar Nombre del producto: ";
 			cin.ignore(); getline(cin, nombre);
 			for (int i = 0; i < l_productos->longitud(); i++)
 			{
+
 				if (l_productos->obtenerPos(i)->getNombre() == nombre)
 				{
-					l_productos->obtenerPos(i)->mostrarProducto(ANCHO / 3, ALTO / 4 + 2);
-				}				
+					auxCategoria = l_productos->obtenerPos(i)->getCategoria();
+
+					if (auxCategoria == "Farmaco")
+					{
+						productosInterfaz->dibujarFarmaco(ANCHO - 35, ALTO / 2 - 5);
+					}
+					if (auxCategoria == "Cosmeticos")
+					{
+						productosInterfaz->dibujarCosmetico(ANCHO - 35, ALTO / 2 - 5);
+					}
+					if (auxCategoria == "Cuidado para bebes")
+					{
+						productosInterfaz->dibujarBiberon(ANCHO - 35, ALTO / 2 - 5);
+					}
+					if (auxCategoria == "Cuidado personal")
+					{
+						productosInterfaz->dibujarCuidadoPersonal(ANCHO - 35, ALTO / 2 - 5);
+					}
+					if (auxCategoria == "Personas mayores")
+					{
+						productosInterfaz->dibujarPersonaMayor(ANCHO - 35, ALTO / 2 - 5);
+					}
+
+					l_productos->obtenerPos(i)->mostrarProducto(ANCHO / 5 - 10, ALTO / 4 + 2);
+				}
 			}
 			break;
 		}
@@ -1077,13 +1114,28 @@ public:
 			mainInterfaz->encuadrar();
 			switch (opcionesC)
 			{
-			case 1: categoria = "Farmaco"; break;
-			case 2: categoria = "Cosmeticos"; break;
-			case 3: categoria = "Cuidado para bebes"; break;
-			case 4: categoria = "Cuidado personal"; break;
-			case 5: categoria = "Personas mayores"; break;
+			case 1: 
+				categoria = "Farmaco"; 
+				productosInterfaz->dibujarFarmaco(ANCHO - 35, ALTO / 2 - 5);
+				break;
+			case 2: 
+				categoria = "Cosmeticos";
+				productosInterfaz->dibujarCosmetico(ANCHO - 35, ALTO / 2 - 5);
+				break;
+			case 3: 
+				categoria = "Cuidado para bebes";
+				productosInterfaz->dibujarBiberon(ANCHO - 35, ALTO / 2 - 5);
+				break;
+			case 4: 
+				categoria = "Cuidado personal";
+				productosInterfaz->dibujarCuidadoPersonal(ANCHO - 35, ALTO / 2 - 5);
+				break;
+			case 5: 
+				categoria = "Personas mayores"; 
+				productosInterfaz->dibujarPersonaMayor(ANCHO - 35, ALTO / 2 - 5);
+				break;
 			}
-			Console::SetCursorPosition(ANCHO / 3, ALTO / 5 + 0);
+			Console::SetCursorPosition(ANCHO / 6, ALTO / 5 + 0);
 			cout << "=============:: Productos ::=============";
 			int contEspacios = 0;
 			for (int i = 0; i < l_productos->longitud(); i++)
@@ -1091,12 +1143,12 @@ public:
 				if (contEspacios > 10) break;
 				if (l_productos->obtenerPos(i)->getCategoria() == categoria)
 				{
-					Console::SetCursorPosition(ANCHO / 3, ALTO / 5 + 1 + contEspacios);
+					Console::SetCursorPosition(ANCHO / 6, ALTO / 5 + 1 + contEspacios);
 					cout << l_productos->obtenerPos(i)->getNombre();
 					contEspacios++;
 				}
 			}
-			Console::SetCursorPosition(ANCHO / 3, ALTO / 5 + 2 + contEspacios);
+			Console::SetCursorPosition(ANCHO / 6, ALTO / 5 + 2 + contEspacios);
 			cin.ignore();
 			cout << "Ingresar nombre del producto: "; getline(cin, nombre);
 			system("cls");
@@ -1213,11 +1265,12 @@ public:
 			{
 				system("cls");
 				mainInterfaz->encuadrar();
-				Console::SetCursorPosition(ANCHO / 3, ALTO / 5 + 0);
+				compraInterfaz->dibujarCarritoCompraz(ANCHO - 35, ALTO / 2 - 5);
+				Console::SetCursorPosition(ANCHO / 6, ALTO / 5 + 0);
 				cout << "=============:: Comprando Productos ::=============";
-				Console::SetCursorPosition(ANCHO / 3, ALTO / 5 + 1);
+				Console::SetCursorPosition(ANCHO / 6, ALTO / 5 + 1);
 				cout << "Monto total: " << pedido_usuario->conseguirCostoTotal();
-				Console::SetCursorPosition(ANCHO / 3, ALTO / 5 + 2);
+				Console::SetCursorPosition(ANCHO / 6, ALTO / 5 + 2);
 				cout << "Poner costo su monto: "; cin >> montoUsuario;
 				system("cls");
 				mainInterfaz->encuadrar();
@@ -1231,9 +1284,11 @@ public:
 					system("pause>>null");
 					system("cls");
 					mainInterfaz->encuadrar();
-					Console::SetCursorPosition(ANCHO / 3, ALTO / 5);
+					deliveryInterfaz->dibujarMoto(ANCHO - 35, ALTO / 2 - 5);
+					deliveryInterfaz->dibujarCajaEntregada(ANCHO / 2.5, ALTO - 15);
+					Console::SetCursorPosition(ANCHO / 6, ALTO / 5);
 					cout << "=============:: Pronto llegara tu pedido ::=============";
-					auxBoleta->mostrarInformacion(ANCHO / 3, ALTO / 5 + 1);
+					auxBoleta->mostrarInformacion(ANCHO / 6, ALTO / 5 + 1);
 					return true;
 				}
 				else
