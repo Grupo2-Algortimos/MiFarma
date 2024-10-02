@@ -15,7 +15,7 @@ public:
 
 	void dibujarMoto(int x, int y)
 	{
-		Console::ForegroundColor = ConsoleColor(15);
+		Console::ForegroundColor = ConsoleColor(5);
 		Console::SetCursorPosition(x, y + 0);
 		cout << "	_";
 		Console::SetCursorPosition(x, y + 1);
@@ -24,11 +24,12 @@ public:
 		cout << "  /(_`._,-.";
 		Console::SetCursorPosition(x, y + 3);
 		cout << "(o) `--'(o)";
+		Console::ForegroundColor = ConsoleColor(15);
 	}
 
 	void dibujarCajaEntregada(int x, int y)
 	{
-		Console::ForegroundColor = ConsoleColor(15);
+		Console::ForegroundColor = ConsoleColor(7);
 		Console::SetCursorPosition(x, y + 0);
 		cout << "   +--------------+";
 		Console::SetCursorPosition(x, y + 1);
@@ -40,7 +41,7 @@ public:
 		Console::SetCursorPosition(x, y + 4);
 		cout << "|  |           |  |";
 		Console::SetCursorPosition(x, y + 5);
-		cout << "|  | Entregado |  |";
+		cout << "|  | En espera |  |";
 		Console::SetCursorPosition(x, y + 6);
 		cout << "|  |           |  |";
 		Console::SetCursorPosition(x, y + 7);
@@ -51,6 +52,7 @@ public:
 		cout << "|/             |/";
 		Console::SetCursorPosition(x, y + 10);
 		cout << "*--------------*";
+		Console::ForegroundColor = ConsoleColor(15);
 	}
 
 };

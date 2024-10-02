@@ -11,8 +11,8 @@ public:
 	void compra()
 	{
 		encuadrar();
-		dibujarCarritoCompraz(ANCHO / 2, ALTO / 2.5);
-		dibujarComprado(4, 4);
+		//dibujarCarritoCompraz(ANCHO / 2, ALTO / 2.5);
+		dibujarComprado(ANCHO / 3, ALTO / 4);
 	}
 
 	void dibujarCarritoCompraz(int x, int y)

@@ -127,7 +127,6 @@
     <ClInclude Include="ProductosInterfaz.h" />
     <ClInclude Include="Proveedor.h" />
     <ClInclude Include="Reclamos.h" />
-    <ClInclude Include="Repartidor.h" />
     <ClInclude Include="Usuario.h" />
   </ItemGroup>
   <ItemGroup>
