@@ -2,7 +2,7 @@
 
 int main()
 {
-    Programa* run = new Programa();
+    ControllerProgram* run = new ControllerProgram();
     run->menu();
 }
 

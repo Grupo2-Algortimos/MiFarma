@@ -48,15 +48,6 @@
     <ClInclude Include="Boleta.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Repartidor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CompraInterfaz.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DeliveryInterfaz.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="MainInterfaz.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -67,6 +58,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Libreria.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VistaEmpleado.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VistaUsuario.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Cola.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
