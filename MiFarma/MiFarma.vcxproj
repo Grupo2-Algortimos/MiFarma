@@ -112,9 +112,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Boleta.h" />
-    <ClInclude Include="CompraInterfaz.h" />
+    <ClInclude Include="Cola.h" />
     <ClInclude Include="ControllerProgram.h" />
-    <ClInclude Include="DeliveryInterfaz.h" />
     <ClInclude Include="Empleado.h" />
     <ClInclude Include="Entidad.h" />
     <ClInclude Include="Funciones.h" />
@@ -128,6 +127,8 @@
     <ClInclude Include="Proveedor.h" />
     <ClInclude Include="Reclamos.h" />
     <ClInclude Include="Usuario.h" />
+    <ClInclude Include="VistaEmpleado.h" />
+    <ClInclude Include="VistaUsuario.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source.cpp" />
