@@ -24,7 +24,7 @@ public:
 		delete productosInterfaz;
 	}
 
-	void vistaEmpleadoPantalla(Lista<Empleado*>* l_empleados, Lista<Producto<string>*>* l_productos, Cola<Pedido*>* c_pedidos, Lista<Reclamo<string>*>* l_reclamos,
+	void vistaEmpleadoPantalla(Lista<Empleado*>* l_empleados, Lista<Producto<string>*>* l_productos, queue<Pedido*> c_pedidos, Lista<Reclamo<string>*>* l_reclamos,
 		Lista<Proveedor*>* l_proveedores, Lista<Boleta<string>*>* l_boletas) {
 		int op = 0;
 		int coni = 0;
@@ -42,7 +42,7 @@ public:
 			Console::SetCursorPosition(ANCHO / 3, ALTO / 2.5 + 3);
 			cout << "[3] Salir";
 			Console::SetCursorPosition(ANCHO / 3, ALTO / 2.5 + 4);
-			cout << "Seleccione una opcion... ";  cin >> op;
+			cout << "Seleccione una opcion: ";  cin >> op;
 			if (op == 3)break;
 			switch (op)
 			{
@@ -73,7 +73,7 @@ public:
 	}
 
 
-	void loginEmpleado(Lista<Empleado*>* l_empleados, Lista<Producto<string>*>* l_productos, Cola<Pedido*>* c_pedidos, Lista<Reclamo<string>*>* l_reclamos,
+	void loginEmpleado(Lista<Empleado*>* l_empleados, Lista<Producto<string>*>* l_productos, queue<Pedido*> c_pedidos, Lista<Reclamo<string>*>* l_reclamos,
 		Lista<Proveedor*>* l_proveedores, Lista<Boleta<string>*>* l_boletas) {
 		string user, password;
 		bool salir = false;
@@ -158,7 +158,7 @@ public:
 		l_empleados->agregaPos(aux, coni);
 	}
 
-	void adminOpciones(Lista<Producto<string>*>* l_productos, Cola<Pedido*>* c_pedidos, Lista<Reclamo<string>*>* l_reclamos,
+	void adminOpciones(Lista<Producto<string>*>* l_productos, queue<Pedido*> c_pedidos, Lista<Reclamo<string>*>* l_reclamos,
 		Lista<Proveedor*>* l_proveedores, Lista<Boleta<string>*>* l_boletas)
 	{
 		int opcionM;
@@ -311,7 +311,7 @@ public:
 				if (l_productos->obtenerPos(i)->getCategoria() == categoria)
 				{
 					Console::SetCursorPosition(ANCHO / 5, ALTO / 5 + 1 + contEspacios);
-					cout << l_productos->obtenerPos(i)->getNombre() << " : S/." << l_productos->obtenerPos(i)->getPrecio();
+					cout << l_productos->obtenerPos(i)->getNombre() << " : S/" << l_productos->obtenerPos(i)->getPrecio();
 					contEspacios++;
 				}
 			}
@@ -394,13 +394,14 @@ public:
 		}
 	}
 
-	void buscarPedidos(Cola<Pedido*>* c_pedidos)
+	void buscarPedidos(queue<Pedido*> c_pedidos)
 	{
-		Cola<Pedido*>* c_pedidos_aux;
+		//Cola auxiliar para mostrar los pedidos
+		queue<Pedido*> c_pedidos_aux = c_pedidos;
+
 		int contIdIncorrecto = 0;
-		c_pedidos_aux = c_pedidos;
 		string idPedido;
-		if (c_pedidos_aux->esVacia())
+		if (c_pedidos_aux.empty())
 		{
 			Console::SetCursorPosition(ANCHO / 2.5, ALTO / 2 + 0);
 			cout << "No hay pedidos a mostrar!";
@@ -414,28 +415,29 @@ public:
 			cout << "Ingresar Id del Pedido: "; getline(cin, idPedido);
 			system("cls");
 			mainInterfaz->encuadrar();
-			for (int i = 0; i < c_pedidos_aux->size(); i++)
+			for (int i = 0; i < c_pedidos_aux.size(); i++)
 			{
-				if (c_pedidos_aux->back()->getIdPedido() == idPedido && i == c_pedidos_aux->size() - 1)
+				if (c_pedidos_aux.back()->getIdPedido() == idPedido && i == c_pedidos_aux.size() - 1)
 				{
-					c_pedidos_aux->back()->mostarInformacion(ANCHO / 4, ALTO / 5);
+					c_pedidos_aux.back()->mostarInformacion(ANCHO / 4, ALTO / 5);
 				}
-				if (c_pedidos_aux->front()->getIdPedido() == idPedido)
+				if (c_pedidos_aux.front()->getIdPedido() == idPedido)
 				{
-					c_pedidos_aux->front()->mostarInformacion(ANCHO / 4, ALTO / 5);
+					c_pedidos_aux.front()->mostarInformacion(ANCHO / 4, ALTO / 5);
 				}
 				else
 				{
 					contIdIncorrecto++;
 				}
-				c_pedidos_aux->desencolar();
+				c_pedidos_aux.pop();
+			}
+			if (contIdIncorrecto == c_pedidos_aux.size() + 1)
+			{
+				Console::SetCursorPosition(ANCHO / 3, ALTO / 3 + 0);
+				cout << "No hay Pedidos con ese ID!";
 			}
 		}
-		if (contIdIncorrecto == c_pedidos_aux->size() + 1)
-		{
-			Console::SetCursorPosition(ANCHO / 3, ALTO / 3 + 0);
-			cout << "No hay Pedidos con ese ID!";
-		}
+
 	}
 
 	void buscarReclamos(Lista<Reclamo<string>*>* l_reclamos) {

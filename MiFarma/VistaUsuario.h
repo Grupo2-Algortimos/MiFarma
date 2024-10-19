@@ -3,7 +3,6 @@
 #include"Boleta.h"
 #include"ProductosInterfaz.h"
 #include"Reclamos.h"
-#include"Cola.h"
 class VistaUsuario
 {
 private:
@@ -24,7 +23,7 @@ public:
 	}
 
 	void vistaUsuarioPantalla(Lista<Producto<string>*>* l_productos, Lista<Producto<string>*>* l_productos_comprados, int& cont_productos_comprados,
-		Lista<Usuario*>* l_usuarios, Usuario* usario_actual, Pedido* pedido_usuario, Cola<Pedido*>* c_pedidos, Lista<Reclamo<string>*>* l_reclamos,
+		Lista<Usuario*>* l_usuarios, Usuario* usario_actual, Pedido* &pedido_usuario, queue<Pedido*> &c_pedidos, Lista<Reclamo<string>*>* l_reclamos,
 		Lista<Boleta<string>*>* l_boletas)
 	{
 		int op = 0;
@@ -48,11 +47,15 @@ public:
 			{
 			case 1:
 				system("cls");
-				// Add your case 1 code here
+				mainInterfaz->encuadrar();
+				loginUsuario(l_productos, l_productos_comprados, cont_productos_comprados, l_usuarios, usario_actual,
+					pedido_usuario, c_pedidos, l_reclamos, l_boletas);
 				break;
 			case 2:
 				system("cls");
-				// Add your case 2 code here
+				mainInterfaz->encuadrar();
+				registerUsuario(i, l_usuarios);
+				i++;
 				break;
 			default:
 				cout << "Opcion no valida. Intente de nuevo.";
@@ -62,7 +65,7 @@ public:
 	}
 
 	void loginUsuario(Lista<Producto<string>*>* l_productos, Lista<Producto<string>*>* l_productos_comprados, int& cont_productos_comprados, 
-		Lista<Usuario*>* l_usuarios, Usuario* usario_actual, Pedido* pedido_usuario, Cola<Pedido*>* c_pedidos, Lista<Reclamo<string>*>* l_reclamos, 
+		Lista<Usuario*>* l_usuarios, Usuario* usario_actual, Pedido* &pedido_usuario, queue<Pedido*> &c_pedidos, Lista<Reclamo<string>*>* l_reclamos,
 		Lista<Boleta<string>*>* l_boletas) 
 	{
 		string user, password;
@@ -208,7 +211,7 @@ public:
 	}
 
 	void userOpciones(Lista<Producto<string>*>* l_productos, Lista<Producto<string>*>* l_productos_comprados, int &cont_productos_comprados,
-		Usuario* usario_actual, Pedido* pedido_usuario, Cola<Pedido*>* c_pedidos, Lista<Reclamo<string>*>* l_reclamos, Lista<Boleta<string>*>* l_boletas) {
+		Usuario* usario_actual, Pedido* &pedido_usuario, queue<Pedido*> &c_pedidos, Lista<Reclamo<string>*>* l_reclamos, Lista<Boleta<string>*>* l_boletas) {
 		int opcionM;
 		int i = 0;
 		int p = 0;
@@ -259,7 +262,7 @@ public:
 	{
 		int opcionesC, contNombreIncorrecto = 0;
 		string nombre, categoria;
-		Producto<string>* auxProducto = nullptr;
+		Producto<string>* auxProducto;
 		while (true)
 		{
 			system("cls");
@@ -315,7 +318,7 @@ public:
 				if (l_productos->obtenerPos(i)->getCategoria() == categoria)
 				{
 					Console::SetCursorPosition(ANCHO / 6, ALTO / 5 + 1 + contEspacios);
-					cout << l_productos->obtenerPos(i)->getNombre();
+					cout << l_productos->obtenerPos(i)->getNombre() << " : S/" << l_productos->obtenerPos(i)->getPrecio();
 					contEspacios++;
 				}
 			}
@@ -351,7 +354,7 @@ public:
 		}
 	}
 
-	void verCarrito(Lista<Producto<string>*>* l_productos_comprados, Pedido* pedido_usuario, Cola<Pedido*>* c_pedidos, Usuario* usuario_actual)
+	void verCarrito(Lista<Producto<string>*>* l_productos_comprados, Pedido* &pedido_usuario, queue<Pedido*> &c_pedidos, Usuario* usuario_actual)
 	{
 		int opcCarrito;
 		int contEspacios = 0;
@@ -365,9 +368,9 @@ public:
 			Console::SetCursorPosition(ANCHO / 3, ALTO / 5 + 0);
 			cout << "===========:: Carrito ::=============";
 			Console::SetCursorPosition(ANCHO / 3, ALTO / 5 + 1);
-			cout << "[1] Ordenar de menor a mayor";
+			cout << "[1] Ordenar por precio de menor a mayor";
 			Console::SetCursorPosition(ANCHO / 3, ALTO / 5 + 2);
-			cout << "[2] Ordenar de mayor a menor";
+			cout << "[2] Ordenar por precio de mayor a menor";
 			Console::SetCursorPosition(ANCHO / 3, ALTO / 5 + 3);
 			cout << "Escoger opcion: "; cin >> opcCarrito;
 			if (l_productos_comprados->longitud() > 1)
@@ -395,7 +398,7 @@ public:
 				cout << "- " << l_productos_comprados->obtenerPos(i)->getNombre() << " : " << l_productos_comprados->obtenerPos(i)->getPrecio();
 				contEspacios++;
 			}
-			pedido_usuario = new Pedido("P0" + to_string(c_pedidos->size()), usuario_actual->getNombre(), "Javier", usuario_actual->getDistrito(), 
+			pedido_usuario = new Pedido("P0" + to_string(c_pedidos.size()), usuario_actual->getNombre(), "Javier", usuario_actual->getDistrito(), 
 				l_productos_comprados, "Pendiente", "Motocicleta");
 			Console::SetCursorPosition(ANCHO - 25, ALTO / 2);
 			cout << "Total: " << pedido_usuario->conseguirCostoTotal();
@@ -421,8 +424,9 @@ public:
 			nombreProducto, tipo, detalle, pedido);
 		l_reclamos->agregaPos(auxReclamo, l_reclamos->longitud());
 	}
-	bool comprarProductos(Lista<Producto<string>*>* l_productos_comprados, Usuario* usario_actual, Pedido* pedido_usuario,
-		Lista<Boleta<string>*>* l_boletas, Cola<Pedido*>* c_pedidos)
+
+	bool comprarProductos(Lista<Producto<string>*>* l_productos_comprados, Usuario* usario_actual, Pedido* &pedido_usuario,
+		Lista<Boleta<string>*>* l_boletas, queue<Pedido*> &c_pedidos)
 	{
 		string montoUsuario, fecha, idBoleta;
 		Boleta<string>* auxBoleta;
@@ -450,7 +454,7 @@ public:
 				if (stod(montoUsuario) >= pedido_usuario->conseguirCostoTotal())
 				{
 					idBoleta = "B03" + to_string(l_boletas->longitud());
-					c_pedidos->encolar(pedido_usuario);
+					c_pedidos.push(pedido_usuario);
 					auxBoleta = new Boleta<string>(idBoleta, usario_actual->getNombre(), fecha, montoUsuario, to_string(pedido_usuario->conseguirCostoTotal()));
 					l_boletas->agregaPos(auxBoleta, l_boletas->longitud());
 					mainInterfaz->compra();
