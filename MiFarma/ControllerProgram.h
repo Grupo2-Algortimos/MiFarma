@@ -18,7 +18,7 @@ private:
 	//Declarando colas
 	queue<Pedido*> c_pedidos;
 	//Declarando usuario
-	Usuario* usario_actual;
+	Usuario* usuario_actual;
 	Pedido* pedido_usuario;
 
 	//Declarando vistas
@@ -41,7 +41,7 @@ public:
 		mainInterfaz = new MainInterfaz();
 		productosInterfaz = new ProductosInterfaz();
 		//Usuario Actual y pedido de usuario
-		usario_actual = NULL;
+		usuario_actual = NULL;
 		pedido_usuario = NULL;
 		//Leer los archivos preestablecidos
 		lecturaArchivoEmpleados();
@@ -69,7 +69,7 @@ public:
 		delete l_proveedores;
 		delete l_boletas;
 		delete l_reclamos;
-		delete usario_actual;
+		delete usuario_actual;
 		delete pedido_usuario;
 	}
 
@@ -347,7 +347,7 @@ public:
 				vistaEmpleado->vistaEmpleadoPantalla(l_empleados, l_productos, c_pedidos, l_reclamos, l_proveedores, l_boletas);
 				break;
 			case 2:
-				vistaUsuario->vistaUsuarioPantalla(l_productos, l_productos_comprados, cont_productos_comprados, l_usuarios, usario_actual,pedido_usuario, 
+				vistaUsuario->vistaUsuarioPantalla(l_productos, l_productos_comprados, cont_productos_comprados, l_usuarios, usuario_actual,pedido_usuario, 
 					c_pedidos, l_reclamos, l_boletas);
 				break;
 			}
