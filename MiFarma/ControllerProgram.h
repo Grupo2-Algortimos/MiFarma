@@ -2,7 +2,6 @@
 #include"VistaUsuario.h"
 #include"VistaEmpleado.h"
 
-
 class ControllerProgram {
 private:
 	//declarando lista
@@ -17,7 +16,7 @@ private:
 	MainInterfaz* mainInterfaz;
 	ProductosInterfaz* productosInterfaz;
 	//Declarando colas
-	Cola<Pedido*>* c_pedidos;
+	queue<Pedido*> c_pedidos;
 	//Declarando usuario
 	Usuario* usario_actual;
 	Pedido* pedido_usuario;
@@ -41,8 +40,6 @@ public:
 		//Interfaces o decoracion
 		mainInterfaz = new MainInterfaz();
 		productosInterfaz = new ProductosInterfaz();
-		//Colas
-		c_pedidos = new Cola<Pedido*>();
 		//Usuario Actual y pedido de usuario
 		usario_actual = NULL;
 		pedido_usuario = NULL;
@@ -300,7 +297,7 @@ public:
 			l_productosAleatorios->agregaPos(l_productos->obtenerPos(num_alea), j);
 		}
 		Pedido* pedido1 = new Pedido("P01", "Jose", "Kevin", "Puente Piedra", l_productosAleatorios, "En Camino", "Bicicleta");
-		c_pedidos->encolar(pedido1);
+		c_pedidos.push(pedido1);
 
 		l_productosAleatorios = new Lista<Producto<string>*>();
 		catidad_productos = r.Next(1, 5); // [1-4]
@@ -310,7 +307,7 @@ public:
 			l_productosAleatorios->agregaPos(l_productos->obtenerPos(num_alea), j);
 		}
 		Pedido* pedido2 = new Pedido("P02", "Maria", "Luz", "San miguel", l_productosAleatorios, "Pendiente", "Motocicleta");
-		c_pedidos->encolar(pedido2);
+		c_pedidos.push(pedido2);
 
 		l_productosAleatorios = new Lista<Producto<string>*>();
 		catidad_productos = r.Next(1, 5); // [1-4]
@@ -320,7 +317,7 @@ public:
 			l_productosAleatorios->agregaPos(l_productos->obtenerPos(num_alea), j);
 		}
 		Pedido* pedido3 = new Pedido("P03", "Pepe", "Manuel", "San miguel", l_productosAleatorios, "Pendiente", "Bicicleta");
-		c_pedidos->encolar(pedido3);
+		c_pedidos.push(pedido3);
 	}
 
 	//Menu del programa
@@ -350,8 +347,8 @@ public:
 				vistaEmpleado->vistaEmpleadoPantalla(l_empleados, l_productos, c_pedidos, l_reclamos, l_proveedores, l_boletas);
 				break;
 			case 2:
-				vistaUsuario->vistaUsuarioPantalla(l_productos, l_productos_comprados, cont_productos_comprados, l_usuarios, usario_actual,
-					pedido_usuario, c_pedidos, l_reclamos, l_boletas);
+				vistaUsuario->vistaUsuarioPantalla(l_productos, l_productos_comprados, cont_productos_comprados, l_usuarios, usario_actual,pedido_usuario, 
+					c_pedidos, l_reclamos, l_boletas);
 				break;
 			}
 			system("pause>>null");
