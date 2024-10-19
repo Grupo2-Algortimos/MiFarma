@@ -42,7 +42,7 @@ public:
 			Console::SetCursorPosition(ANCHO / 3, ALTO / 2.5 + 3);
 			cout << "[3] Salir";
 			Console::SetCursorPosition(ANCHO / 3, ALTO / 2.5 + 4);
-			cout << "Seleccione una opcion... ";  cin >> op;
+			cout << "Seleccione una opcion: ";  cin >> op;
 			if (op == 3)break;
 			switch (op)
 			{
@@ -311,7 +311,7 @@ public:
 				if (l_productos->obtenerPos(i)->getCategoria() == categoria)
 				{
 					Console::SetCursorPosition(ANCHO / 5, ALTO / 5 + 1 + contEspacios);
-					cout << l_productos->obtenerPos(i)->getNombre() << " : S/." << l_productos->obtenerPos(i)->getPrecio();
+					cout << l_productos->obtenerPos(i)->getNombre() << " : S/" << l_productos->obtenerPos(i)->getPrecio();
 					contEspacios++;
 				}
 			}

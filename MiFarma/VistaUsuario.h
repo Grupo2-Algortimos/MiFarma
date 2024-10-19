@@ -48,11 +48,15 @@ public:
 			{
 			case 1:
 				system("cls");
-				// Add your case 1 code here
+				mainInterfaz->encuadrar();
+				loginUsuario(l_productos, l_productos_comprados, cont_productos_comprados, l_usuarios, usario_actual,
+					pedido_usuario, c_pedidos, l_reclamos, l_boletas);
 				break;
 			case 2:
 				system("cls");
-				// Add your case 2 code here
+				mainInterfaz->encuadrar();
+				registerUsuario(i, l_usuarios);
+				i++;
 				break;
 			default:
 				cout << "Opcion no valida. Intente de nuevo.";
@@ -259,7 +263,7 @@ public:
 	{
 		int opcionesC, contNombreIncorrecto = 0;
 		string nombre, categoria;
-		Producto<string>* auxProducto = nullptr;
+		Producto<string>* auxProducto;
 		while (true)
 		{
 			system("cls");
@@ -315,7 +319,7 @@ public:
 				if (l_productos->obtenerPos(i)->getCategoria() == categoria)
 				{
 					Console::SetCursorPosition(ANCHO / 6, ALTO / 5 + 1 + contEspacios);
-					cout << l_productos->obtenerPos(i)->getNombre();
+					cout << l_productos->obtenerPos(i)->getNombre() << " : S/" << l_productos->obtenerPos(i)->getPrecio();
 					contEspacios++;
 				}
 			}
