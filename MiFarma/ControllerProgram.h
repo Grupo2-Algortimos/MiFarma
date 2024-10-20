@@ -130,15 +130,15 @@ public:
 		while (getline(archIN, linea))
 		{
 			stringstream stream(linea); // Convertir la cadena a un stream			
-			string idProduct, nombre, precio, categoria, cantidad, fechaCaducidad;
+			string idProduct, nombre, precio, categoria, volumen, fechaCaducidad;
 			// Extraer todos los valores de esa fila [considerando 3 columans]
 			getline(stream, idProduct, delimitador);
 			getline(stream, nombre, delimitador);
 			getline(stream, precio, delimitador);
 			getline(stream, categoria, delimitador);
-			getline(stream, cantidad, delimitador);
+			getline(stream, volumen, delimitador);
 			getline(stream, fechaCaducidad, delimitador);
-			aux = new Producto<string>(idProduct, nombre, precio, categoria, cantidad, fechaCaducidad);
+			aux = new Producto<string>(idProduct, nombre, precio, categoria, volumen, fechaCaducidad);
 			l_productos->agregaPos(aux, i);
 			i++;
 		}
