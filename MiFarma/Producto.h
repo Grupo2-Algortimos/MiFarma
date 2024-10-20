@@ -9,9 +9,9 @@ protected:
 	T nombre;
 	T precio;
 	T categoria;
+	T volumen;
 	T cantidad;
 	T fechaCad;
-	T cantPrecio;
 
 public:
 	Producto() {
@@ -19,35 +19,38 @@ public:
 		this->nombre = "";
 		this->precio = "";
 		this->categoria = "";
-		this->cantidad = "";
+		this->volumen = "";
+		this->cantidad = "1";
 		this->fechaCad = "";
 	}
 
-	Producto(T _idProduct,T _nombre,T _precio,T _categoria, T _cantidad,T _fechaCad) {
+	Producto(T _idProduct,T _nombre,T _precio,T _categoria, T _volumen,T _fechaCad) {
 		this->idProduct = _idProduct;
 		this->nombre = _nombre;
 		this->precio = _precio;
 		this->categoria = _categoria;
-		this->cantidad = _cantidad;
+		this->volumen = _volumen;
 		this->fechaCad = _fechaCad;
+		this->cantidad = "1";
 	}
 	//metodos detter and setter
 	T getIdProduct() { return idProduct; }
 	T getNombre() { return nombre; }
 	T getPrecio() { return precio; }
 	T getCategoria() { return categoria; }
+	T getVolumen() { return volumen; }
 	T getCantidad() { return cantidad; }
 	T getFechaCad() { return fechaCad; }
-	T getcantProducto() { return cantPrecio; }
+	double getSubTotal() { return (stod(precio) * stod(cantidad)); }
 
 	
 	void setIdProduct(T _idProduct) { idProduct = _idProduct; }
 	void setNombre(T _nombre) { nombre = _nombre; }
 	void setPrecio(T _precio) { precio = _precio; }
 	void setCategoria(T _categoria) { categoria = _categoria; }
+	void setVolumen(T _volumen) { volumen = _volumen; }
 	void setCantidad(T _cantidad) { cantidad = _cantidad; }
 	void setFechaCad(T _fechaCad) { fechaCad = _fechaCad; }
-	void setcantProducto(T _cantPrecio) { cantPrecio = _cantPrecio; }
 	
 	//mostrar el Producto
 	void mostrarProducto(int x, int y) {
@@ -60,7 +63,7 @@ public:
 		Console::SetCursorPosition(x, y + 3);
 		cout << "Categoria: " << getCategoria();
 		Console::SetCursorPosition(x, y + 4);
-		cout << "Cantidad: " << getCantidad();
+		cout << "Volumen: " << getVolumen();
 		Console::SetCursorPosition(x, y + 5);
 		cout << "Fecha de vencimiento: " << getFechaCad();		
 	}

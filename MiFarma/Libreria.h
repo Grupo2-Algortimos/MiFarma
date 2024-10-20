@@ -5,7 +5,9 @@
 #include<cstdlib>
 #include<iomanip>
 #include<ctime>
+#include<cctype>
 #include<sstream>//stream
+#include<algorithm>
 #include"stack"
 #include"queue"
 //definimos predeterminados

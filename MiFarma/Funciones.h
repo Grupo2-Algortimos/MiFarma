@@ -108,3 +108,8 @@ void ordShellProductoMenorAMayor(Lista<Producto<string>*>* l_productosOrdenar) {
 		intervalo /= 2;
 	}
 }
+
+string convertirStringMinuscula(string str) {
+	transform(str.begin(), str.end(), str.begin(), ::tolower);
+	return str;
+}

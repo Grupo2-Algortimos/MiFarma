@@ -1,4 +1,4 @@
-idProduct|nombre|precio|categoria|cantidad|fechaCaducidad
+idProduct|nombre|precio|categoria|volumen|fechaCaducidad
 A001|Paracetamol|5.50|Farmaco|100|12/05/2025
 A002|Ibuprofeno|8.00|Farmaco|50|15/07/2025
 A003|Omeprazol|12.30|Farmaco|30|20/06/2025

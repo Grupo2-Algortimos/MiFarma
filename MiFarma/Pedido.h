@@ -82,7 +82,7 @@ public:
 			double suma = 0;
 			for (int i = 0; i < productosComprados->longitud(); i++)
 			{
-				suma += stod(productosComprados->obtenerPos(i)->getPrecio()) * stof(productosComprados->obtenerPos(i)->getcantProducto());
+				suma += stod(productosComprados->obtenerPos(i)->getPrecio()) * stod(productosComprados->obtenerPos(i)->getCantidad());
 			}
 			return suma;
 		};
