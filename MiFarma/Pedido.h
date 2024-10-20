@@ -78,10 +78,11 @@ public:
 	{
 		//Función lambda que retorna la suma de los precios del carrito para calcular el total
 		auto obtenerSumaTotal = [](Lista<Producto<string>*>* productosComprados) {
+
 			double suma = 0;
 			for (int i = 0; i < productosComprados->longitud(); i++)
 			{
-				suma += stod(productosComprados->obtenerPos(i)->getPrecio());
+				suma += stod(productosComprados->obtenerPos(i)->getPrecio()) * stof(productosComprados->obtenerPos(i)->getcantProducto());
 			}
 			return suma;
 		};
