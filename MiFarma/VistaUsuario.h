@@ -9,11 +9,13 @@ private:
 	//Declaron Interfaces
 	MainInterfaz* mainInterfaz;
 	ProductosInterfaz* productosInterfaz;
+	int cantProducto;
 public:
 	VistaUsuario()
 	{
 		mainInterfaz = new MainInterfaz();
 		productosInterfaz = new ProductosInterfaz();
+		cantProducto = 0;
 	}
 
 	~VistaUsuario()
@@ -21,6 +23,7 @@ public:
 		delete mainInterfaz;
 		delete productosInterfaz;
 	}
+	
 
 	void vistaUsuarioPantalla(Lista<Producto<string>*>* l_productos, Lista<Producto<string>*>* l_productos_comprados, int& cont_productos_comprados,
 		Lista<Usuario*>* l_usuarios, Usuario* usario_actual, Pedido* &pedido_usuario, queue<Pedido*> &c_pedidos, Lista<Reclamo<string>*>* l_reclamos,
@@ -263,7 +266,7 @@ public:
 		int &cont_productos_comprados)
 	{
 		int opcionesC, contNombreIncorrecto = 0;
-		string nombre, categoria;
+		string nombre, categoria, cantProducto;
 		Producto<string>* auxProducto;
 		while (true)
 		{
@@ -331,6 +334,8 @@ public:
 			Console::SetCursorPosition(ANCHO / 6, ALTO / 5 + 2 + contEspacios);
 			cin.ignore();
 			cout << "Ingresar nombre del producto: "; getline(cin, nombre);
+			Console::SetCursorPosition(ANCHO / 6, ALTO / 5 + 3 + contEspacios);			
+			cout << "Ingresar cantidad del producto: "; cin >> cantProducto;			
 			system("cls");
 			mainInterfaz->encuadrar();
 			Console::SetCursorPosition(2, 2);
@@ -339,6 +344,7 @@ public:
 			{
 				if (l_productos->obtenerPos(i)->getNombre() == nombre)
 				{
+					l_productos->obtenerPos(i)->setcantProducto(cantProducto);
 					auxProducto = l_productos->obtenerPos(i);
 				}
 				else
@@ -366,6 +372,8 @@ public:
 	{
 		int opcCarrito;
 		int contEspacios = 0;
+		string precio1, precio2;
+		float precioOF;
 		if (l_productos_comprados->esVacia())
 		{
 			Console::SetCursorPosition(2, 2);
@@ -407,7 +415,11 @@ public:
 					break;
 				}
 				Console::SetCursorPosition(ANCHO / 3, ALTO / 5 + 4 + i);
-				cout << "- " << l_productos_comprados->obtenerPos(i)->getNombre() << " : " << l_productos_comprados->obtenerPos(i)->getPrecio();
+				precio1 = l_productos_comprados->obtenerPos(i)->getPrecio();
+				precio2 = l_productos_comprados->obtenerPos(i)->getcantProducto();
+				precioOF = stof(precio1) * stof(precio2);
+				//cout << "- " << l_productos_comprados->obtenerPos(i)->getNombre() << " : " << l_productos_comprados->obtenerPos(i)->getPrecio();
+				cout << "- " << l_productos_comprados->obtenerPos(i)->getNombre() << " : " << "S/" << precioOF;
 				contEspacios++;
 			}
 			pedido_usuario = new Pedido("P0" + to_string(c_pedidos.size()), usuario_actual->getNombre(), "Javier", usuario_actual->getDistrito(), 

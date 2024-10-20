@@ -11,6 +11,7 @@ protected:
 	T categoria;
 	T cantidad;
 	T fechaCad;
+	T cantPrecio;
 
 public:
 	Producto() {
@@ -37,13 +38,16 @@ public:
 	T getCategoria() { return categoria; }
 	T getCantidad() { return cantidad; }
 	T getFechaCad() { return fechaCad; }
+	T getcantProducto() { return cantPrecio; }
 
+	
 	void setIdProduct(T _idProduct) { idProduct = _idProduct; }
 	void setNombre(T _nombre) { nombre = _nombre; }
 	void setPrecio(T _precio) { precio = _precio; }
 	void setCategoria(T _categoria) { categoria = _categoria; }
 	void setCantidad(T _cantidad) { cantidad = _cantidad; }
 	void setFechaCad(T _fechaCad) { fechaCad = _fechaCad; }
+	void setcantProducto(T _cantPrecio) { cantPrecio = _cantPrecio; }
 	
 	//mostrar el Producto
 	void mostrarProducto(int x, int y) {
