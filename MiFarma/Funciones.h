@@ -15,6 +15,7 @@ string generarContrasena(int caracterMax, string contrasena = "") {
 }
 
 //Usuario de 15 caracteres máx
+// comentario
 string generarNombreUsuario(int caracterMax, string nombreUsuario, string userNombre) {
 	string caracteresDisponibles = "123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ@#!¡";
 	if (caracterMax == 10) return nombreUsuario;
