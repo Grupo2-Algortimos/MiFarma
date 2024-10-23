@@ -64,6 +64,7 @@ public:
 				cout << "Opcion no valida. Intente de nuevo.";
 				break;
 			}
+			system("pause>>null");
 		} while (op != 3);
 	}
 
@@ -116,9 +117,7 @@ public:
 				mainInterfaz->encuadrar();
 				Console::SetCursorPosition(ANCHO / 3, ALTO / 3 + 0);
 				cout << "El usuario ingresado es incorrecto....";
-				system("pause>>null");
 				salir = true;
-				break;
 			}
 			if (!contrasena_correcta)
 			{
@@ -126,9 +125,7 @@ public:
 				mainInterfaz->encuadrar();
 				Console::SetCursorPosition(ANCHO / 3, ALTO / 3 + 0);
 				cout << "La contrasena ingresada es incorrecta....";
-				system("pause>>null");
 				salir = true;
-				break;
 			}
 
 		}
