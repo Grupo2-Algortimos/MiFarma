@@ -442,7 +442,7 @@ public:
 
 	void buscarReclamos(Lista<Reclamo<string>*>* l_reclamos) {
 		string idReclamo;
-		int contIdIncorrecto = 0;
+		bool encontrado = false;
 		Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 0);
 		cin.ignore();
 		cout << "Ingresar Id del Reclamo: "; getline(cin, idReclamo);
@@ -453,13 +453,11 @@ public:
 			if (l_reclamos->obtenerPos(i)->getIdReclamo() == idReclamo)
 			{
 				l_reclamos->obtenerPos(i)->mostrarReclamo(ANCHO / 3, ALTO / 5 + 0);
-			}
-			else
-			{
-				contIdIncorrecto++;
+				encontrado = true;
+				break;
 			}
 		}
-		if (contIdIncorrecto == l_reclamos->longitud())
+		if (!encontrado)
 		{
 			Console::SetCursorPosition(ANCHO / 3, ALTO / 5 + 0);
 			cout << "No hay reclamos con ese ID!";
