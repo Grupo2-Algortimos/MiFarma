@@ -3,6 +3,7 @@
 #include"Boleta.h"
 #include"ProductosInterfaz.h"
 #include"Reclamos.h"
+#include <conio.h>
 class VistaUsuario
 {
 private:
@@ -323,6 +324,7 @@ public:
 			Console::SetCursorPosition(ANCHO / 6, ALTO / 5 + 0);
 			cout << "=============:: Productos ::=============";
 			int contEspacios = 0;
+			char tecla;
 			for (int i = 0; i < l_productos->longitud(); i++)
 			{
 				if (contEspacios > 10) break;
@@ -330,7 +332,28 @@ public:
 				{
 					Console::SetCursorPosition(ANCHO / 6, ALTO / 5 + 1 + contEspacios);
 					cout << l_productos->obtenerPos(i)->getNombre() << " : S/" << l_productos->obtenerPos(i)->getPrecio();
-					contEspacios++;
+					contEspacios++;					
+				}					
+			}
+			tecla = getch();
+			if (tecla == ' ')
+			{
+				system("cls");
+				mainInterfaz->encuadrar();
+				Console::SetCursorPosition(2, 2);
+				cout << "Usuario: " << usuario_actual->getNombre();
+				Console::SetCursorPosition(ANCHO / 6, ALTO / 5 + 0);
+				cout << "=============:: Productos ::=============";
+				contEspacios = 0;
+				for (int i = 10; i < l_productos->longitud(); i++)
+				{
+					if (contEspacios > 10) break;
+					if (l_productos->obtenerPos(i)->getCategoria() == categoria)
+					{
+						Console::SetCursorPosition(ANCHO / 6, ALTO / 5 + 1 + contEspacios);
+						cout << l_productos->obtenerPos(i)->getNombre() << " : S/" << l_productos->obtenerPos(i)->getPrecio();
+						contEspacios++;
+					}
 				}
 			}
 			Console::SetCursorPosition(ANCHO / 6, ALTO / 5 + 2 + contEspacios);
