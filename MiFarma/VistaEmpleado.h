@@ -4,12 +4,14 @@
 #include"Proveedor.h"
 #include"Funciones.h"
 #include"ProductosInterfaz.h"
+#include "HashTable.h"
 class VistaEmpleado
 {
 private:
 	//Declaron Interfaces
 	MainInterfaz* mainInterfaz;
 	ProductosInterfaz* productosInterfaz;
+	HashTablaA hashTable;
 public:
 	VistaEmpleado()
 	{
