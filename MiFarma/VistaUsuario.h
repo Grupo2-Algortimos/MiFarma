@@ -335,6 +335,8 @@ public:
 					contEspacios++;					
 				}					
 			}
+			Console::SetCursorPosition(ANCHO / 6, ALTO / 5 + 2 + contEspacios);			
+			cout << "Para mostrar mas presione espacio..."; 
 			tecla = getch();
 			if (tecla == ' ')
 			{
@@ -356,10 +358,10 @@ public:
 					}
 				}
 			}
-			Console::SetCursorPosition(ANCHO / 6, ALTO / 5 + 2 + contEspacios);
+			Console::SetCursorPosition(ANCHO / 6, ALTO / 5 + 3 + contEspacios);
 			cin.ignore();
 			cout << "Ingresar nombre del producto: "; getline(cin, nombre);
-			Console::SetCursorPosition(ANCHO / 6, ALTO / 5 + 3 + contEspacios);			
+			Console::SetCursorPosition(ANCHO / 6, ALTO / 5 + 4 + contEspacios);			
 			cout << "Ingresar cantidad del producto: "; cin >> cantidad;
 			system("cls");
 			mainInterfaz->encuadrar();
