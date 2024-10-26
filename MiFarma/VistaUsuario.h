@@ -3,6 +3,7 @@
 #include"Boleta.h"
 #include"ProductosInterfaz.h"
 #include"Reclamos.h"
+#include <conio.h>
 class VistaUsuario
 {
 private:
@@ -64,6 +65,7 @@ public:
 				cout << "Opcion no valida. Intente de nuevo.";
 				break;
 			}
+			system("pause>>null");
 		} while (op != 3);
 	}
 
@@ -73,6 +75,7 @@ public:
 	{
 		string user, password;
 		bool salir = false;
+		bool usuario_encontrado = false, contrasena_correcta = false;
 		while (true)
 		{
 			l_productos_comprados = new Lista<Producto<string>*>();
@@ -83,16 +86,19 @@ public:
 			Console::SetCursorPosition(ANCHO / 3, ALTO / 3 + 0);
 			cout << "=============:: Login de Usuario ::=============";
 			Console::SetCursorPosition(ANCHO / 3, ALTO / 3 + 1);
-			cout << "Ingresar Usuario: "; cin >> user;
+			cin.ignore();
+			cout << "Ingresar Usuario: "; getline(cin, user); 
 			if (user == "1") break;
 			Console::SetCursorPosition(ANCHO / 3, ALTO / 3 + 2);
-			cout << "Ingresar contrasena: "; cin >> password;
+			cout << "Ingresar contrasena: "; getline(cin, password);
 			for (int i = 0; i < l_usuarios->longitud(); i++)
 			{
 				if (l_usuarios->obtenerPos(i)->getUser() == user)
 				{
+					usuario_encontrado = true;
 					if (l_usuarios->obtenerPos(i)->getPassword() == password)
 					{
+						contrasena_correcta = true;
 						system("cls");
 						mainInterfaz->encuadrar();
 						Console::SetCursorPosition(ANCHO / 3, ALTO / 3 + 0);
@@ -104,26 +110,23 @@ public:
 						salir = true;
 						break;
 					}
-					else {
-						system("cls");
-						mainInterfaz->encuadrar();
-						Console::SetCursorPosition(ANCHO / 3, ALTO / 3 + 0);
-						cout << "La contrasena ingresada es incorrecta....";
-						system("pause>>null");
-						salir = true;
-						break;
-					}
 				}
-				else
-				{
-					system("cls");
-					mainInterfaz->encuadrar();
-					Console::SetCursorPosition(ANCHO / 3, ALTO / 3 + 0);
-					cout << "El usuario ingresado es incorrecto....";
-					system("pause>>null");
-					salir = true;
-					break;
-				}
+			}
+			if (!usuario_encontrado)
+			{
+				system("cls");
+				mainInterfaz->encuadrar();
+				Console::SetCursorPosition(ANCHO / 3, ALTO / 3 + 0);
+				cout << "El usuario ingresado es incorrecto....";
+				salir = true;
+			}
+			if (!contrasena_correcta)
+			{
+				system("cls");
+				mainInterfaz->encuadrar();
+				Console::SetCursorPosition(ANCHO / 3, ALTO / 3 + 0);
+				cout << "La contrasena ingresada es incorrecta....";
+				salir = true;
 			}
 
 		}
@@ -321,6 +324,7 @@ public:
 			Console::SetCursorPosition(ANCHO / 6, ALTO / 5 + 0);
 			cout << "=============:: Productos ::=============";
 			int contEspacios = 0;
+			char tecla;
 			for (int i = 0; i < l_productos->longitud(); i++)
 			{
 				if (contEspacios > 10) break;
@@ -328,13 +332,36 @@ public:
 				{
 					Console::SetCursorPosition(ANCHO / 6, ALTO / 5 + 1 + contEspacios);
 					cout << l_productos->obtenerPos(i)->getNombre() << " : S/" << l_productos->obtenerPos(i)->getPrecio();
-					contEspacios++;
+					contEspacios++;					
+				}					
+			}
+			Console::SetCursorPosition(ANCHO / 6, ALTO / 5 + 2 + contEspacios);			
+			cout << "Para mostrar mas presione espacio..."; 
+			tecla = getch();
+			if (tecla == ' ')
+			{
+				system("cls");
+				mainInterfaz->encuadrar();
+				Console::SetCursorPosition(2, 2);
+				cout << "Usuario: " << usuario_actual->getNombre();
+				Console::SetCursorPosition(ANCHO / 6, ALTO / 5 + 0);
+				cout << "=============:: Productos ::=============";
+				contEspacios = 0;
+				for (int i = 10; i < l_productos->longitud(); i++)
+				{
+					if (contEspacios > 10) break;
+					if (l_productos->obtenerPos(i)->getCategoria() == categoria)
+					{
+						Console::SetCursorPosition(ANCHO / 6, ALTO / 5 + 1 + contEspacios);
+						cout << l_productos->obtenerPos(i)->getNombre() << " : S/" << l_productos->obtenerPos(i)->getPrecio();
+						contEspacios++;
+					}
 				}
 			}
-			Console::SetCursorPosition(ANCHO / 6, ALTO / 5 + 2 + contEspacios);
+			Console::SetCursorPosition(ANCHO / 6, ALTO / 5 + 3 + contEspacios);
 			cin.ignore();
 			cout << "Ingresar nombre del producto: "; getline(cin, nombre);
-			Console::SetCursorPosition(ANCHO / 6, ALTO / 5 + 3 + contEspacios);			
+			Console::SetCursorPosition(ANCHO / 6, ALTO / 5 + 4 + contEspacios);			
 			cout << "Ingresar cantidad del producto: "; cin >> cantidad;
 			system("cls");
 			mainInterfaz->encuadrar();

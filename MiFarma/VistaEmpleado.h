@@ -4,12 +4,14 @@
 #include"Proveedor.h"
 #include"Funciones.h"
 #include"ProductosInterfaz.h"
+#include "HashTable.h"
 class VistaEmpleado
 {
 private:
 	//Declaron Interfaces
 	MainInterfaz* mainInterfaz;
 	ProductosInterfaz* productosInterfaz;
+	HashTablaA hashTable;
 public:
 	VistaEmpleado()
 	{
@@ -77,6 +79,7 @@ public:
 		Lista<Proveedor*>* l_proveedores, Lista<Boleta<string>*>* l_boletas) {
 		string user, password;
 		bool salir = false;
+		bool usuario_encontrado = false, contrasena_correcta = false;
 		while (true)
 		{
 			if (salir)break;
@@ -93,8 +96,10 @@ public:
 			{
 				if (l_empleados->obtenerPos(i)->getUser() == user)
 				{
+					usuario_encontrado = true;
 					if (l_empleados->obtenerPos(i)->getPassword() == password)
 					{
+						contrasena_correcta = true;
 						system("cls");
 						mainInterfaz->encuadrar();
 						Console::SetCursorPosition(ANCHO / 3, ALTO / 3 + 0);
@@ -104,26 +109,23 @@ public:
 						salir = true;
 						break;
 					}
-					else {
-						system("cls");
-						mainInterfaz->encuadrar();
-						Console::SetCursorPosition(ANCHO / 3, ALTO / 3 + 0);
-						cout << "La contrasena ingresada es incorrecta....";
-						system("pause>>null");
-						salir = true;
-						break;
-					}
 				}
-				else
-				{
-					system("cls");
-					mainInterfaz->encuadrar();
-					Console::SetCursorPosition(ANCHO / 3, ALTO / 3 + 0);
-					cout << "El usuario ingresado es incorrecto....";
-					system("pause>>null");
-					salir = true;
-					break;
-				}
+			}
+			if (!usuario_encontrado)
+			{
+				system("cls");
+				mainInterfaz->encuadrar();
+				Console::SetCursorPosition(ANCHO / 3, ALTO / 3 + 0);
+				cout << "El usuario ingresado es incorrecto....";
+				salir = true;
+			}
+			if (!contrasena_correcta)
+			{
+				system("cls");
+				mainInterfaz->encuadrar();
+				Console::SetCursorPosition(ANCHO / 3, ALTO / 3 + 0);
+				cout << "La contrasena ingresada es incorrecta....";
+				salir = true;
 			}
 		}
 	}
@@ -442,7 +444,7 @@ public:
 
 	void buscarReclamos(Lista<Reclamo<string>*>* l_reclamos) {
 		string idReclamo;
-		int contIdIncorrecto = 0;
+		bool encontrado = false;
 		Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 0);
 		cin.ignore();
 		cout << "Ingresar Id del Reclamo: "; getline(cin, idReclamo);
@@ -453,13 +455,11 @@ public:
 			if (l_reclamos->obtenerPos(i)->getIdReclamo() == idReclamo)
 			{
 				l_reclamos->obtenerPos(i)->mostrarReclamo(ANCHO / 3, ALTO / 5 + 0);
-			}
-			else
-			{
-				contIdIncorrecto++;
+				encontrado = true;
+				break;
 			}
 		}
-		if (contIdIncorrecto == l_reclamos->longitud())
+		if (!encontrado)
 		{
 			Console::SetCursorPosition(ANCHO / 3, ALTO / 5 + 0);
 			cout << "No hay reclamos con ese ID!";
