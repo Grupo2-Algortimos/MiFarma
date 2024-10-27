@@ -116,6 +116,7 @@
     <ClInclude Include="Empleado.h" />
     <ClInclude Include="Entidad.h" />
     <ClInclude Include="Funciones.h" />
+    <ClInclude Include="HashTable.h" />
     <ClInclude Include="Libreria.h" />
     <ClInclude Include="Lista.h" />
     <ClInclude Include="MainInterfaz.h" />
