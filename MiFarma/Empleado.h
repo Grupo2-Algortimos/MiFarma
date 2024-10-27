@@ -31,13 +31,15 @@ public:
 
     //mostrar el empleado
     void mostrarEmpleado() {
-        cout << "ID Trabajador: " << getIdTrabajador() << endl;
-        cout << "Puesto: " << getPuesto() << endl;
-        cout << "Nombre: " << getNombre() << endl;
-        cout << "Apellido: " << getApellido() << endl;
-        cout << "Teléfono: " << getTelefono() << endl;
-        cout << "Sexo: " << getSexo() << endl;
-        cout << "Distrito: " << getDistrito() << endl;
+        cout << "ID Trabajador: " << getIdTrabajador() << endl; // 2 -> O(1)
+        cout << "Puesto: " << getPuesto() << endl; // 2 -> O(1)
+        cout << "Nombre: " << getNombre() << endl; // 2 -> O(1)
+        cout << "Apellido: " << getApellido() << endl; // 2 -> O(1)
+        cout << "Teléfono: " << getTelefono() << endl; // 2 -> O(1)
+        cout << "Sexo: " << getSexo() << endl; // 2 -> O(1)
+        cout << "Distrito: " << getDistrito() << endl; // 2 -> O(1)
     }
+    // Tiempo detallado: 14
+    // Tiempo asintótico: O(1)
 };
 

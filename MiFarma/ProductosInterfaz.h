@@ -22,30 +22,36 @@ public:
 
 	void dibujarCosmetico(int x, int y)
 	{
-		for (int i = 0; i < 5; i++)
+		for (int i = 0; i < 5; i++) // 5*(35) --> 175 --> O(1)
 		{
-			for (int j = 0; j < 5; j++)
+			for (int j = 0; j < 5; j++) // 5*(7) --> 35 --> O(1)
 			{
-				Console::SetCursorPosition(j + x, i + y);
-				Console::ForegroundColor = ConsoleColor(cosmetico[i][j]);
-				cout << char(219);
+				Console::SetCursorPosition(j + x, i + y);  // 3 -->O(1)
+				Console::ForegroundColor = ConsoleColor(cosmetico[i][j]); // 3 -->O(1)
+				cout << char(219); // 1 -->O(1)
 			}
 		}
-		Console::ForegroundColor = ConsoleColor(15);
+		Console::ForegroundColor = ConsoleColor(15); // 1 -->O(1)
 	}
+	// Tiempo detallado: 176
+	// Tiempo asintótico: O(1)
+
 	void dibujarFarmaco(int x, int y)
 	{
-		for (int i = 0; i < 5; i++)
+		for (int i = 0; i < 5; i++) // 5*(35) --> 175 --> O(1)
 		{
-			for (int j = 0; j < 5; j++)
+			for (int j = 0; j < 5; j++) // 5*(7) --> 35 --> O(1)
 			{
-				Console::SetCursorPosition(j + x, i + y);
-				Console::ForegroundColor = ConsoleColor(farmaco[i][j]);
-				cout << char(219);
+				Console::SetCursorPosition(j + x, i + y); // 3 -->O(1)
+				Console::ForegroundColor = ConsoleColor(farmaco[i][j]); // 3 -->O(1)
+				cout << char(219); // 1 -->O(1)
 			}
 		}
-		Console::ForegroundColor = ConsoleColor(15);
+		Console::ForegroundColor = ConsoleColor(15); // 1 -->O(1)
 	}
+	// Tiempo detallado: 176
+	// Tiempo asintótico: O(1)
+
 	void dibujarCruz(int x, int y)
 	{
 		for (int i = 0; i < 5; i++)
