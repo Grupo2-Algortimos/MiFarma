@@ -5,31 +5,31 @@
 using namespace std;
 //Recursivas
 // 
-//Contraseña de 10 caracteres máx
+//ContraseÃ±a de 10 caracteres mÃ¡x
 string generarContrasena(int caracterMax, string contrasena = "") {
-	string caracteresDisponibles = "abcdefghijklmnopqrstuvwxyz123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ@#!¡"; // -> 1 --> O(1)
+	string caracteresDisponibles = "abcdefghijklmnopqrstuvwxyz123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ@#!Â¡"; // -> 1 --> O(1)
 	if (caracterMax == 0) return contrasena; // --> 1+1 --> 2 --> O(1)
 	char caracter = caracteresDisponibles[rand() % caracteresDisponibles.length()]; // 4 --> O(1)
-	contrasena += caracter; // -->concatenación --> n --> O(n)
+	contrasena += caracter; // -->concatenaciÃ³n --> n --> O(n)
 	return generarContrasena(caracterMax - 1, contrasena); // (n-1)*7n
 }
 //Tiempo detallado: 7n^2 - 7n
-//Tiempo asintótico: O(n^2)
+//Tiempo asintÃ³tico: O(n^2)
 
-//Usuario de 15 caracteres máx
+//Usuario de 15 caracteres mÃ¡x
 string generarNombreUsuario(int caracterMax, string nombreUsuario, string userNombre) {
-	string caracteresDisponibles = "123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ@#!¡"; // -> 1 --> O(1)
+	string caracteresDisponibles = "123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ@#!Â¡"; // -> 1 --> O(1)
 	if (caracterMax == 10) return nombreUsuario; // --> 2 --> O(1)
 	else if (caracterMax == 0) nombreUsuario += userNombre; // --> 1 + n --> O(n)
 	char caracter = caracteresDisponibles[rand() % caracteresDisponibles.length()]; // 4 --> O(1)
-	nombreUsuario += caracter; // -->concatenación --> n --> O(n)
+	nombreUsuario += caracter; // -->concatenaciÃ³n --> n --> O(n)
 	return generarNombreUsuario(caracterMax + 1, nombreUsuario, userNombre); // (n)*(n+7)
 }
 //Tiempo detallado: 7n^2 + 7n
-//Tiempo asintótico: O(n^2)
+//Tiempo asintÃ³tico: O(n^2)
 
 
-//Función para retornar el Producto con mayor cantidad en el almacén
+//FunciÃ³n para retornar el Producto con mayor cantidad en el almacÃ©n
 Producto<string>* buscarProductoConMasCantidad(Lista<Producto<string>*>* l_productos, int index = 0, Producto<string>* maxCant = nullptr) {
 	if (index >= l_productos->longitud()) return maxCant; 
 	Producto<string>* productoActual = l_productos->obtenerPos(index); 
@@ -40,7 +40,7 @@ Producto<string>* buscarProductoConMasCantidad(Lista<Producto<string>*>* l_produ
 }
 
 //Lambdas
-//Función lambda que retorna un string de la fecha y hora -> Se obtuvo cierto apoyo del ChatGPT
+//FunciÃ³n lambda que retorna un string de la fecha y hora -> Se obtuvo cierto apoyo del ChatGPT
 auto obtenerFechaYHora = [] {
 	auto t = time(nullptr); // --> 2 --> O(1)
 	auto tm = *localtime(&t); // --> 2 --> O(1)
@@ -51,7 +51,7 @@ auto obtenerFechaYHora = [] {
 	return ss.str(); // --> 1 --> O(1)
 };
 //Tiempo detallado: 7
-//Tiempo asintótico: O(1)
+//Tiempo asintÃ³tico: O(1)
 
 //Ordenamiento:
 //
@@ -121,4 +121,26 @@ string convertirStringMinuscula(string str) {
 	return str; // 1 --> O(1)
 }
 // Tiempo detallado: n + 1
-// Tiempo asintótico: O(n)
+// Tiempo asintÃ³tico: O(n)
+
+//Funcion para calcular cuantos productos hay por categoria
+int contarProductosPorCategoria(Lista<Producto<string>*>* l_productos, string categoria) {
+	int cantidad = 0;
+	for (int i = 0; i < l_productos->longitud(); i++)
+	{
+		if (l_productos->obtenerPos(i)->getCategoria() == categoria) {
+			cantidad++;
+		}
+	}
+	return cantidad;
+}
+
+int obtenerPrimerProductoPorCategoria(Lista<Producto<string>*>* l_productos, string categoria) {
+	for (int i = 0; i < l_productos->longitud(); i++)
+	{
+		if (l_productos->obtenerPos(i)->getCategoria() == categoria) {
+			return i;
+		}
+	}
+	return -1;
+}
