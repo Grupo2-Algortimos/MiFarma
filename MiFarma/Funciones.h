@@ -113,3 +113,25 @@ string convertirStringMinuscula(string str) {
 	transform(str.begin(), str.end(), str.begin(), ::tolower);
 	return str;
 }
+
+//Funcion para calcular cuantos productos hay por categoria
+int contarProductosPorCategoria(Lista<Producto<string>*>* l_productos, string categoria) {
+	int cantidad = 0;
+	for (int i = 0; i < l_productos->longitud(); i++)
+	{
+		if (l_productos->obtenerPos(i)->getCategoria() == categoria) {
+			cantidad++;
+		}
+	}
+	return cantidad;
+}
+
+int obtenerPrimerProductoPorCategoria(Lista<Producto<string>*>* l_productos, string categoria) {
+	for (int i = 0; i < l_productos->longitud(); i++)
+	{
+		if (l_productos->obtenerPos(i)->getCategoria() == categoria) {
+			return i;
+		}
+	}
+	return -1;
+}

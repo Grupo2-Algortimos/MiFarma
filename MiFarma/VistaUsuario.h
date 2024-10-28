@@ -112,23 +112,14 @@ public:
 					}
 				}
 			}
-			if (!usuario_encontrado)
+			if (!usuario_encontrado || !contrasena_correcta)
 			{
 				system("cls");
 				mainInterfaz->encuadrar();
 				Console::SetCursorPosition(ANCHO / 3, ALTO / 3 + 0);
-				cout << "El usuario ingresado es incorrecto....";
+				cout << "El usuario o contrasena ingresado es incorrecto....";
 				salir = true;
 			}
-			if (!contrasena_correcta)
-			{
-				system("cls");
-				mainInterfaz->encuadrar();
-				Console::SetCursorPosition(ANCHO / 3, ALTO / 3 + 0);
-				cout << "La contrasena ingresada es incorrecta....";
-				salir = true;
-			}
-
 		}
 	}
 
@@ -334,29 +325,6 @@ public:
 					cout << l_productos->obtenerPos(i)->getNombre() << " : S/" << l_productos->obtenerPos(i)->getPrecio();
 					contEspacios++;					
 				}					
-			}
-			Console::SetCursorPosition(ANCHO / 6, ALTO / 5 + 2 + contEspacios);			
-			cout << "Para mostrar mas presione espacio..."; 
-			tecla = getch();
-			if (tecla == ' ')
-			{
-				system("cls");
-				mainInterfaz->encuadrar();
-				Console::SetCursorPosition(2, 2);
-				cout << "Usuario: " << usuario_actual->getNombre();
-				Console::SetCursorPosition(ANCHO / 6, ALTO / 5 + 0);
-				cout << "=============:: Productos ::=============";
-				contEspacios = 0;
-				for (int i = 10; i < l_productos->longitud(); i++)
-				{
-					if (contEspacios > 10) break;
-					if (l_productos->obtenerPos(i)->getCategoria() == categoria)
-					{
-						Console::SetCursorPosition(ANCHO / 6, ALTO / 5 + 1 + contEspacios);
-						cout << l_productos->obtenerPos(i)->getNombre() << " : S/" << l_productos->obtenerPos(i)->getPrecio();
-						contEspacios++;
-					}
-				}
 			}
 			Console::SetCursorPosition(ANCHO / 6, ALTO / 5 + 3 + contEspacios);
 			cin.ignore();
