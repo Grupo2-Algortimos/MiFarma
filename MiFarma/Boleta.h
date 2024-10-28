@@ -49,9 +49,12 @@ public:
 	{
 		auto obtenerVuelto = [](T montoUsuario, T costoPedido)
 		{
-				return (stod(montoUsuario) - stod(costoPedido));
+				return (stod(montoUsuario) - stod(costoPedido)); // 4 --> O(1)
 		};
-		return obtenerVuelto(getMontoUsuario(), getCostoPedido());
+		return obtenerVuelto(getMontoUsuario(), getCostoPedido()); // 3 --> O(1)
+
+		// Tiempo detallado: 7
+		// Tiempo asintótico: O(1)
 	}
 };
 
