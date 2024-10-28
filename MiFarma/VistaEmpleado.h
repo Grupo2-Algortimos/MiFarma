@@ -665,7 +665,7 @@ public:
 		string nombre, telefono, distrito, producto;
 		Proveedor* auxProve;
 		Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 0);
-		cout << "=============:: Ingresar Producto ::=============";
+		cout << "=============:: Ingresar Proveedor ::=============";
 		Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 1);
 		cout << "Ingresar Nombre del Proveedor: "; cin >> nombre;
 		Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 2);
