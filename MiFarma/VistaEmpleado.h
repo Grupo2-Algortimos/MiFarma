@@ -183,10 +183,12 @@ public:
 			Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 9);
 			cout << "[9] Actualizar Logistica";
 			Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 10);
-			cout << "[10] Salir";
+			cout << "[10] Buscar Usuario";
 			Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 11);
+			cout << "[11] Salir";
+			Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 12);
 			cout << "Seleccione una opcion : "; cin >> opcionM;
-			if (opcionM == 10)break;
+			if (opcionM == 11)break;
 			system("cls");
 			mainInterfaz->encuadrar();
 			switch (opcionM)
@@ -219,6 +221,9 @@ public:
 				break;
 			case 9:
 				actualizarLogistica();
+				break;
+			case 10:
+				buscarUsuario();
 				break;
 			}
 			system("pause>>null");
@@ -841,5 +846,49 @@ public:
 	void actualizarLogistica()
 	{
 
+	}
+
+	void lecturaArchivoUsuario() {
+		ifstream archIN;
+		archIN.open(archivoUsuarios, ios::in); //Apertura
+		if (!archIN.is_open())
+		{
+			cout << "Error: No se pudo abrir el archivo !!!";
+			exit(1);
+		}
+		string linea;
+		char delimitador = '|'; //Separador de cada columna de la línea
+		int i = 0;
+		Usuario* auxU;
+		// Encabezado: Leemos la primera línea para descartarla, pues es el encabezado
+		getline(archIN, linea);
+		// Contenido: Leemos todas las líneas
+		while (getline(archIN, linea))
+		{
+			stringstream stream(linea); // Convertir la cadena a un stream			
+			string user, password, nombre, apellido, telefono, sexo, distrito, dinero;
+			// Extraer todos los valores de esa fila [considerando 3 columans]
+			getline(stream, user, delimitador);
+			getline(stream, password, delimitador);
+			getline(stream, nombre, delimitador);
+			getline(stream, apellido, delimitador);
+			getline(stream, telefono, delimitador);
+			getline(stream, sexo, delimitador);
+			getline(stream, distrito, delimitador);
+			getline(stream, dinero, delimitador);
+			//insertar datos en la tablahash
+			hashTable.insert(new Usuario(user, password, nombre, apellido, telefono, sexo, distrito, stod(dinero)));
+			
+		}
+		// Cerramos Archivo
+		archIN.close();
+	}
+
+	void buscarUsuario() {	
+		lecturaArchivoUsuario();
+		mainInterfaz->encuadrar();
+		Console::SetCursorPosition(ANCHO / 3, ALTO / 7 + 0);
+		cout << "===========:: lista de usuarios::===========" << endl;
+		hashTable.DispAll();
 	}
 };
