@@ -2,6 +2,7 @@
 #include"VistaUsuario.h"
 #include"VistaEmpleado.h"
 
+
 class ControllerProgram {
 private:
 	//declarando lista
@@ -24,6 +25,9 @@ private:
 	//Declarando vistas
 	VistaUsuario* vistaUsuario;
 	VistaEmpleado* vistaEmpleado;
+
+	// hashtable
+	HashTablaA hashTable;
 
 	// Otras variables
 	int cont_productos_comprados;
@@ -279,6 +283,7 @@ public:
 
 			auxU = new Usuario(user, password, nombre, apellido, telefono, sexo, distrito, stod(dinero));
 			l_usuarios->agregaPos(auxU, i);
+			hashTable.insert(new Usuario(user, password, nombre, apellido, telefono, sexo, distrito, stod(dinero)));
 			i++;
 		}
 		// Cerramos Archivo
