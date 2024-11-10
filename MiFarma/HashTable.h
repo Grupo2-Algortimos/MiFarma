@@ -10,7 +10,7 @@ using namespace std;
 
 class HashTablaA {
 private:
-	vector<list<Usuario>> theLists;   // Tabla: vector cuyo cada elemento es una Lista de Nodos Hash(key, value)
+	vector<list<Usuario*>> theLists;   // Tabla: vector cuyo cada elemento es una Lista de Nodos Hash(key, value)
 	int  currentSize;	//Tamaño del vector
 
 public:
@@ -19,15 +19,19 @@ public:
 		theLists.resize(101);	//Resize al vector, para que tenga 101 elementos: 101 listas de Nodos Hash(key, value)
 	}
 
+	int getsize() {
+		return theLists.size();
+	}
+
 	void makeEmpty()
 	{
 		for (auto& thisList : theLists)
 			thisList.clear();
 	}
 
-	bool insert(Usuario&& x)
+	bool insert(Usuario*&& x)
 	{
-		auto& whichList = theLists[myhash(x.getNombre(),x.getApellido())]; //Del vector, obtenemos la lista de elementos según el hash(indice) obtenido
+		auto& whichList = theLists[myhash(x->getNombre(),x->getApellido())]; //Del vector, obtenemos la lista de elementos según el hash(indice) obtenido
 
 		whichList.push_back(x); //Agregamos el nuevo elemento(key, value) a la lista del hash(indice)
 
@@ -36,14 +40,18 @@ public:
 
 	void DispAll() {
 		int pos = 0;
+		int contEspacios = 0;
 		for (auto& thisList : theLists) {		// Recorremos el vector<>
+			if (contEspacios > 18) break;
+			Console::SetCursorPosition(ANCHO / 6, ALTO / 5 + 1 + contEspacios);
 			cout << "Key: " + to_string(pos) << " | ";
 			for (auto& it : theLists[pos]) {	// Recorremos la Lista de cada indice del vector	
-				cout << it.getNombre() << ",";		// Imprime key
+				cout << it->getNombre() << ",";		// Imprime key
 				//cout << "(" << it.getKey() << ", " << it.getValue() << "); ";	// Imprime (key,value)
 			}
 			cout << endl;
 			pos++;
+			contEspacios++;
 		}
 	}
 
@@ -59,7 +67,7 @@ private:
 		for (char d : b) {
 			sumaApellido += static_cast<int>(d);  // Obtiene el código ASCII del carácter
 		}
-		int operacion = (sumaNombre + sumaApellido) / 3;
+		int operacion = (sumaNombre + sumaApellido) *50 / 2 ;
 		return operacion;
 	}
 
