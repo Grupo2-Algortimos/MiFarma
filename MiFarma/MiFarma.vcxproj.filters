@@ -69,6 +69,9 @@
     <ClInclude Include="HashTable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Pila.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="SedeAsignada.h">
       <Filter>Header Files</Filter>
     </ClInclude>

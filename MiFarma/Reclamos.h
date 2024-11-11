@@ -15,6 +15,18 @@ private:
 	T detalle;
 	T pedido;
 public:
+	Reclamo()
+	{
+		this->iDReclamo = " ";
+		this->fecha = " ";
+		this->nombre = " ";
+		this->telefono = " ";
+		this->distrito = " ";
+		this->nombreProducto = " ";
+		this->tipo = " ";
+		this->detalle = " ";
+		this->pedido = " ";
+	}
 	Reclamo(T _idReclamo, T _fecha, T _nombre, T _telefono, T _distrito, T _nombreProducto, T _tipo, T _detalle, T _pedido)
 	{
 		this->iDReclamo = _idReclamo;
