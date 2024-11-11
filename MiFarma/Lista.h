@@ -1,5 +1,6 @@
 #include "Nodo.h"
 #include <functional>
+#include "Producto.h"
 
 typedef unsigned int uint;
 template <class T>
@@ -46,6 +47,7 @@ public:
     string buscarUsuario(T elem);
     string buscarPassword(T elem);
     string buscarProducto(T elem);
+    void eliminarProducto(string producto);
 
 
     //~Lista(void);
@@ -131,6 +133,42 @@ string Lista<T>::buscarProducto(T elem) {
     return "";
 }
 
+template<class T>
+void Lista<T>::eliminarProducto(string producto) {
+    Nodo<T>* actual = ini;
+    Nodo<T>* anterior = nullptr;
+
+    while (actual != nullptr) {
+        Producto<string>* producto_actual = dynamic_cast<Producto<string>*>(actual->elem);
+
+        // Comparar el nombre del producto
+        if (producto_actual != nullptr && Comp(producto_actual->getNombre(), producto)) {
+            if (anterior == nullptr) {
+                // Si el producto a eliminar está en el primer nodo
+                ini = actual->sigte;
+            }
+            else {
+                // Saltar el nodo actual ajustando el puntero del anterior
+                anterior->sigte = actual->sigte;
+            }
+
+            // Liberar el nodo y su elemento
+            delete actual->elem;
+            delete actual;
+
+            // Disminuir el contador de longitud de la lista
+            lon--;          
+
+            break;
+        }
+
+        // Avanzar al siguiente nodo
+        anterior = actual;
+        actual = actual->sigte;
+    }
+   
+}
+
 
 
 template <class T>
@@ -155,7 +193,7 @@ void Lista<T>::agregaPos(T elem, uint pos) {
 }
 template <class T>
 void Lista<T>::agregaFinal(T elem) {
-    agregarPos(elem, lon); // ;)
+    agregaPos(elem, lon); // ;)s
 }
 
 template <class T>
@@ -170,6 +208,26 @@ void Lista<T>::eliminaInicial() {
 
 template <class T>
 void Lista<T>::eliminaPos(uint pos) {
+    if (pos >= size)return;
+    if (pos == 0) {
+        eliminaInicial();
+    }
+    else if (pos >= 1 && pos < size) {
+        Nodo<T>* aux = ini;
+        Nodo<T>* nodo_remove;
+        for (int i = 1; i < pos; i++)
+        {
+            aux = aux->sgte;
+        }
+        nodo_remove = aux->sgte;
+        aux->sgte = nodo_remove->sgte;
+        if (nodo_remove->sgte != nullptr)
+            nodo_remove->sgte = aux;
+
+        delete nodo_remove;
+        size--;
+    }
+
 }
 template <class T>
 void Lista<T>::eliminaFinal() {
