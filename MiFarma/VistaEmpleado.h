@@ -187,12 +187,14 @@ public:
 			Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 9);
 			cout << "[9] Actualizar Logistica";
 			Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 10);
-			cout << "[10] Buscar Usuario";
+			cout << "[10] Generar Usuarios";
 			Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 11);
-			cout << "[11] Salir";
+			cout << "[11] Buscar Usuario";
 			Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 12);
+			cout << "[12] Salir";
+			Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 13);
 			cout << "Seleccione una opcion : "; cin >> opcionM;
-			if (opcionM == 11)break;
+			if (opcionM == 12)break;
 			system("cls");
 			mainInterfaz->encuadrar();
 			switch (opcionM)
@@ -227,6 +229,9 @@ public:
 				actualizarLogistica();
 				break;
 			case 10:
+				crearDataSet();
+				break;
+			case 11:
 				buscarUsuario();
 				break;
 			}
@@ -949,6 +954,91 @@ public:
 	void actualizarLogistica()
 	{
 
+	}
+
+	void crearDataSet() {
+		system("cls");
+		int N;
+		Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 0);
+		cout << "=============:: Crear Usuarios ::=============";
+		Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 1);
+		cout << "Elegir el numero de usuarios a generar: "; cin >> N;
+
+		string arrNombresH[25] = {
+			"Carlos", "Juan", "Luis", "Pedro", "Jorge",
+			"Miguel", "Andres", "Jose", "Ricardo", "Eduardo",
+			"Francisco", "Antonio", "Manuel", "Alejandro", "Raul",
+			"Javier", "Fernando", "Sergio", "Pablo", "Hector",
+			"David", "Roberto", "Cristian", "Diego", "Ramiro"
+		};
+		string arrNombresM[25] = {
+			"Maria", "Ana", "Luisa", "Carmen", "Laura",
+			"Isabel", "Sofia", "Paula", "Gabriela", "Patricia",
+			"Sandra", "Veronica", "Claudia", "Andrea", "Natalia",
+			"Monica", "Rosa", "Silvia", "Yolanda", "Luz",
+			"Lorena", "Daniela", "Adriana", "Lucia", "Florencia"
+		};
+		string arrApellidos[50] = {
+			"Garcia", "Rodriguez", "Martinez", "Lopez", "Hernandez",
+			"Perez", "Gonzalez", "Sanchez", "Ramirez", "Torres",
+			"Flores", "Rivera", "Gomez", "Diaz", "Cruz",
+			"Morales", "Ortiz", "Gutierrez", "Chavez", "Ramos",
+			"Vargas", "Castillo", "Jimenez", "Moreno", "Mendoza",
+			"Romero", "Paredes", "Navarro", "Molina", "Silva",
+			"Rojas", "Suarez", "Herrera", "Medina", "Vega",
+			"Mejia", "Campos", "Escobar", "Reyes", "Caballero",
+			"Rios", "Ponce", "Maldonado", "Fuentes", "Carrasco",
+			"Bravo", "Aguilar", "Castro", "Soto", "Reynoso"
+		};
+		string celular = "9";
+		string distritoLimaMetro[] = {
+			"Ancon","Brena", "Santa Rosa", "Carabayllo", "Puente Piedra", "San Martin de Porres",
+			"Los Olivos", "Comas", "Independencia", "Rimac", "Cercado de Lima",
+			"Breña", "Jesus Maria", "Pueblo Libre", "San Miguel", "Magdalena del Mar",
+			"Lince", "La Victoria", "San Isidro", "Miraflores", "Barranco",
+			"Chorrillos", "San Juan de Lurigancho", "El Agustino", "Ate",
+			"Santa Anita", "La Molina", "San Borja", "Surquillo", "Santiago de Surco",
+			"Villa Maria del Triunfo", "Villa El Salvador", "San Juan de Miraflores",
+			"Pachacamac", "Cieneguilla", "Lurigancho", "Lurin", "Punta Hermosa",
+			"Punta Negra", "San Bartolo", "Santa Maria del Mar", "Pucusana", "Chaclacayo", "Callao"
+		};
+
+		srand(time(NULL));
+
+		ofstream archivo("usuariosGenerados.txt");
+		if (!archivo) {
+			cout << "Error al crear el archivo." << endl;
+			return;
+		}
+		for (int i = 0; i < N; ++i) {
+			bool esHombre = (rand() % 2 == 0);
+			string nombre = esHombre ? arrNombresH[rand() % 25] : arrNombresM[rand() % 25];
+			string apellido = arrApellidos[rand() % 50];
+			string sexoElegido = esHombre ? "M" : "F";
+			string nomUsuario = generarNombreUsuario(0, "", nombre);
+			string password = generarContrasena(8);
+
+			string telefono = "9";
+			for (int j = 0; j < 8; ++j) {
+				telefono += to_string(rand() % 10);
+			}
+
+			for (int j = 0; j < 8; ++j) {
+				password += 'A' + rand() % 26;
+			}
+
+			string distrito = distritoLimaMetro[rand() % 43];
+
+			int dinero = rand() % 1001;
+
+			archivo << nomUsuario << "|" << password << "|" << nombre << "|" << apellido << "|" << telefono << "|" << sexoElegido << "|" << distrito << "|" << dinero << "|\n";
+		}
+
+		archivo.close();
+		Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 3);
+		cout << "Usuarios generados con exito.";
+		
+		
 	}
 
 	void lecturaArchivoUsuario() {
