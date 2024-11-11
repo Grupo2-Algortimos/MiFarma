@@ -4,7 +4,6 @@ class Nodo {
 public:
 	T elem;
 	Nodo* sigte;
-public:
 	Nodo() {
 		sigte = nullptr;
 	}
