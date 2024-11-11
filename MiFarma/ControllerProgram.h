@@ -179,7 +179,7 @@ public:
 			getline(stream, detalle, delimitador);
 			getline(stream, pedido, delimitador);
 			auxR = new Reclamo<string>(iDReclamo, fecha, nombre, telefono, distrito, nombreProducto, tipo, detalle, pedido);
-			l_reclamos->agregaPos(auxR, i);
+			//l_reclamos->agregaPos(auxR, i);
 			i++;
 		}
 		// Cerramos Archivo

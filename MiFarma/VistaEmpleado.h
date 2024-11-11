@@ -5,6 +5,7 @@
 #include"Funciones.h"
 #include"ProductosInterfaz.h"
 #include "HashTable.h"
+#include "Pila.h"
 class VistaEmpleado
 {
 private:
@@ -12,12 +13,14 @@ private:
 	MainInterfaz* mainInterfaz;
 	ProductosInterfaz* productosInterfaz;
 	HashTablaA hashTable;
+	Pila<Reclamo<string>*>* p_reclamo;
 public:
 	VistaEmpleado()
 	{
 		//Interfaces o decoracion
 		mainInterfaz = new MainInterfaz();
 		productosInterfaz = new ProductosInterfaz();
+		p_reclamo = new Pila<Reclamo<string>*>();
 	}
 
 	~VistaEmpleado()
@@ -589,10 +592,50 @@ public:
 
 	}
 
+	void lecturaArchivoReclamo() {
+		ifstream archIN;
+		archIN.open(archivoReclamo, ios::in); //Apertura
+		if (!archIN.is_open())
+		{
+			cout << "Error: No se pudo abrir el archivo !!!";
+			exit(1);
+		}
+		string linea;
+		char delimitador = '|'; //Separador de cada columna de la línea
+		int i = 0;
+		Reclamo<string>* auxR;
+		// Encabezado: Leemos la primera línea para descartarla, pues es el encabezado
+		getline(archIN, linea);
+		// Contenido: Leemos todas las líneas
+		while (getline(archIN, linea))
+		{
+			stringstream stream(linea); // Convertir la cadena a un stream			
+			string iDReclamo, fecha, nombre, telefono, distrito, nombreProducto, tipo, detalle, pedido;
+			// Extraer todos los valores de esa fila [considerando 3 columans]
+			getline(stream, iDReclamo, delimitador);
+			getline(stream, fecha, delimitador);
+			getline(stream, nombre, delimitador);
+			getline(stream, telefono, delimitador);
+			getline(stream, distrito, delimitador);
+			getline(stream, nombreProducto, delimitador);
+			getline(stream, tipo, delimitador);
+			getline(stream, detalle, delimitador);
+			getline(stream, pedido, delimitador);
+			auxR = new Reclamo<string>(iDReclamo, fecha, nombre, telefono, distrito, nombreProducto, tipo, detalle, pedido);
+			p_reclamo->apilar(auxR);
+			i++;
+		}
+		// Cerramos Archivo
+		archIN.close();
+	}
+
 	void buscarReclamos(Lista<Reclamo<string>*>* l_reclamos) {
+		lecturaArchivoReclamo();
+		bool escape = false;
 		string idReclamo;
 		int opcModo, contReclamos = 0, opcionMover;
 		bool encontrado = false;
+		Reclamo<string>* auxReclamo = new Reclamo<string>();
 		Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 0);
 		cout << "=============:: Buscar Reclamo ::=============";
 		Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 1);
@@ -606,12 +649,17 @@ public:
 		switch (opcModo)
 		{
 		case 1:
-			while (true)
+			do
 			{
-				system("cls");
+				auxReclamo = p_reclamo->desapilar();
+				l_reclamos->agregaFinal(auxReclamo);
+			} while (!p_reclamo->esVacia());						
+			while (escape == false)
+			{
+				system("cls");				
 				mainInterfaz->encuadrar();
 				Console::SetCursorPosition(ANCHO / 6, ALTO / 6 + 0);
-				cout << "=============:: Reclamos ::=============";
+				cout << "=============:: Reclamos ::=============";				
 				l_reclamos->obtenerPos(contReclamos)->mostrarReclamo(ANCHO / 6, ALTO / 6 + 1);
 				Console::SetCursorPosition(ANCHO - 40, ALTO / 5 + 1);
 				cout << "[1] Mover siguiente reclamo";
@@ -629,7 +677,7 @@ public:
 				case 1:
 					if (contReclamos < l_reclamos->longitud() - 1)
 					{
-						contReclamos++;
+						contReclamos++;						
 					}
 					break;
 				case 2:
@@ -638,8 +686,8 @@ public:
 						contReclamos--;
 					}
 					break;
-				}
-			}
+				}					
+			}			
 			break;
 		case 2:
 			Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 0);
