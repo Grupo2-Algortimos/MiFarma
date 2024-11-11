@@ -10,7 +10,7 @@ private:
 	//Declaron Interfaces
 	MainInterfaz* mainInterfaz;
 	ProductosInterfaz* productosInterfaz;
-	int cantProducto;
+	int cantProducto;	
 public:
 	VistaUsuario()
 	{
@@ -197,7 +197,7 @@ public:
 
 		system("cls");
 		mainInterfaz->encuadrar();
-		auxUsuario = new Usuario(user, password, nombre, apellido, telefono, sexo, distrito, dinero);
+		auxUsuario = new Usuario(user, password, nombre, apellido, telefono, sexo, distrito, dinero);		
 		//Lista Usuarios -> Agregar
 		Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 0);
 		cout << "Usuario creado: " << auxUsuario->getUser();
