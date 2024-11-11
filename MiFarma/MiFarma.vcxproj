@@ -116,6 +116,7 @@
     <ClInclude Include="Empleado.h" />
     <ClInclude Include="Entidad.h" />
     <ClInclude Include="Funciones.h" />
+    <ClInclude Include="Grafo.h" />
     <ClInclude Include="HashTable.h" />
     <ClInclude Include="Libreria.h" />
     <ClInclude Include="Lista.h" />
@@ -127,6 +128,7 @@
     <ClInclude Include="ProductosInterfaz.h" />
     <ClInclude Include="Proveedor.h" />
     <ClInclude Include="Reclamos.h" />
+    <ClInclude Include="SedeAsignada.h" />
     <ClInclude Include="Usuario.h" />
     <ClInclude Include="VistaEmpleado.h" />
     <ClInclude Include="VistaUsuario.h" />
