@@ -1,12 +1,6 @@
 #pragma once
-#include <iostream>
-#include <vector>
-#include <string>
-#include <list>
-#include <string>
+#include"Libreria.h"
 #include "Usuario.h"
-
-using namespace std;
 
 class HashTablaA {
 private:

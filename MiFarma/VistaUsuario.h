@@ -3,7 +3,6 @@
 #include"Boleta.h"
 #include"ProductosInterfaz.h"
 #include"Reclamos.h"
-#include <conio.h>
 class VistaUsuario
 {
 private:
@@ -223,7 +222,7 @@ public:
 			Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 0);
 			cout << "=============:: User Menu ::=============";
 			Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 1);
-			cout << "[1] Listar Productos";
+			cout << "[1] Agregar Productos";
 			Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 2);
 			cout << "[2] Ver Carrito";
 			Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 3);
@@ -240,7 +239,7 @@ public:
 			switch (opcionM)
 			{
 			case 1:
-				listarProducto(l_productos, l_productos_comprados, usuario_actual, cont_productos_comprados);
+				agregarProducto(l_productos, l_productos_comprados, usuario_actual, cont_productos_comprados);
 				break;
 			case 2:
 				verCarrito(l_productos_comprados, pedido_usuario, c_pedidos, usuario_actual);
@@ -256,7 +255,7 @@ public:
 		}
 	}
 
-	void listarProducto(Lista<Producto<string>*>* l_productos, Lista<Producto<string>*>* l_productos_comprados, Usuario*& usuario_actual,
+	void agregarProducto(Lista<Producto<string>*>* l_productos, Lista<Producto<string>*>* l_productos_comprados, Usuario*& usuario_actual,
 		int &cont_productos_comprados)
 	{
 		int opcionesC;
@@ -369,7 +368,7 @@ public:
 			Console::SetCursorPosition(2, 2);
 			cout << "Usuario: " << usuario_actual->getNombre();
 			Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 1);
-			cout << "No has listado ningun producto!";
+			cout << "No has agregado ningun producto!";
 		}
 		else
 		{
@@ -449,7 +448,7 @@ public:
 			Console::SetCursorPosition(2, 2);
 			cout << "Usuario: " << usuario_actual->getNombre();
 			Console::SetCursorPosition(ANCHO / 3, ALTO / 3 + 0);
-			cout << "No has listado ningun producto!";
+			cout << "No has agregado ningun producto!";
 		}
 		else
 		{
