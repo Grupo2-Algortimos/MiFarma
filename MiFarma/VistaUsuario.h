@@ -3,6 +3,7 @@
 #include"Boleta.h"
 #include"ProductosInterfaz.h"
 #include"Reclamos.h"
+#include"ArbolBinario.h"
 class VistaUsuario
 {
 private:
@@ -27,7 +28,7 @@ public:
 
 	void vistaUsuarioPantalla(Lista<Producto<string>*>* l_productos, Lista<Producto<string>*>* l_productos_comprados, int& cont_productos_comprados,
 		Lista<Usuario*>* l_usuarios, Usuario* usario_actual, Pedido* &pedido_usuario, queue<Pedido*> &c_pedidos, Lista<Reclamo<string>*>* l_reclamos,
-		Lista<Boleta<string>*>* l_boletas)
+		Lista<Boleta<string>*>* l_boletas, ArbolBinario<int>* ab_productos_id)
 	{
 		int op = 0;
 		int i = 0;
@@ -52,7 +53,7 @@ public:
 				system("cls");
 				mainInterfaz->encuadrar();
 				loginUsuario(l_productos, l_productos_comprados, cont_productos_comprados, l_usuarios, usario_actual,
-					pedido_usuario, c_pedidos, l_reclamos, l_boletas);
+					pedido_usuario, c_pedidos, l_reclamos, l_boletas, ab_productos_id);
 				break;
 			case 2:
 				system("cls");
@@ -70,7 +71,7 @@ public:
 
 	void loginUsuario(Lista<Producto<string>*>* l_productos, Lista<Producto<string>*>* l_productos_comprados, int& cont_productos_comprados, 
 		Lista<Usuario*>* l_usuarios, Usuario* usuario_actual, Pedido* &pedido_usuario, queue<Pedido*> &c_pedidos, Lista<Reclamo<string>*>* l_reclamos,
-		Lista<Boleta<string>*>* l_boletas) 
+		Lista<Boleta<string>*>* l_boletas, ArbolBinario<int>* ab_productos_id)
 	{
 		string user, password;
 		bool salir = false;
@@ -105,7 +106,7 @@ public:
 						cout << "Ingreso exitoso...";
 						system("pause>>null");
 						userOpciones(l_productos, l_productos_comprados, cont_productos_comprados, usuario_actual, pedido_usuario, c_pedidos,
-							l_reclamos, l_boletas);
+							l_reclamos, l_boletas, ab_productos_id);
 						salir = true;
 						break;
 					}
@@ -122,6 +123,40 @@ public:
 		}
 	}
 
+	void sobrescribirArchivo(Lista<Usuario*>* l_usuarios) {
+		ofstream archOUT;
+		archOUT.open(archivoUsuarios, ios::out); // Apertura en modo de salida (sobrescribe el archivo)
+		if (!archOUT.is_open()) {
+			cout << "Error: No se pudo abrir el archivo para escribir!!!" << endl;
+			exit(1);
+		}
+
+		// Información de ejemplo, en un caso real podrías generar o recibir estos datos.
+
+
+		// Escribir encabezado
+		archOUT << "usuario|password|nombre|apellido|telefono|sexo|distrito|dinero|" << endl;
+
+		// Escribir cada reclamo en el archivo
+		for (uint i = 0; i < l_usuarios->longitud(); i++) {
+			Usuario* usuario = l_usuarios->obtenerPos(i);
+			if (usuario != nullptr) { // Verificar que el empleado no sea nullptr
+				archOUT << usuario->getUser() << "|"
+					<< usuario->getPassword() << "|"
+					<< usuario->getNombre() << "|"
+					<< usuario->getApellido() << "|"
+					<< usuario->getTelefono() << "|"
+					<< usuario->getSexo() << "|"
+					<< usuario->getDistrito() << "|"
+					<< usuario->getDinero() << endl;
+			}
+		}
+
+		// Cerramos el archivo
+		archOUT.close();
+		cout << "Archivo sobrescrito exitosamente." << endl;
+	}
+	
 	void registerUsuario(int i, Lista<Usuario*>* l_usuarios) {
 		string nombre, apellido, telefono, sexo, distrito;
 		string user, password;
@@ -203,11 +238,12 @@ public:
 		Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 1);
 		cout << "Contrasena creada: " << auxUsuario->getPassword();
 		l_usuarios->agregaPos(auxUsuario, i);
+		sobrescribirArchivo(l_usuarios);
 		system("pause>>null");
 	}
 
-	void userOpciones(Lista<Producto<string>*>* l_productos, Lista<Producto<string>*>* l_productos_comprados, int &cont_productos_comprados,
-		Usuario* usuario_actual, Pedido* &pedido_usuario, queue<Pedido*> &c_pedidos, Lista<Reclamo<string>*>* l_reclamos, Lista<Boleta<string>*>* l_boletas) {
+	void userOpciones(Lista<Producto<string>*>* l_productos, Lista<Producto<string>*>* l_productos_comprados, int &cont_productos_comprados, Usuario* usuario_actual,
+		Pedido* &pedido_usuario, queue<Pedido*> &c_pedidos, Lista<Reclamo<string>*>* l_reclamos, Lista<Boleta<string>*>* l_boletas, ArbolBinario<int>* ab_productos_id) {
 		int opcionM;
 		int i = 0;
 		int p = 0;
@@ -222,32 +258,37 @@ public:
 			Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 0);
 			cout << "=============:: User Menu ::=============";
 			Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 1);
-			cout << "[1] Agregar Productos";
+			cout << "[1] Ver todos los productos";
 			Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 2);
-			cout << "[2] Ver Carrito";
+			cout << "[2] Agregar Productos";
 			Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 3);
-			cout << "[3] Ingresar Reclamo";
+			cout << "[3] Ver Carrito";
 			Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 4);
-			cout << "[4] Comprar Productos";
+			cout << "[4] Ingresar Reclamo";
 			Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 5);
-			cout << "[5] Salir";
+			cout << "[5] Comprar Productos";
 			Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 6);
+			cout << "[6] Salir";
+			Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 7);
 			cout << "Seleccione una opcion : "; cin >> opcionM;
-			if (opcionM == 5) break;
+			if (opcionM == 6) break;
 			system("cls");
 			mainInterfaz->encuadrar();
 			switch (opcionM)
 			{
 			case 1:
-				agregarProducto(l_productos, l_productos_comprados, usuario_actual, cont_productos_comprados);
+				verProductos(l_productos, ab_productos_id);
 				break;
 			case 2:
-				verCarrito(l_productos_comprados, pedido_usuario, c_pedidos, usuario_actual);
+				agregarProducto(l_productos, l_productos_comprados, usuario_actual, cont_productos_comprados);
 				break;
 			case 3:
-				ingresarReclamo(l_reclamos, usuario_actual);
+				verCarrito(l_productos_comprados, pedido_usuario, c_pedidos, usuario_actual);
 				break;
 			case 4:
+				ingresarReclamo(l_reclamos, usuario_actual);
+				break;
+			case 5:
 				comprado = comprarProductos(l_productos_comprados, usuario_actual, pedido_usuario, l_boletas, c_pedidos);
 				break;
 			}
@@ -255,12 +296,279 @@ public:
 		}
 	}
 
+	void verProductos(Lista<Producto<string>*>* l_productos, ArbolBinario<int>* ab_productos_id)
+	{
+		string nombre, categoria, auxCategoria;
+		bool productoEncontrado = false, salir = false, tecla_presionada = true;
+		int opcionesProducto, opcionesCategoria, contProductos = 0, contVentanas = 1, contadorCategoria = 0;
+		int primerProductoCategoria = 0, id_producto;
+		Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 0);
+		cout << "=============:: Buscar Producto ::=============";
+		Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 1);
+		cout << "[1] Mostrar todos";
+		Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 2);
+		cout << "[2] Buscar por categoria";
+		Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 3);
+		cout << "[3] Buscar por nombre";
+		Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 4);
+		cout << "[4] Buscar por ID";
+		Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 5);
+		cout << "Seleccionar una opcion: "; cin >> opcionesProducto;
+		system("cls");
+		mainInterfaz->encuadrar();
+		switch (opcionesProducto)
+		{
+		case 1:
+			while (!salir)
+			{
+				if (tecla_presionada)
+				{
+					system("cls");
+					mainInterfaz->encuadrar();
+					Console::SetCursorPosition(ANCHO / 6, ALTO / 6 + 0);
+					cout << "=============:: Productos ::=============";
+					if (contProductos < l_productos->longitud() - 3)
+					{
+						l_productos->obtenerPos(contProductos)->mostrarProducto(ANCHO / 6, ALTO / 6 + 1);
+						l_productos->obtenerPos(contProductos + 1)->mostrarProducto(ANCHO / 6, ALTO / 6 + 8);
+						l_productos->obtenerPos(contProductos + 2)->mostrarProducto(ANCHO / 6, ALTO / 6 + 15);
+					}
+					else
+					{
+						l_productos->obtenerPos(contProductos)->mostrarProducto(ANCHO / 6, ALTO / 6 + 1);
+						if (contProductos + 1 < l_productos->longitud())
+						{
+							l_productos->obtenerPos(contProductos + 1)->mostrarProducto(ANCHO / 6, ALTO / 6 + 8);
+						}
+					}
+
+					Console::SetCursorPosition(ANCHO - 40, ALTO / 5 + 1);
+					cout << "[->] Mover siguiente producto";
+					Console::SetCursorPosition(ANCHO - 40, ALTO / 5 + 2);
+					cout << "[<-] Retroceder anterior producto";
+					Console::SetCursorPosition(ANCHO - 40, ALTO / 5 + 3);
+					cout << "[ESC] Salir";
+					Console::SetCursorPosition(ANCHO - 40, ALTO / 5 + 10);
+					cout << "<" << contVentanas << " : " << l_productos->longitud() / 3 + 1 << ">";
+					tecla_presionada = false;
+				}
+
+				if (kbhit())
+				{
+					char tecla = getch();
+					switch (tecla)
+					{
+					case TECLA_DERECHA:
+						if (contProductos < l_productos->longitud() - 3)
+						{
+							contProductos += 3;
+							contVentanas++;
+						}
+						break;
+					case TECLA_IZQUIERDA:
+						if (contProductos > 2)
+						{
+							contProductos -= 3;
+							contVentanas--;
+						}
+						break;
+					case TECLA_ESCAPE:
+						salir = true;
+						break;
+					}
+					tecla_presionada = true;
+				}
+			}
+			break;
+
+		case 2:
+			Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 0);
+			cout << "=============:: Buscar por categoria ::=============";
+			Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 1);
+			cout << "[1] Farmaco";
+			Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 2);
+			cout << "[2] Cosmeticos";
+			Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 3);
+			cout << "[3] Cuidado para bebes";
+			Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 4);
+			cout << "[4] Cuidado personal";
+			Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 5);
+			cout << "[5] Personas mayores";
+			Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 6);
+			cout << "Ingresar opcion: "; cin >> opcionesCategoria;
+			while (!salir)
+			{
+				if (tecla_presionada)
+				{
+					system("cls");
+					mainInterfaz->encuadrar();
+					switch (opcionesCategoria)
+					{
+					case 1:
+						categoria = "Farmaco";
+						productosInterfaz->dibujarFarmaco(ANCHO - 35, ALTO / 3 - 5);
+						break;
+					case 2:
+						categoria = "Cosmeticos";
+						productosInterfaz->dibujarCosmetico(ANCHO - 35, ALTO / 3 - 5);
+						break;
+					case 3:
+						categoria = "Cuidado para bebes";
+						productosInterfaz->dibujarBiberon(ANCHO - 35, ALTO / 3 - 5);
+						break;
+					case 4:
+						categoria = "Cuidado personal";
+						productosInterfaz->dibujarCuidadoPersonal(ANCHO - 35, ALTO / 3 - 5);
+						break;
+					case 5:
+						categoria = "Personas mayores";
+						productosInterfaz->dibujarPersonaMayor(ANCHO - 35, ALTO / 3 - 5);
+						break;
+					}
+					contadorCategoria = contarProductosPorCategoria(l_productos, categoria);
+					primerProductoCategoria = obtenerPrimerProductoPorCategoria(l_productos, categoria);
+					Console::SetCursorPosition(ANCHO / 6, ALTO / 6 + 0);
+					cout << "=============:: Productos ::=============";
+					if (contProductos < l_productos->longitud() - 3)
+					{
+						int indice = primerProductoCategoria + contProductos;
+						if (l_productos->obtenerPos(indice)->getCategoria() == categoria)l_productos->obtenerPos(indice)->mostrarProducto(ANCHO / 6, ALTO / 6 + 1);
+						if (l_productos->obtenerPos(indice + 1)->getCategoria() == categoria)l_productos->obtenerPos(indice + 1)->mostrarProducto(ANCHO / 6, ALTO / 6 + 8);
+						if (l_productos->obtenerPos(indice + 2)->getCategoria() == categoria)l_productos->obtenerPos(indice + 2)->mostrarProducto(ANCHO / 6, ALTO / 6 + 15);
+					}
+					Console::SetCursorPosition(ANCHO - 40, ALTO / 2 + 1);
+					cout << "[->] Mover siguientes productos";
+					Console::SetCursorPosition(ANCHO - 40, ALTO / 2 + 2);
+					cout << "[<-] Retroceder anteriores productos";
+					Console::SetCursorPosition(ANCHO - 40, ALTO / 2 + 3);
+					cout << "[ESC] Salir";
+					Console::SetCursorPosition(ANCHO - 40, ALTO / 2 + 8);
+					cout << "<" << contVentanas << " : " << (contadorCategoria / 3) + 1 << ">";
+					tecla_presionada = false;
+				}
+				if (kbhit())
+				{
+					char tecla = getch();
+					switch (tecla)
+					{
+					case TECLA_DERECHA:
+						if (contProductos < contadorCategoria - 3)
+						{
+							contProductos += 3;
+							contVentanas++;
+						}
+						break;
+					case TECLA_IZQUIERDA:
+						if (contProductos > 2)
+						{
+							contProductos -= 3;
+							contVentanas--;
+						}
+						break;
+					case TECLA_ESCAPE:
+						salir = true;
+						break;
+					}
+					tecla_presionada = true;
+				}
+			}
+			break;
+
+		case 3:
+			Console::SetCursorPosition(ANCHO / 5 - 10, ALTO / 4 + 0);
+			cout << "===========:: Buscar por Nombre ::===========";
+			Console::SetCursorPosition(ANCHO / 5 - 10, ALTO / 4 + 1);
+			cout << "Ingresar Nombre del producto: ";
+			cin.ignore(); getline(cin, nombre);
+			for (int i = 0; i < l_productos->longitud(); i++)
+			{
+
+				if (convertirStringMinuscula(l_productos->obtenerPos(i)->getNombre()) == convertirStringMinuscula(nombre))
+				{
+					productoEncontrado = true;
+					auxCategoria = l_productos->obtenerPos(i)->getCategoria();
+					if (auxCategoria == "Farmaco")
+					{
+						productosInterfaz->dibujarFarmaco(ANCHO - 35, ALTO / 2 - 5);
+					}
+					if (auxCategoria == "Cosmeticos")
+					{
+						productosInterfaz->dibujarCosmetico(ANCHO - 35, ALTO / 2 - 5);
+					}
+					if (auxCategoria == "Cuidado para bebes")
+					{
+						productosInterfaz->dibujarBiberon(ANCHO - 35, ALTO / 2 - 5);
+					}
+					if (auxCategoria == "Cuidado personal")
+					{
+						productosInterfaz->dibujarCuidadoPersonal(ANCHO - 35, ALTO / 2 - 5);
+					}
+					if (auxCategoria == "Personas mayores")
+					{
+						productosInterfaz->dibujarPersonaMayor(ANCHO - 35, ALTO / 2 - 5);
+					}
+					l_productos->obtenerPos(i)->mostrarProducto(ANCHO / 5 - 10, ALTO / 4 + 2);
+				}
+			}
+
+			if (!productoEncontrado)
+			{
+				Console::SetCursorPosition(ANCHO / 5 - 10, ALTO / 4 + 2);
+				cout << "No hay productos con ese nombre!";
+			}
+
+			break;
+		case 4:
+			Console::SetCursorPosition(ANCHO / 5 - 10, ALTO / 4 + 0);
+			cout << "===========:: Buscar por ID del producto ::===========";
+			Console::SetCursorPosition(ANCHO / 5 - 10, ALTO / 4 + 1);
+			cout << "Ingresar ID del producto: "; cin >> id_producto;
+			
+			if (ab_productos_id->buscar(id_producto))
+			{
+				Producto<string>* producto = l_productos->obtenerPos(id_producto - 1);
+				auxCategoria = producto->getCategoria();
+				if (auxCategoria == "Farmaco")
+				{
+					productosInterfaz->dibujarFarmaco(ANCHO - 35, ALTO / 2 - 5);
+				}
+				if (auxCategoria == "Cosmeticos")
+				{
+					productosInterfaz->dibujarCosmetico(ANCHO - 35, ALTO / 2 - 5);
+				}
+				if (auxCategoria == "Cuidado para bebes")
+				{
+					productosInterfaz->dibujarBiberon(ANCHO - 35, ALTO / 2 - 5);
+				}
+				if (auxCategoria == "Cuidado personal")
+				{
+					productosInterfaz->dibujarCuidadoPersonal(ANCHO - 35, ALTO / 2 - 5);
+				}
+				if (auxCategoria == "Personas mayores")
+				{
+					productosInterfaz->dibujarPersonaMayor(ANCHO - 35, ALTO / 2 - 5);
+				}
+				producto->mostrarProducto(ANCHO / 5 - 10, ALTO / 4 + 2);
+			}
+			else
+			{
+				Console::SetCursorPosition(ANCHO / 5 - 10, ALTO / 4 + 2);
+				cout << "No hay productos con ese ID!";
+			}
+
+			break;
+		}
+	}
+
+
 	void agregarProducto(Lista<Producto<string>*>* l_productos, Lista<Producto<string>*>* l_productos_comprados, Usuario*& usuario_actual,
 		int &cont_productos_comprados)
 	{
 		int opcionesC;
 		string nombre, categoria, cantidad;
 		Producto<string>* auxProducto;
+		bool producto_repetido = false;
+
 		while (true)
 		{
 			system("cls");
@@ -317,7 +625,13 @@ public:
 			char tecla;
 			for (int i = 0; i < l_productos->longitud(); i++)
 			{
-				if (contEspacios > 10) break;
+				if (contEspacios > 10)
+				{
+					Console::SetCursorPosition(ANCHO / 6, ALTO / 5 + 1 + i);
+					cout << ".................";
+					break;
+				}
+
 				if (l_productos->obtenerPos(i)->getCategoria() == categoria)
 				{
 					Console::SetCursorPosition(ANCHO / 6, ALTO / 5 + 1 + contEspacios);
@@ -350,72 +664,121 @@ public:
 			}
 			else
 			{
-				Console::SetCursorPosition(ANCHO / 3, ALTO / 3 + 0);
-				cout << "Producto Listado!";
-				l_productos_comprados->agregaPos(auxProducto, cont_productos_comprados);
-				cont_productos_comprados++;
+				//Determinar si el producto ya fue agregado
+				for (int i = 0; i < l_productos_comprados->longitud(); i++)
+				{
+					if (convertirStringMinuscula(l_productos_comprados->obtenerPos(i)->getNombre()) == convertirStringMinuscula(nombre)) {
+
+						l_productos_comprados->obtenerPos(i)->setCantidad(cantidad);
+						producto_repetido = true;
+					}
+				}
+
+				if (producto_repetido)
+				{
+					Console::SetCursorPosition(ANCHO / 4, ALTO / 3 + 0);
+					cout << "Agregaste otra vez un producto";
+					Console::SetCursorPosition(ANCHO / 4, ALTO / 3 + 1);
+					cout << "Actualizado la cantidad que escogiste";
+				}
+				else
+				{
+					Console::SetCursorPosition(ANCHO / 3, ALTO / 3 + 0);
+					cout << "Producto Agregado!";
+					l_productos_comprados->agregaPos(auxProducto, cont_productos_comprados);
+					cont_productos_comprados++;
+				}
 			}
 			system("pause>>null");
 		}
 	}
 
-	void eliminarElementoCarrito(Lista<Producto<string>*>* l_productos_comprados, Usuario* usuario_actual) {
+	void eliminarElementoCarrito(Lista<Producto<string>*>* l_productos_comprados) {
 		int contEspacios = 0;
-		string nameP;
-		for (int i = 0; i < l_productos_comprados->longitud(); i++)
+		string nombreProductoEliminar;
+		bool producto_eliminado = false;
+
+		if (l_productos_comprados->longitud() == 1)
 		{
-			if (contEspacios > 10)
-			{
-				Console::SetCursorPosition(ANCHO / 3, ALTO / 5 + 5 + i);
-				cout << "................." << endl;
-				break;
-			}
-			Console::SetCursorPosition(ANCHO / 3, ALTO / 5 + 5 + i);
-			cout << "- " << l_productos_comprados->obtenerPos(i)->getNombre() << " : S/." << l_productos_comprados->obtenerPos(i)->getPrecio()
-				<< " x " << l_productos_comprados->obtenerPos(i)->getCantidad() << " = " << l_productos_comprados->obtenerPos(i)->getSubTotal();		
-			contEspacios++;
+			system("cls");
+			mainInterfaz->encuadrar();
+			Console::SetCursorPosition(ANCHO / 4, ALTO / 5 + 9);
+			cout << "El producto " << l_productos_comprados->obtenerInicial()->getNombre() << " ha sido retirado correctamente";
+			l_productos_comprados->eliminaInicial();
 		}
-		Console::SetCursorPosition(ANCHO / 3, ALTO / 5 + 8);
-		cout << "ingrese el nombre del producto a eliminar: "; cin >> nameP; cout << endl;
-		l_productos_comprados->eliminarProducto(nameP);
-		Console::SetCursorPosition(ANCHO / 3, ALTO / 5 + 9);
-		cout << "El Producto: " << nameP << " ha sido retirado correctamente" << endl;
+		else
+		{
+			system("cls");
+			mainInterfaz->encuadrar();
+			Console::SetCursorPosition(ANCHO / 4, ALTO / 5 + 0);
+			cout << "===========:: Carrito ::=============";
+			for (int i = 0; i < l_productos_comprados->longitud(); i++)
+			{
+				if (contEspacios > 10)
+				{
+					Console::SetCursorPosition(ANCHO / 4, ALTO / 5 + 1 + i);
+					cout << ".................";
+					break;
+				}
+				Console::SetCursorPosition(ANCHO / 4, ALTO / 5 + 1 + i);
+				cout << "- " << l_productos_comprados->obtenerPos(i)->getNombre() << " : S/." << l_productos_comprados->obtenerPos(i)->getPrecio()
+					<< " x " << l_productos_comprados->obtenerPos(i)->getCantidad() << " = " << l_productos_comprados->obtenerPos(i)->getSubTotal();
+				contEspacios++;
+			}
+
+			cin.ignore();
+			Console::SetCursorPosition(ANCHO / 5, ALTO - 7);
+			cout << "Ingrese el nombre del producto a eliminar: "; getline(cin, nombreProductoEliminar);
+			for (int i = 0; i < l_productos_comprados->longitud(); i++)
+			{
+				if (convertirStringMinuscula(nombreProductoEliminar) == convertirStringMinuscula(l_productos_comprados->obtenerPos(i)->getNombre()))
+				{
+					l_productos_comprados->eliminaPos(i);
+					producto_eliminado = true;
+					break;
+				}
+			}
+
+			system("cls");
+			mainInterfaz->encuadrar();
+			if (producto_eliminado)
+			{
+				nombreProductoEliminar.begin().operator*() = toupper(nombreProductoEliminar.begin().operator*());
+				Console::SetCursorPosition(ANCHO / 4, ALTO / 5 + 9);
+				cout << "El producto " << nombreProductoEliminar << " ha sido retirado correctamente";
+			}
+			else
+			{
+				Console::SetCursorPosition(ANCHO / 4, ALTO / 5 + 9);
+				cout << "¡No se encontro el nombre del producto!";
+			}
+		}
+	}
+
+	void eliminarTodoCarrito(Lista<Producto<string>*>* l_productos_comprados)
+	{
+		l_productos_comprados->eliminaTodo();
 		system("cls");
 		mainInterfaz->encuadrar();
-		Console::SetCursorPosition(2, 2);
-		cout << "Usuario: " << usuario_actual->getNombre();
-		Console::SetCursorPosition(ANCHO / 3, ALTO / 5 + 0);
-		cout << "===========:: Carrito ::=============";		
-		for (int i = 0; i < l_productos_comprados->longitud(); i++)
-		{
-			if (contEspacios > 10)
-			{
-				Console::SetCursorPosition(ANCHO / 3, ALTO / 5 + 1 + i);
-				cout << "................." << endl;
-				break;
-			}
-			Console::SetCursorPosition(ANCHO / 3, ALTO / 5 + 1 + i);
-			cout << "- " << l_productos_comprados->obtenerPos(i)->getNombre() << " : S/." << l_productos_comprados->obtenerPos(i)->getPrecio()
-				<< " x " << l_productos_comprados->obtenerPos(i)->getCantidad() << " = " << l_productos_comprados->obtenerPos(i)->getSubTotal();
-			contEspacios++;
-		}
+		Console::SetCursorPosition(ANCHO / 4, ALTO / 5 + 9);
+		cout << "Todo los productos del carrito han sido eliminados";
 	}
 	
 	void verCarrito(Lista<Producto<string>*>* l_productos_comprados, Pedido* &pedido_usuario, queue<Pedido*> &c_pedidos, Usuario* usuario_actual)
 	{
 		int opcCarrito;
 		int contEspacios = 0;
+
+		Console::SetCursorPosition(2, 2);
+		cout << "Usuario: " << usuario_actual->getNombre();
 		if (l_productos_comprados->esVacia())
 		{
-			Console::SetCursorPosition(2, 2);
-			cout << "Usuario: " << usuario_actual->getNombre();
+			
 			Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 1);
-			cout << "No has agregado ningun producto!";
+			cout << "No hay productos agregados";
 		}
 		else
 		{
-			Console::SetCursorPosition(2, 2);
-			cout << "Usuario: " << usuario_actual->getNombre();
 			Console::SetCursorPosition(ANCHO / 3, ALTO / 5 + 0);
 			cout << "===========:: Carrito ::=============";
 			Console::SetCursorPosition(ANCHO / 3, ALTO / 5 + 1);
@@ -425,42 +788,54 @@ public:
 			Console::SetCursorPosition(ANCHO / 3, ALTO / 5 + 3);
 			cout << "[3] Eliminar un producto del carrito";
 			Console::SetCursorPosition(ANCHO / 3, ALTO / 5 + 4);
+			cout << "[4] Eliminar todo el carrito";
+			Console::SetCursorPosition(ANCHO / 3, ALTO / 5 + 5);
 			cout << "Escoger opcion: "; cin >> opcCarrito;
-			if (l_productos_comprados->longitud() > 1)
+
+			switch (opcCarrito)
 			{
-				switch (opcCarrito)
-				{
-				case 1:
-					ordShellProductoMenorAMayor(l_productos_comprados);
-					break;
-				case 2:
-					ordShellProductoMayorAMenor(l_productos_comprados);
-					break;
-				case 3 :
-					eliminarElementoCarrito(l_productos_comprados, usuario_actual);
-					break;
-				}
+			case 1:
+				ordShellProductoMenorAMayor(l_productos_comprados);
+				break;
+			case 2:
+				ordShellProductoMayorAMenor(l_productos_comprados);
+				break;
+			case 3 :
+				eliminarElementoCarrito(l_productos_comprados);
+				break;
+			case 4:
+				eliminarTodoCarrito(l_productos_comprados);
+				break;
 			}
 
-			for (int i = 0; i < l_productos_comprados->longitud(); i++)
+			if (opcCarrito < 3)
 			{
-				if (contEspacios > 10)
+				system("cls");
+				mainInterfaz->encuadrar();
+				Console::SetCursorPosition(ANCHO / 3, ALTO / 5 + 0);
+				cout << "===========:: Carrito ::=============";
+				for (int i = 0; i < l_productos_comprados->longitud(); i++)
 				{
-					Console::SetCursorPosition(ANCHO / 3, ALTO / 5 + 5 + i);
-					cout << "................." << endl;
-					break;
+					if (contEspacios > 10)
+					{
+						Console::SetCursorPosition(ANCHO / 3, ALTO / 5 + 1 + i);
+						cout << ".................";
+						break;
+					}
+					Console::SetCursorPosition(ANCHO / 3, ALTO / 5 + 1 + i);
+					cout << "- " << l_productos_comprados->obtenerPos(i)->getNombre() << " : S/." << l_productos_comprados->obtenerPos(i)->getPrecio()
+						<< " x " << l_productos_comprados->obtenerPos(i)->getCantidad() << " = " << l_productos_comprados->obtenerPos(i)->getSubTotal();
+					contEspacios++;
 				}
-				Console::SetCursorPosition(ANCHO / 3, ALTO / 5 + 4 + i);
-				cout << "- " << l_productos_comprados->obtenerPos(i)->getNombre() << " : S/." << l_productos_comprados->obtenerPos(i)->getPrecio()
-					<< " x " << l_productos_comprados->obtenerPos(i)->getCantidad() << " = " << l_productos_comprados->obtenerPos(i)->getSubTotal();
-				contEspacios++;
+
+				pedido_usuario = new Pedido("P0" + to_string(c_pedidos.size()), usuario_actual->getNombre(), "Javier", usuario_actual->getDistrito(),
+					l_productos_comprados, "Pendiente", "Motocicleta");
+				Console::SetCursorPosition(ANCHO - 25, ALTO / 2);
+				cout << "Total: " << pedido_usuario->conseguirCostoTotal();
 			}
-			pedido_usuario = new Pedido("P0" + to_string(c_pedidos.size()), usuario_actual->getNombre(), "Javier", usuario_actual->getDistrito(), 
-				l_productos_comprados, "Pendiente", "Motocicleta");
-			Console::SetCursorPosition(ANCHO - 25, ALTO / 2);
-			cout << "Total: " << pedido_usuario->conseguirCostoTotal();
 		}
 	}
+	
 	void ingresarReclamo(Lista<Reclamo<string>*>* l_reclamos, Usuario* &usuario_actual)
 	{
 		string idReclamo, fecha, nombreProducto, tipo, detalle, pedido;

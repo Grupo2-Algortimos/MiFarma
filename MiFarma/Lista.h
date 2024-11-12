@@ -41,13 +41,13 @@ public:
     void eliminaInicial();
     void eliminaPos(uint pos);
     void eliminaFinal();
+    void eliminaTodo();
     T obtenerInicial();
     T obtenerPos(uint pos);
     T obtenerFinal();
     string buscarUsuario(T elem);
     string buscarPassword(T elem);
     string buscarProducto(T elem);
-    void eliminarProducto(string producto);
 
 
     //~Lista(void);
@@ -133,43 +133,6 @@ string Lista<T>::buscarProducto(T elem) {
     return "";
 }
 
-template<class T>
-void Lista<T>::eliminarProducto(string producto) {
-    Nodo<T>* actual = ini;
-    Nodo<T>* anterior = nullptr;
-
-    while (actual != nullptr) {
-        Producto<string>* producto_actual = dynamic_cast<Producto<string>*>(actual->elem);
-
-        // Comparar el nombre del producto
-        if (producto_actual != nullptr && Comp(producto_actual->getNombre(), producto)) {
-            if (anterior == nullptr) {
-                // Si el producto a eliminar está en el primer nodo
-                ini = actual->sigte;
-            }
-            else {
-                // Saltar el nodo actual ajustando el puntero del anterior
-                anterior->sigte = actual->sigte;
-            }
-
-            // Liberar el nodo y su elemento
-            delete actual->elem;
-            delete actual;
-
-            // Disminuir el contador de longitud de la lista
-            lon--;          
-
-            break;
-        }
-
-        // Avanzar al siguiente nodo
-        anterior = actual;
-        actual = actual->sigte;
-    }
-   
-}
-
-
 
 template <class T>
 void Lista<T>::agregaPos(T elem, uint pos) {
@@ -198,39 +161,47 @@ void Lista<T>::agregaFinal(T elem) {
 
 template <class T>
 void Lista<T>::eliminaInicial() {
-    if (lon > 0) {
-        Nodo<T>* aux = ini;
-        ini = ini->sgte;
-        delete aux;
-        lon--;
-    }
+	if (lon > 0) {
+		Nodo<T>* aux = ini;
+		ini = ini->sigte;
+		delete aux;
+		lon--; // Decrement the member variable 'lon' instead of calling 'size'
+	}
 }
 
 template <class T>
 void Lista<T>::eliminaPos(uint pos) {
-    if (pos >= size)return;
+    if (pos >= lon) return;
     if (pos == 0) {
         eliminaInicial();
     }
-    else if (pos >= 1 && pos < size) {
+    else if (pos >= 1 && pos < lon) {
         Nodo<T>* aux = ini;
         Nodo<T>* nodo_remove;
-        for (int i = 1; i < pos; i++)
-        {
-            aux = aux->sgte;
+        for (int i = 1; i < pos; i++) {
+            aux = aux->sigte;
         }
-        nodo_remove = aux->sgte;
-        aux->sgte = nodo_remove->sgte;
-        if (nodo_remove->sgte != nullptr)
-            nodo_remove->sgte = aux;
+        nodo_remove = aux->sigte;
+        aux->sigte = nodo_remove->sigte;
+        if (nodo_remove->sigte != nullptr)
+            nodo_remove->sigte = aux;
 
         delete nodo_remove;
-        size--;
+        lon--; // Decrement the member variable 'lon' instead of calling 'size'
     }
-
 }
+
 template <class T>
 void Lista<T>::eliminaFinal() {
+	eliminaPos(lon - 1);
+}
+
+template <class T>
+void Lista<T>::eliminaTodo() {
+	if (lon == 0) return;
+	while (lon > 0) {
+		eliminaInicial();
+	}
 }
 
 template <class T>

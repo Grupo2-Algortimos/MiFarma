@@ -29,10 +29,14 @@ private:
 	// hashtable
 	HashTablaA hashTable;
 
+	//Arbol Binario de Busqueda de los IDs de los productos
+	ArbolBinario<int>* ab_productos_id;
+
 	// Otras variables
 	int cont_productos_comprados;
+
 public:
-	ControllerProgram() {
+	ControllerProgram(void(*imprimir)(int)) {
 		//Listas
 		l_empleados = new Lista<Empleado*>();
 		l_productos = new Lista<Producto<string>*>();
@@ -44,6 +48,9 @@ public:
 		//Interfaces o decoracion
 		mainInterfaz = new MainInterfaz();
 		productosInterfaz = new ProductosInterfaz();
+		//Arbol Binario de Busqueda
+		ab_productos_id = new ArbolBinario<int>(imprimir);
+
 		//Usuario Actual y pedido de usuario
 		usuario_actual = NULL;
 		pedido_usuario = NULL;
@@ -55,6 +62,7 @@ public:
 		lecturaArchivoBoletas();
 		lecturaArchivoUsuario();
 		agregandoPedidos();
+		registrarIDsProductosArbolB();
 
 		//Vistas
 		vistaUsuario = new VistaUsuario();
@@ -75,6 +83,7 @@ public:
 		delete l_reclamos;
 		delete usuario_actual;
 		delete pedido_usuario;
+		delete ab_productos_id;
 	}
 
 	//importacion de archivos
@@ -325,6 +334,16 @@ public:
 		c_pedidos.push(pedido3);
 	}
 
+	void registrarIDsProductosArbolB()
+	{
+		for (int i = 0; i < l_productos->longitud(); i++)
+		{
+			string id = removerPrimerCaracter(l_productos->obtenerPos(i)->getIdProduct());
+			ab_productos_id->insertar(stoi(id));
+		}
+	}
+
+
 	//Menu del programa
 	void menu(){
 		srand(time(NULL));
@@ -353,11 +372,13 @@ public:
 				break;
 			case 2:
 				vistaUsuario->vistaUsuarioPantalla(l_productos, l_productos_comprados, cont_productos_comprados, l_usuarios, usuario_actual,pedido_usuario, 
-					c_pedidos, l_reclamos, l_boletas);
+					c_pedidos, l_reclamos, l_boletas, ab_productos_id);
 				break;
 			}
 			system("pause>>null");
 		}
 	}
+
+
 
 };
