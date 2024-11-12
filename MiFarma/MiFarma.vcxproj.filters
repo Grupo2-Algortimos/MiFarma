@@ -78,6 +78,15 @@
     <ClInclude Include="Grafo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="ArbolBinario.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="NodoAB.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ArbolBalanceado.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source.cpp">

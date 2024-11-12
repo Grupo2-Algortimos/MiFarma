@@ -123,6 +123,12 @@ string convertirStringMinuscula(string str) {
 // Tiempo detallado: n + 1
 // Tiempo asintótico: O(n)
 
+string removerPrimerCaracter(string str)
+{
+	return str.substr(1, str.length() - 1);
+}
+
+
 //Funcion para calcular cuantos productos hay por categoria
 int contarProductosPorCategoria(Lista<Producto<string>*>* l_productos, string categoria) {
 	int cantidad = 0;
