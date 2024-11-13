@@ -125,6 +125,7 @@
     <ClInclude Include="MainInterfaz.h" />
     <ClInclude Include="Nodo.h" />
     <ClInclude Include="NodoAB.h" />
+    <ClInclude Include="NodoAVL.h" />
     <ClInclude Include="Pedido.h" />
     <ClInclude Include="Pila.h" />
     <ClInclude Include="Producto.h" />
