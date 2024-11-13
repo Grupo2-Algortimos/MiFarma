@@ -4,6 +4,7 @@
 #include"ProductosInterfaz.h"
 #include"Reclamos.h"
 #include"ArbolBinario.h"
+#include"ArbolBalanceado.h"
 class VistaUsuario
 {
 private:
@@ -28,7 +29,7 @@ public:
 
 	void vistaUsuarioPantalla(Lista<Producto<string>*>* l_productos, Lista<Producto<string>*>* l_productos_comprados, int& cont_productos_comprados,
 		Lista<Usuario*>* l_usuarios, Usuario* usario_actual, Pedido* &pedido_usuario, queue<Pedido*> &c_pedidos, Lista<Reclamo<string>*>* l_reclamos,
-		Lista<Boleta<string>*>* l_boletas, ArbolBinario<int>* ab_productos_id)
+		Lista<Boleta<string>*>* l_boletas, ArbolBinario<int>* ab_ids_productos)
 	{
 		int op = 0;
 		int i = 0;
@@ -53,7 +54,7 @@ public:
 				system("cls");
 				mainInterfaz->encuadrar();
 				loginUsuario(l_productos, l_productos_comprados, cont_productos_comprados, l_usuarios, usario_actual,
-					pedido_usuario, c_pedidos, l_reclamos, l_boletas, ab_productos_id);
+					pedido_usuario, c_pedidos, l_reclamos, l_boletas, ab_ids_productos);
 				break;
 			case 2:
 				system("cls");
@@ -71,7 +72,7 @@ public:
 
 	void loginUsuario(Lista<Producto<string>*>* l_productos, Lista<Producto<string>*>* l_productos_comprados, int& cont_productos_comprados, 
 		Lista<Usuario*>* l_usuarios, Usuario* usuario_actual, Pedido* &pedido_usuario, queue<Pedido*> &c_pedidos, Lista<Reclamo<string>*>* l_reclamos,
-		Lista<Boleta<string>*>* l_boletas, ArbolBinario<int>* ab_productos_id)
+		Lista<Boleta<string>*>* l_boletas, ArbolBinario<int>* ab_ids_productos)
 	{
 		string user, password;
 		bool salir = false;
@@ -106,7 +107,7 @@ public:
 						cout << "Ingreso exitoso...";
 						system("pause>>null");
 						userOpciones(l_productos, l_productos_comprados, cont_productos_comprados, usuario_actual, pedido_usuario, c_pedidos,
-							l_reclamos, l_boletas, ab_productos_id);
+							l_reclamos, l_boletas, ab_ids_productos);
 						salir = true;
 						break;
 					}
@@ -243,7 +244,7 @@ public:
 	}
 
 	void userOpciones(Lista<Producto<string>*>* l_productos, Lista<Producto<string>*>* l_productos_comprados, int &cont_productos_comprados, Usuario* usuario_actual,
-		Pedido* &pedido_usuario, queue<Pedido*> &c_pedidos, Lista<Reclamo<string>*>* l_reclamos, Lista<Boleta<string>*>* l_boletas, ArbolBinario<int>* ab_productos_id) {
+		Pedido* &pedido_usuario, queue<Pedido*> &c_pedidos, Lista<Reclamo<string>*>* l_reclamos, Lista<Boleta<string>*>* l_boletas, ArbolBinario<int>* ab_ids_productos) {
 		int opcionM;
 		int i = 0;
 		int p = 0;
@@ -277,7 +278,7 @@ public:
 			switch (opcionM)
 			{
 			case 1:
-				verProductos(l_productos, ab_productos_id);
+				verProductos(l_productos, ab_ids_productos);
 				break;
 			case 2:
 				agregarProducto(l_productos, l_productos_comprados, usuario_actual, cont_productos_comprados);
@@ -296,7 +297,7 @@ public:
 		}
 	}
 
-	void verProductos(Lista<Producto<string>*>* l_productos, ArbolBinario<int>* ab_productos_id)
+	void verProductos(Lista<Producto<string>*>* l_productos, ArbolBinario<int>* ab_ids_productos)
 	{
 		string nombre, categoria, auxCategoria;
 		bool productoEncontrado = false, salir = false, tecla_presionada = true;
@@ -524,7 +525,7 @@ public:
 			Console::SetCursorPosition(ANCHO / 5 - 10, ALTO / 4 + 1);
 			cout << "Ingresar ID del producto: "; cin >> id_producto;
 			
-			if (ab_productos_id->buscar(id_producto))
+			if (ab_ids_productos->buscar(id_producto))
 			{
 				Producto<string>* producto = l_productos->obtenerPos(id_producto - 1);
 				auxCategoria = producto->getCategoria();

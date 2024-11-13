@@ -30,13 +30,16 @@ private:
 	HashTablaA hashTable;
 
 	//Arbol Binario de Busqueda de los IDs de los productos
-	ArbolBinario<int>* ab_productos_id;
+	ArbolBinario<int>* ab_ids_productos;
+
+	//Arbol Binario Balanceado de los precios de los productos
+	ArbolBalanceado<double>* abb_precios_productos;
 
 	// Otras variables
 	int cont_productos_comprados;
 
 public:
-	ControllerProgram(void(*imprimir)(int)) {
+	ControllerProgram(void(*imprimirInt)(int), void(*imprimirDouble)(double)) {
 		//Listas
 		l_empleados = new Lista<Empleado*>();
 		l_productos = new Lista<Producto<string>*>();
@@ -49,7 +52,9 @@ public:
 		mainInterfaz = new MainInterfaz();
 		productosInterfaz = new ProductosInterfaz();
 		//Arbol Binario de Busqueda
-		ab_productos_id = new ArbolBinario<int>(imprimir);
+		ab_ids_productos = new ArbolBinario<int>(imprimirInt);
+		//Arboles Binarios Balanceados
+		abb_precios_productos = new ArbolBalanceado<double>(imprimirDouble);
 
 		//Usuario Actual y pedido de usuario
 		usuario_actual = NULL;
@@ -62,7 +67,7 @@ public:
 		lecturaArchivoBoletas();
 		lecturaArchivoUsuario();
 		agregandoPedidos();
-		registrarIDsProductosArbolB();
+		registrarDatosArbolesBinarios();
 
 		//Vistas
 		vistaUsuario = new VistaUsuario();
@@ -83,7 +88,8 @@ public:
 		delete l_reclamos;
 		delete usuario_actual;
 		delete pedido_usuario;
-		delete ab_productos_id;
+		delete ab_ids_productos;
+		delete abb_precios_productos;
 	}
 
 	//importacion de archivos
@@ -334,12 +340,18 @@ public:
 		c_pedidos.push(pedido3);
 	}
 
-	void registrarIDsProductosArbolB()
+	void registrarDatosArbolesBinarios()
 	{
 		for (int i = 0; i < l_productos->longitud(); i++)
 		{
 			string id = removerPrimerCaracter(l_productos->obtenerPos(i)->getIdProduct());
-			ab_productos_id->insertar(stoi(id));
+			ab_ids_productos->insertar(stoi(id));
+		}
+
+		for (int i = 0; i < l_productos->longitud(); i++)
+		{
+			string precio = l_productos->obtenerPos(i)->getPrecio();
+			abb_precios_productos->insertar(stod(precio));
 		}
 	}
 
@@ -368,17 +380,14 @@ public:
 			switch (opcion)
 			{
 			case 1:
-				vistaEmpleado->vistaEmpleadoPantalla(l_empleados, l_productos, c_pedidos, l_reclamos, l_proveedores, l_boletas);
+				vistaEmpleado->vistaEmpleadoPantalla(l_empleados, l_productos, c_pedidos, l_reclamos, l_proveedores, l_boletas, ab_ids_productos);
 				break;
 			case 2:
 				vistaUsuario->vistaUsuarioPantalla(l_productos, l_productos_comprados, cont_productos_comprados, l_usuarios, usuario_actual,pedido_usuario, 
-					c_pedidos, l_reclamos, l_boletas, ab_productos_id);
+					c_pedidos, l_reclamos, l_boletas, ab_ids_productos);
 				break;
 			}
 			system("pause>>null");
 		}
 	}
-
-
-
 };
