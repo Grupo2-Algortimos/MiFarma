@@ -34,7 +34,6 @@ public:
 	void vistaEmpleadoPantalla(Lista<Empleado*>* l_empleados, Lista<Producto<string>*>* l_productos, queue<Pedido*> c_pedidos, Lista<Reclamo<string>*>* l_reclamos,
 		Lista<Proveedor*>* l_proveedores, Lista<Boleta<string>*>* l_boletas, ArbolBinario<int>* ab_ids_productos) {
 		int op = 0;
-		int coni = 0;
 		string master_key = "";
 		do
 		{
@@ -64,8 +63,7 @@ public:
 				cout << "Ingresar la master key: "; getline(cin, master_key);
 				if (master_key == "mifarma")
 				{
-					registroEmpleado(coni, l_empleados);
-					coni++;
+					registroEmpleado(l_empleados);
 				}
 				else
 				{
@@ -163,7 +161,7 @@ public:
 		cout << "Archivo sobrescrito exitosamente." << endl;
 	}
 
-	void registroEmpleado(int coni, Lista<Empleado*>* l_empleados) {
+	void registroEmpleado(Lista<Empleado*>* l_empleados) {
 		system("cls");
 		mainInterfaz->encuadrar();
 		string user, password, nombre, apellido, telefono, sexo, distrito, idTrabajador, puesto;
@@ -189,8 +187,8 @@ public:
 		Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 9);
 		cout << "Ingrese su puesto: "; cin >> puesto;
 		aux = new Empleado(user, password, nombre, apellido, telefono, sexo, distrito, idTrabajador, puesto);
-		l_empleados->agregaPos(aux, coni);
-		sobrescribirArchivo(l_empleados);
+		l_empleados->agregaFinal(aux);
+		//sobrescribirArchivo(l_empleados);
 	}
 
 	void adminOpciones(Lista<Producto<string>*>* l_productos, queue<Pedido*> c_pedidos, Lista<Reclamo<string>*>* l_reclamos,
@@ -327,7 +325,7 @@ public:
 		cout << "Ingresar Fecha de caducidad del Producto: "; cin >> fechaCad;;
 		auxProduct = new Producto<string>(idProduct, nombre, precio, categoria, cantidad, fechaCad);
 		l_productos->agregaPos(auxProduct, i);
-		sobrescribirArchivoProducto(l_productos);
+		//sobrescribirArchivoProducto(l_productos);
 	}
 
 	void buscarProducto(Lista<Producto<string>*>* l_productos, ArbolBinario<int>* ab_ids_productos) {
@@ -627,7 +625,7 @@ public:
 				Console::SetCursorPosition(ANCHO / 3, ALTO / 5 + 13);
 				auxProduct = new Producto<string>(idProduct, nombre, precio, categoria, cantidad, fechaCad);
 				l_productos->modificarPos(auxProduct, i);
-				sobrescribirArchivoProducto(l_productos);
+				//sobrescribirArchivoProducto(l_productos);
 				break;
 			}
 		}
