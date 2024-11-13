@@ -32,7 +32,7 @@ public:
 	}
 
 	void vistaEmpleadoPantalla(Lista<Empleado*>* l_empleados, Lista<Producto<string>*>* l_productos, queue<Pedido*> c_pedidos, Lista<Reclamo<string>*>* l_reclamos,
-		Lista<Proveedor*>* l_proveedores, Lista<Boleta<string>*>* l_boletas, ArbolBalanceado<double>* abb_precios_productos) {
+		Lista<Proveedor*>* l_proveedores, Lista<Boleta<string>*>* l_boletas, ArbolBinario<int>* ab_ids_productos) {
 		int op = 0;
 		int coni = 0;
 		string master_key = "";
@@ -54,7 +54,7 @@ public:
 			switch (op)
 			{
 			case 1:
-				loginEmpleado(l_empleados, l_productos, c_pedidos, l_reclamos, l_proveedores, l_boletas, abb_precios_productos);
+				loginEmpleado(l_empleados, l_productos, c_pedidos, l_reclamos, l_proveedores, l_boletas, ab_ids_productos);
 				break;
 			case 2:
 				system("cls");
@@ -81,7 +81,7 @@ public:
 
 
 	void loginEmpleado(Lista<Empleado*>* l_empleados, Lista<Producto<string>*>* l_productos, queue<Pedido*> c_pedidos, Lista<Reclamo<string>*>* l_reclamos,
-		Lista<Proveedor*>* l_proveedores, Lista<Boleta<string>*>* l_boletas, ArbolBalanceado<double>* abb_precios_productos) {
+		Lista<Proveedor*>* l_proveedores, Lista<Boleta<string>*>* l_boletas, ArbolBinario<int>* ab_ids_productos) {
 		string user, password;
 		bool salir = false;
 		bool usuario_encontrado = false, contrasena_correcta = false;
@@ -110,7 +110,7 @@ public:
 						Console::SetCursorPosition(ANCHO / 3, ALTO / 3 + 0);
 						cout << "Ingreso exitoso...";
 						system("pause>>null");
-						adminOpciones(l_productos, c_pedidos, l_reclamos, l_proveedores, l_boletas, abb_precios_productos);
+						adminOpciones(l_productos, c_pedidos, l_reclamos, l_proveedores, l_boletas, ab_ids_productos);
 						salir = true;
 						break;
 					}
@@ -194,7 +194,7 @@ public:
 	}
 
 	void adminOpciones(Lista<Producto<string>*>* l_productos, queue<Pedido*> c_pedidos, Lista<Reclamo<string>*>* l_reclamos,
-		Lista<Proveedor*>* l_proveedores, Lista<Boleta<string>*>* l_boletas, ArbolBalanceado<double>* abb_precios_productos)
+		Lista<Proveedor*>* l_proveedores, Lista<Boleta<string>*>* l_boletas, ArbolBinario<int>* ab_ids_productos)
 	{
 		int opcionM;
 		int i = 0;
@@ -241,7 +241,7 @@ public:
 				i++;
 				break;
 			case 2:
-				buscarProducto(l_productos, abb_precios_productos);
+				buscarProducto(l_productos, ab_ids_productos);
 				break;
 			case 3:
 				modificarProducto(l_productos);
@@ -330,18 +330,18 @@ public:
 		sobrescribirArchivoProducto(l_productos);
 	}
 
-	void buscarProducto(Lista<Producto<string>*>* l_productos, ArbolBalanceado<double>* abb_precios_productos) {
+	void buscarProducto(Lista<Producto<string>*>* l_productos, ArbolBinario<int>* ab_ids_productos) {
 		string nombre, categoria, auxCategoria;
 		bool productoEncontrado = false, salir = false, tecla_presionada = true;
 		int opcionesProducto, opcionesCategoria, contProductos = 0, contVentanas = 1, contadorCategoria = 0;
-		int primerProductoCategoria = 0;
+		int primerProductoCategoria = 0, id_producto;
 
 		Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 0);
 		cout << "=============:: Buscar Producto ::=============";
 		Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 1);
 		cout << "[1] Mostrar todos";
 		Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 2);
-		cout << "[2] Mostrar todos ordenados por precio";
+		cout << "[2] Buscar por ID";
 		Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 3);
 		cout << "[3] Buscar por categoria";
 		Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 4);
@@ -415,7 +415,42 @@ public:
 			}	
 			break;
 		case 2:
-		
+			Console::SetCursorPosition(ANCHO / 5 - 10, ALTO / 4 + 0);
+			cout << "===========:: Buscar por ID del producto ::===========";
+			Console::SetCursorPosition(ANCHO / 5 - 10, ALTO / 4 + 1);
+			cout << "Ingresar ID del producto: "; cin >> id_producto;
+
+			if (ab_ids_productos->buscar(id_producto))
+			{
+				Producto<string>* producto = l_productos->obtenerPos(id_producto - 1);
+				auxCategoria = producto->getCategoria();
+				if (auxCategoria == "Farmaco")
+				{
+					productosInterfaz->dibujarFarmaco(ANCHO - 35, ALTO / 2 - 5);
+				}
+				if (auxCategoria == "Cosmeticos")
+				{
+					productosInterfaz->dibujarCosmetico(ANCHO - 35, ALTO / 2 - 5);
+				}
+				if (auxCategoria == "Cuidado para bebes")
+				{
+					productosInterfaz->dibujarBiberon(ANCHO - 35, ALTO / 2 - 5);
+				}
+				if (auxCategoria == "Cuidado personal")
+				{
+					productosInterfaz->dibujarCuidadoPersonal(ANCHO - 35, ALTO / 2 - 5);
+				}
+				if (auxCategoria == "Personas mayores")
+				{
+					productosInterfaz->dibujarPersonaMayor(ANCHO - 35, ALTO / 2 - 5);
+				}
+				producto->mostrarProducto(ANCHO / 5 - 10, ALTO / 4 + 2);
+			}
+			else
+			{
+				Console::SetCursorPosition(ANCHO / 5 - 10, ALTO / 4 + 2);
+				cout << "No hay productos con ese ID!";
+			}
 			break;
 
 		case 3:
