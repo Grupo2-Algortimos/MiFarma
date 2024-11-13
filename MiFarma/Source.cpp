@@ -1,7 +1,8 @@
 #include "ControllerProgram.h"
 
-//Función Imprimir para los arboles Binarios
-void imprimir(int e)
+//Función Imprimir genérico para los arboles Binarios
+template<typename T>
+void imprimir(T e)
 {
 	cout << e << " ";
 }
@@ -9,7 +10,7 @@ void imprimir(int e)
 int main()
 {
     Console::CursorVisible = false;
-    ControllerProgram* run = new ControllerProgram(imprimir);
+    ControllerProgram* run = new ControllerProgram(imprimir, imprimir);
     run->menu();
 }
 

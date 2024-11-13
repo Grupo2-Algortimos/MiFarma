@@ -4,9 +4,10 @@
 #include"Proveedor.h"
 #include"Funciones.h"
 #include"ProductosInterfaz.h"
-#include "HashTable.h"
-#include "Pila.h"
-
+#include"HashTable.h"
+#include"Pila.h"
+#include"ArbolBinario.h"
+#include"ArbolBalanceado.h"
 class VistaEmpleado
 {
 private:
@@ -31,7 +32,7 @@ public:
 	}
 
 	void vistaEmpleadoPantalla(Lista<Empleado*>* l_empleados, Lista<Producto<string>*>* l_productos, queue<Pedido*> c_pedidos, Lista<Reclamo<string>*>* l_reclamos,
-		Lista<Proveedor*>* l_proveedores, Lista<Boleta<string>*>* l_boletas) {
+		Lista<Proveedor*>* l_proveedores, Lista<Boleta<string>*>* l_boletas, ArbolBalanceado<double>* abb_precios_productos) {
 		int op = 0;
 		int coni = 0;
 		string master_key = "";
@@ -53,7 +54,7 @@ public:
 			switch (op)
 			{
 			case 1:
-				loginEmpleado(l_empleados, l_productos, c_pedidos, l_reclamos, l_proveedores, l_boletas);
+				loginEmpleado(l_empleados, l_productos, c_pedidos, l_reclamos, l_proveedores, l_boletas, abb_precios_productos);
 				break;
 			case 2:
 				system("cls");
@@ -80,7 +81,7 @@ public:
 
 
 	void loginEmpleado(Lista<Empleado*>* l_empleados, Lista<Producto<string>*>* l_productos, queue<Pedido*> c_pedidos, Lista<Reclamo<string>*>* l_reclamos,
-		Lista<Proveedor*>* l_proveedores, Lista<Boleta<string>*>* l_boletas) {
+		Lista<Proveedor*>* l_proveedores, Lista<Boleta<string>*>* l_boletas, ArbolBalanceado<double>* abb_precios_productos) {
 		string user, password;
 		bool salir = false;
 		bool usuario_encontrado = false, contrasena_correcta = false;
@@ -109,7 +110,7 @@ public:
 						Console::SetCursorPosition(ANCHO / 3, ALTO / 3 + 0);
 						cout << "Ingreso exitoso...";
 						system("pause>>null");
-						adminOpciones(l_productos, c_pedidos, l_reclamos, l_proveedores, l_boletas);
+						adminOpciones(l_productos, c_pedidos, l_reclamos, l_proveedores, l_boletas, abb_precios_productos);
 						salir = true;
 						break;
 					}
@@ -193,7 +194,7 @@ public:
 	}
 
 	void adminOpciones(Lista<Producto<string>*>* l_productos, queue<Pedido*> c_pedidos, Lista<Reclamo<string>*>* l_reclamos,
-		Lista<Proveedor*>* l_proveedores, Lista<Boleta<string>*>* l_boletas)
+		Lista<Proveedor*>* l_proveedores, Lista<Boleta<string>*>* l_boletas, ArbolBalanceado<double>* abb_precios_productos)
 	{
 		int opcionM;
 		int i = 0;
@@ -240,7 +241,7 @@ public:
 				i++;
 				break;
 			case 2:
-				buscarProducto(l_productos);
+				buscarProducto(l_productos, abb_precios_productos);
 				break;
 			case 3:
 				modificarProducto(l_productos);
@@ -329,20 +330,23 @@ public:
 		sobrescribirArchivoProducto(l_productos);
 	}
 
-	void buscarProducto(Lista<Producto<string>*>* l_productos) {
+	void buscarProducto(Lista<Producto<string>*>* l_productos, ArbolBalanceado<double>* abb_precios_productos) {
 		string nombre, categoria, auxCategoria;
 		bool productoEncontrado = false, salir = false, tecla_presionada = true;
 		int opcionesProducto, opcionesCategoria, contProductos = 0, contVentanas = 1, contadorCategoria = 0;
 		int primerProductoCategoria = 0;
+
 		Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 0);
 		cout << "=============:: Buscar Producto ::=============";
 		Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 1);
 		cout << "[1] Mostrar todos";
 		Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 2);
-		cout << "[2] Buscar por categoria";
+		cout << "[2] Mostrar todos ordenados por precio";
 		Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 3);
-		cout << "[3] Buscar por nombre";
+		cout << "[3] Buscar por categoria";
 		Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 4);
+		cout << "[4] Buscar por nombre";
+		Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 5);
 		cout << "Seleccionar una opcion: "; cin >> opcionesProducto;
 		system("cls");
 		mainInterfaz->encuadrar();
@@ -410,8 +414,11 @@ public:
 				}
 			}	
 			break;
-
 		case 2:
+		
+			break;
+
+		case 3:
 			Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 0);
 			cout << "=============:: Buscar por categoria ::=============";
 			Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 1);
@@ -504,7 +511,7 @@ public:
 			}
 			break;
 
-		case 3:
+		case 4:
 			Console::SetCursorPosition(ANCHO / 5 - 10, ALTO / 4 + 0);
 			cout << "===========:: Buscar por Nombre ::===========";
 			Console::SetCursorPosition(ANCHO / 5 - 10, ALTO / 4 + 1);
