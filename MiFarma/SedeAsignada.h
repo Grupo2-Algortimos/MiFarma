@@ -116,7 +116,7 @@ public:
     }
 
     // Método para calcular y mostrar la sede más cercana
-    void calcularSedeCercana(const string& distritoUser) {
+    string calcularSedeCercana(const string& distritoUser) {
         int distanciaMinima = 999999;
         string sedeMasCercana = sedesMiFarma[0];
 
@@ -127,11 +127,7 @@ public:
                 sedeMasCercana = sede;
             }
         }
-
-        if (distanciaMinima != -1) cout << "La sede mas cercana es: " << sedeMasCercana << " a una distancia de " << distanciaMinima << " km." << endl;
-        else cout << "Sede asignada por defecto: " << sedeMasCercana << endl;
-
-
+        return sedeMasCercana;
     }
 
     void mostrarConexiones() {
