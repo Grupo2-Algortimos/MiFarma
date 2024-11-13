@@ -27,7 +27,7 @@ private:
 	VistaEmpleado* vistaEmpleado;
 
 	// hashtable
-	HashTablaA hashTable;
+	HashTablaA<Usuario> hashTable;
 
 	// Otras variables
 	int cont_productos_comprados;
@@ -359,5 +359,4 @@ public:
 			system("pause>>null");
 		}
 	}
-
 };
