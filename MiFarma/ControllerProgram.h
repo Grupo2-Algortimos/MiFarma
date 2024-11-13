@@ -380,7 +380,7 @@ public:
 			switch (opcion)
 			{
 			case 1:
-				vistaEmpleado->vistaEmpleadoPantalla(l_empleados, l_productos, c_pedidos, l_reclamos, l_proveedores, l_boletas, abb_precios_productos);
+				vistaEmpleado->vistaEmpleadoPantalla(l_empleados, l_productos, c_pedidos, l_reclamos, l_proveedores, l_boletas, ab_ids_productos);
 				break;
 			case 2:
 				vistaUsuario->vistaUsuarioPantalla(l_productos, l_productos_comprados, cont_productos_comprados, l_usuarios, usuario_actual,pedido_usuario, 
