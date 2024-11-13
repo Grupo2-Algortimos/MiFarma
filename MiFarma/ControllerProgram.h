@@ -27,7 +27,7 @@ private:
 	VistaEmpleado* vistaEmpleado;
 
 	// hashtable
-	HashTablaA hashTable;
+	HashTablaA<Usuario> hashTable;
 
 	//Arbol Binario de Busqueda de los IDs de los productos
 	ArbolBinario<int>* ab_ids_productos;

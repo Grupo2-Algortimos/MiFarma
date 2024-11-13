@@ -34,5 +34,9 @@ public:
 		Console::SetCursorPosition(x, y + 5);
 		cout << "Dinero: " << getDinero();
 	}
+
+	bool operator==( Usuario& other)  {
+		return (getNombre() == other.getNombre() && getApellido() == other.getApellido());
+	}
 };
 
