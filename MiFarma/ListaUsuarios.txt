@@ -1,4 +1,4 @@
-usuario|password|nombre|apellido|telefono|sexo|distrito|dinero|
-a|a|n|a|t|M|S|0
-cmartinez|abc123|Carlos|Martinez|987654321|M|Miraflores|60.7
-miguelitox|xo13|Miguel|Carrion|9407460|M|San Miguel|90.7
+usuario|password|nombre|apellido|telefono|sexo|distrito|dinero|edad
+a|a|n|a|t|M|S|0|20
+cmartinez|abc123|Carlos|Martinez|987654321|M|Miraflores|60.7|35
+miguelitox|xo13|Miguel|Carrion|9407460|M|San Miguel|90.7|40

@@ -128,6 +128,10 @@ string removerPrimerCaracter(string str)
 	return str.substr(1, str.length() - 1);
 }
 
+char obtenerPrimerCaracter(string str)
+{
+	return str[0];
+}
 
 //Funcion para calcular cuantos productos hay por categoria
 int contarProductosPorCategoria(Lista<Producto<string>*>* l_productos, string categoria) {

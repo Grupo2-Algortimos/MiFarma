@@ -14,7 +14,7 @@ private:
 	//Declaron Interfaces
 	MainInterfaz* mainInterfaz;
 	ProductosInterfaz* productosInterfaz;
-	HashTablaA<Usuario> hashTable;
+	HashTablaA<Usuario<double, int>> hashTable;
 	Pila<Reclamo<string>*>* p_reclamo;
 public:
 	VistaEmpleado()
@@ -31,7 +31,7 @@ public:
 		delete productosInterfaz;
 	}
 
-	void vistaEmpleadoPantalla(Lista<Empleado*>* l_empleados, Lista<Producto<string>*>* l_productos, queue<Pedido*> c_pedidos, Lista<Reclamo<string>*>* l_reclamos,
+	void vistaEmpleadoPantalla(Lista<Empleado<string>*>* l_empleados, Lista<Producto<string>*>* l_productos, queue<Pedido*> c_pedidos, Lista<Reclamo<string>*>* l_reclamos,
 		Lista<Proveedor*>* l_proveedores, Lista<Boleta<string>*>* l_boletas, ArbolBinario<int>* ab_ids_productos) {
 		int op = 0;
 		string master_key = "";
@@ -78,7 +78,7 @@ public:
 	}
 
 
-	void loginEmpleado(Lista<Empleado*>* l_empleados, Lista<Producto<string>*>* l_productos, queue<Pedido*> c_pedidos, Lista<Reclamo<string>*>* l_reclamos,
+	void loginEmpleado(Lista<Empleado<string>*>* l_empleados, Lista<Producto<string>*>* l_productos, queue<Pedido*> c_pedidos, Lista<Reclamo<string>*>* l_reclamos,
 		Lista<Proveedor*>* l_proveedores, Lista<Boleta<string>*>* l_boletas, ArbolBinario<int>* ab_ids_productos) {
 		string user, password;
 		bool salir = false;
@@ -128,11 +128,11 @@ public:
 
 	
 
-	void registroEmpleado(Lista<Empleado*>* l_empleados) {
+	void registroEmpleado(Lista<Empleado<string>*>* l_empleados) {
 		system("cls");
 		mainInterfaz->encuadrar();
 		string user, password, nombre, apellido, telefono, sexo, distrito, idTrabajador, puesto;
-		Empleado* aux;
+		Empleado<string>* aux;
 		Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 0);
 		cout << "=============:: Resgistro de Empleado ::=============";
 		Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 1);
@@ -153,9 +153,8 @@ public:
 		cout << "Ingrese su idTrabajador: "; cin >> idTrabajador;
 		Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 9);
 		cout << "Ingrese su puesto: "; cin >> puesto;
-		aux = new Empleado(user, password, nombre, apellido, telefono, sexo, distrito, idTrabajador, puesto);
+		aux = new Empleado<string>(user, password, nombre, apellido, telefono, sexo, distrito, idTrabajador, puesto);
 		l_empleados->agregaFinal(aux);
-		//sobrescribirArchivo(l_empleados);
 	}
 
 	void adminOpciones(Lista<Producto<string>*>* l_productos, queue<Pedido*> c_pedidos, Lista<Reclamo<string>*>* l_reclamos,
@@ -262,7 +261,6 @@ public:
 		cout << "Ingresar Fecha de caducidad del Producto: "; cin >> fechaCad;;
 		auxProduct = new Producto<string>(idProduct, nombre, precio, categoria, cantidad, fechaCad);
 		l_productos->agregaPos(auxProduct, i);
-		//sobrescribirArchivoProducto(l_productos);
 	}
 
 	void buscarProducto(Lista<Producto<string>*>* l_productos, ArbolBinario<int>* ab_ids_productos) {
@@ -1076,9 +1074,10 @@ public:
 
 			string distrito = distritoLimaMetro[rand() % 43];
 
-			int dinero = rand() % 1001;
+			double dinero = rand() % 1001;
+			int edad = rand() % 20 + 70;
 
-			hashTable.insert(new Usuario(nomUsuario, password, nombre, apellido, telefono, sexoElegido, distrito, dinero));
+			hashTable.insert(new Usuario<double, int>(nomUsuario, password, nombre, apellido, telefono, sexoElegido, distrito, dinero, edad));
 
 			archivo << nomUsuario << "|" << password << "|" << nombre << "|" << apellido << "|" << telefono << "|" << sexoElegido << "|" << distrito << "|" << dinero << "|\n";
 		}

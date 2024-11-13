@@ -1,16 +1,16 @@
 #pragma once
 #include"Libreria.h"
-
+template<class T>
 class Entidad
 {
 protected:
-	string user;
-	string password;
-	string nombre;
-	string apellido;
-	string telefono;
-	string sexo;
-	string distrito;
+	T user;
+	T password;
+	T nombre;
+	T apellido;
+	T telefono;
+	T sexo;
+	T distrito;
 public:
 	Entidad() {
 		this->user = "";
@@ -21,8 +21,8 @@ public:
 		this->sexo = "";
 		this->distrito = "";
 	}
-	Entidad(string puser,string ppassword,string pnombre,string papellido,
-	string ptelefono,string psexo,string pdistrito) {
+	Entidad(T puser,T ppassword,T pnombre,T papellido,
+	T ptelefono,T psexo,T pdistrito) {
 		this->user = puser;
 		this->password = ppassword;
 		this->nombre = pnombre;
@@ -31,8 +31,8 @@ public:
 		this->sexo = psexo;
 		this->distrito = pdistrito;
 	}
-	Entidad(string pnombre, string papellido,
-		string ptelefono, string pdistrito) {
+	Entidad(T pnombre, T papellido,
+		T ptelefono, T pdistrito) {
 		this->nombre = pnombre;
 		this->apellido = papellido;
 		this->telefono = ptelefono;	
@@ -40,20 +40,20 @@ public:
 	}
 	
 	//metodos getter y setter
-	string getUser() { return user; }
-	string getPassword(){ return password; }
-	string getNombre(){ return nombre; }
-	string getApellido(){ return apellido; }
-	string getTelefono(){ return telefono; }
-	string getSexo(){ return sexo; }
-	string getDistrito(){ return distrito; }
+	T getUser() { return user; }
+	T getPassword(){ return password; }
+	T getNombre(){ return nombre; }
+	T getApellido(){ return apellido; }
+	T getTelefono(){ return telefono; }
+	T getSexo(){ return sexo; }
+	T getDistrito(){ return distrito; }
 
-	void setUser(string puser) { user = puser; }
-	void setPassword(string ppassword) { password = ppassword; }
-	void setNombre(string pnombre) { nombre = pnombre; }
-	void setApellido(string papellido) { apellido = papellido; }
-	void setTelefono(string ptelefono) { telefono = ptelefono; }
-	void setSexo(string psexo) { sexo = psexo; }
-	void setDistrito(string pdistrito) { distrito = pdistrito; }
+	void setUser(T puser) { user = puser; }
+	void setPassword(T ppassword) { password = ppassword; }
+	void setNombre(T pnombre) { nombre = pnombre; }
+	void setApellido(T papellido) { apellido = papellido; }
+	void setTelefono(T ptelefono) { telefono = ptelefono; }
+	void setSexo(T psexo) { sexo = psexo; }
+	void setDistrito(T pdistrito) { distrito = pdistrito; }
 
 };
