@@ -163,7 +163,6 @@ public:
 		string user, password;
 		Usuario* auxUsuario;
 		int dinero = 0;
-		int pos = 0;
 		int op = 0;
 		Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 0);
 		cout << "=============:: Resgistro de Usuario ::=============";
@@ -238,8 +237,8 @@ public:
 		cout << "Usuario creado: " << auxUsuario->getUser();
 		Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 1);
 		cout << "Contrasena creada: " << auxUsuario->getPassword();
-		l_usuarios->agregaPos(auxUsuario, i);
-		sobrescribirArchivo(l_usuarios);
+		l_usuarios->agregaFinal(auxUsuario);
+		//sobrescribirArchivo(l_usuarios);
 		system("pause>>null");
 	}
 
