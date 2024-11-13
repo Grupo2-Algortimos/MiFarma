@@ -155,7 +155,7 @@ public:
 		Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 9);
 		cout << "Ingrese su puesto: "; cin >> puesto;
 		aux = new Empleado(user, password, nombre, apellido, telefono, sexo, distrito, idTrabajador, puesto);
-		l_empleados->agregaPos(aux, coni);
+		l_empleados->agregaFinal(aux);
 		
 	}
 
@@ -521,7 +521,7 @@ public:
 				Console::SetCursorPosition(ANCHO / 3, ALTO / 5 + 13);
 				auxProduct = new Producto<string>(idProduct, nombre, precio, categoria, cantidad, fechaCad);
 				l_productos->modificarPos(auxProduct, i);
-				sobrescribirArchivoProducto(l_productos);
+				
 				break;
 			}
 		}

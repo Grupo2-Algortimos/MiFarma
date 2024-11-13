@@ -204,7 +204,7 @@ public:
 		cout << "Usuario creado: " << auxUsuario->getUser();
 		Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 1);
 		cout << "Contrasena creada: " << auxUsuario->getPassword();
-		l_usuarios->agregaPos(auxUsuario, i);		
+		l_usuarios->agregaFinal(auxUsuario);		
 		system("pause>>null");
 	}
 
