@@ -28,7 +28,7 @@ public:
 	
 
 	void vistaUsuarioPantalla(Lista<Producto<string>*>* l_productos, Lista<Producto<string>*>* l_productos_comprados, int& cont_productos_comprados,
-		Lista<Usuario*>* l_usuarios, Usuario* usario_actual, Pedido* &pedido_usuario, queue<Pedido*> &c_pedidos, Lista<Reclamo<string>*>* l_reclamos,
+		Lista<Usuario<double, int>*>* l_usuarios, Usuario<double, int>* usario_actual, Pedido* &pedido_usuario, queue<Pedido*> &c_pedidos, Lista<Reclamo<string>*>* l_reclamos,
 		Lista<Boleta<string>*>* l_boletas, ArbolBinario<int>* ab_ids_productos)
 	{
 		int op = 0;
@@ -71,7 +71,7 @@ public:
 	}
 
 	void loginUsuario(Lista<Producto<string>*>* l_productos, Lista<Producto<string>*>* l_productos_comprados, int& cont_productos_comprados, 
-		Lista<Usuario*>* l_usuarios, Usuario* usuario_actual, Pedido* &pedido_usuario, queue<Pedido*> &c_pedidos, Lista<Reclamo<string>*>* l_reclamos,
+		Lista<Usuario<double, int>*>* l_usuarios, Usuario<double, int>* usuario_actual, Pedido* &pedido_usuario, queue<Pedido*> &c_pedidos, Lista<Reclamo<string>*>* l_reclamos,
 		Lista<Boleta<string>*>* l_boletas, ArbolBinario<int>* ab_ids_productos)
 	{
 		string user, password;
@@ -126,12 +126,12 @@ public:
 
 	
 	
-	void registerUsuario(int i, Lista<Usuario*>* l_usuarios) {
+	void registerUsuario(int i, Lista<Usuario<double, int>*>* l_usuarios) {
 		string nombre, apellido, telefono, sexo, distrito;
 		string user, password;
-		Usuario* auxUsuario;
-		int dinero = 0;
-		int op = 0;
+		Usuario<double, int>* auxUsuario;
+		double dinero = 0;
+		int op = 0, edad = 0;
 		Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 0);
 		cout << "=============:: Resgistro de Usuario ::=============";
 		Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 1);
@@ -199,17 +199,16 @@ public:
 
 		system("cls");
 		mainInterfaz->encuadrar();
-		auxUsuario = new Usuario(user, password, nombre, apellido, telefono, sexo, distrito, dinero);		
+		auxUsuario = new Usuario<double, int>(user, password, nombre, apellido, telefono, sexo, distrito, dinero, edad);
 		//Lista Usuarios -> Agregar
 		Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 0);
 		cout << "Usuario creado: " << auxUsuario->getUser();
 		Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 1);
 		cout << "Contrasena creada: " << auxUsuario->getPassword();
-		//sobrescribirArchivo(l_usuarios);
 		system("pause>>null");
 	}
 
-	void userOpciones(Lista<Producto<string>*>* l_productos, Lista<Producto<string>*>* l_productos_comprados, int &cont_productos_comprados, Usuario* usuario_actual,
+	void userOpciones(Lista<Producto<string>*>* l_productos, Lista<Producto<string>*>* l_productos_comprados, int &cont_productos_comprados, Usuario<double, int>* usuario_actual,
 		Pedido* &pedido_usuario, queue<Pedido*> &c_pedidos, Lista<Reclamo<string>*>* l_reclamos, Lista<Boleta<string>*>* l_boletas, ArbolBinario<int>* ab_ids_productos) {
 		int opcionM;
 		int i = 0;
@@ -528,7 +527,7 @@ public:
 	}
 
 
-	void agregarProducto(Lista<Producto<string>*>* l_productos, Lista<Producto<string>*>* l_productos_comprados, Usuario*& usuario_actual,
+	void agregarProducto(Lista<Producto<string>*>* l_productos, Lista<Producto<string>*>* l_productos_comprados, Usuario<double, int>*& usuario_actual,
 		int &cont_productos_comprados)
 	{
 		int opcionesC;
@@ -731,7 +730,7 @@ public:
 		cout << "Todo los productos del carrito han sido eliminados";
 	}
 	
-	void verCarrito(Lista<Producto<string>*>* l_productos_comprados, Pedido* &pedido_usuario, queue<Pedido*> &c_pedidos, Usuario* usuario_actual)
+	void verCarrito(Lista<Producto<string>*>* l_productos_comprados, Pedido* &pedido_usuario, queue<Pedido*> &c_pedidos, Usuario<double, int>* usuario_actual)
 	{
 		int opcCarrito;
 		int contEspacios = 0;
@@ -803,7 +802,7 @@ public:
 		}
 	}
 	
-	void ingresarReclamo(Lista<Reclamo<string>*>* l_reclamos, Usuario* &usuario_actual)
+	void ingresarReclamo(Lista<Reclamo<string>*>* l_reclamos, Usuario<double, int>* &usuario_actual)
 	{
 		string idReclamo, fecha, nombreProducto, tipo, detalle, pedido;
 		Reclamo<string>* auxReclamo;
@@ -826,7 +825,7 @@ public:
 		l_reclamos->agregaPos(auxReclamo, l_reclamos->longitud());
 	}
 
-	bool comprarProductos(Lista<Producto<string>*>* l_productos_comprados, Usuario* &usuario_actual, Pedido* &pedido_usuario,
+	bool comprarProductos(Lista<Producto<string>*>* l_productos_comprados, Usuario<double, int>* &usuario_actual, Pedido* &pedido_usuario,
 		Lista<Boleta<string>*>* l_boletas, queue<Pedido*> &c_pedidos)
 	{
 		string montoUsuario, fecha, idBoleta;
