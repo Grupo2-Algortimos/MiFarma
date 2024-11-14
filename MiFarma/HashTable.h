@@ -16,6 +16,19 @@ public:
         DELETED = reinterpret_cast<T*>(0xFFFFFFFF);
     }
 
+	~HashTablaA() {
+		makeEmpty();
+	}
+
+    vector<T*> getTable()
+    {
+        return table;
+    }
+
+	T* getDELETED() const {
+	    return const_cast<T*>(DELETED);
+	}
+
     int getsize() const {
         return table.size();
     }
@@ -64,118 +77,10 @@ public:
         }
         return false;
     }
-    /*
-    void DispAll() {
-        bool salir = false, tecla_presionada = true;
-        int contVentanas = 1;
-        int contEspacios = 0;
-        for (size_t i = 0; i < table.size(); i++) {
-            if (table[i] != nullptr && table[i] != DELETED) {
-                if (contEspacios > 18) break;
-                Console::SetCursorPosition(ANCHO / 6, ALTO / 5 + 1 + contEspacios);
-                cout << "key " << i << " | Nombre: " << table[i]->getNombre() << ", Apellido: " << table[i]->getApellido() << endl;
-                contEspacios++;
-            }
-            Console::SetCursorPosition(ANCHO - 40, ALTO / 5 + 1);
-            cout << "[->] Mover siguiente producto";
-            Console::SetCursorPosition(ANCHO - 40, ALTO / 5 + 2);
-            cout << "[<-] Retroceder anterior producto";
-            Console::SetCursorPosition(ANCHO - 40, ALTO / 5 + 3);
-            cout << "[B] Buscar";
-            Console::SetCursorPosition(ANCHO - 40, ALTO / 5 + 4);
-            cout << "[ESC] Salir";
-            Console::SetCursorPosition(ANCHO - 40, ALTO / 5 + 10);
-            cout << "<" << contVentanas << " : " << getsize() / 3 + 1 << ">";
-            tecla_presionada = false;
-            if (kbhit())
-            {
-                char tecla = getch();
-                switch (tecla)
-                {
-                case TECLA_DERECHA:                    
-                    if (contProductos < l_productos->longitud() - 3)
-                    {
-                        contProductos += 3;
-                        contVentanas++;
-                    }
-                    break;
-                case TECLA_IZQUIERDA:
-                    if (contProductos > 2)
-                    {
-                        contProductos -= 3;
-                        contVentanas--;
-                    }
-                    break;
-                case TECLA_ESCAPE:
-                    salir = true;
-                    break;
-                }
-                tecla_presionada = true;
-            }
-        }
-    }
-    */
 
-    void DispAll() {
-        bool salir = false;
-        int contVentanas = 1;                 // Contador de páginas (ventanas)
-        int paginaActual = 0;                 // Índice de la página actual
-        const int elementosPorPagina = 10;    // Número de elementos por página
-
-        while (!salir) {
-            // Limpiar la pantalla o posición inicial (esto dependerá de cómo implementes el entorno gráfico o consola)
-            //system("cls");  // Solo si estás en Windows; en Linux/Mac puedes usar `clear`
-            //mainInterfaz->encuadrar();
-
-            int inicio = paginaActual * elementosPorPagina;
-            int fin = std::min(static_cast<int>(table.size()), inicio + elementosPorPagina);
-            int contEspacios = 0;
-
-            for (int i = inicio; i < fin; ++i) {
-                if (table[i] != nullptr && table[i] != DELETED) {
-                    // Posicionar y mostrar cada elemento
-                    Console::SetCursorPosition(ANCHO / 6, ALTO / 5 + 1 + contEspacios);
-                    cout << "key " << i << " | Nombre: " << table[i]->getNombre()
-                        << ", Apellido: " << table[i]->getApellido() << endl;
-                    contEspacios++;
-                }
-            }
-
-            // Mostrar las instrucciones de navegación
-            Console::SetCursorPosition(ANCHO - 40, ALTO / 5 + 1);
-            cout << "[->] Mover a la siguiente página";
-            Console::SetCursorPosition(ANCHO - 40, ALTO / 5 + 2);
-            cout << "[<-] Mover a la página anterior";
-            Console::SetCursorPosition(ANCHO - 40, ALTO / 5 + 3);
-            cout << "[ESC] Salir";
-            Console::SetCursorPosition(ANCHO - 40, ALTO / 5 + 10);
-            cout << "<" << paginaActual + 1 << " de " << (table.size() + elementosPorPagina - 1) / elementosPorPagina << ">";
-
-            // Detectar entrada de teclas
-            if (kbhit()) {
-                char tecla = getch();
-                switch (tecla) {
-                case TECLA_DERECHA:
-                    if ((paginaActual + 1) * elementosPorPagina < table.size()) {
-                        paginaActual++;  // Avanzar a la siguiente página
-                        contVentanas++;
-                    }
-                    break;
-                case TECLA_IZQUIERDA:
-                    if (paginaActual > 0) {
-                        paginaActual--;  // Retroceder a la página anterior
-                        contVentanas--;
-                    }
-                    break;
-                case TECLA_ESCAPE:
-                    salir = true;  // Salir del bucle y de la función
-                    break;
-                }
-            }
-            
-        }
-    }
-
+	bool is_empty() const {
+		return currentSize == 0;
+	}
 private:
     int conversor(const std::string& a, const std::string& b) const {
         int sumaNombre = 0;
