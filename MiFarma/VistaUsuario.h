@@ -5,12 +5,16 @@
 #include"Reclamos.h"
 #include"ArbolBinario.h"
 #include"ArbolBalanceado.h"
+#include"Usuario.h"
+#include"SedeAsignada.h"
+
 class VistaUsuario
 {
 private:
 	//Declaron Interfaces
 	MainInterfaz* mainInterfaz;
 	ProductosInterfaz* productosInterfaz;
+	SedeAsignada sedeUsuario;
 	int cantProducto;	
 public:
 	VistaUsuario()
@@ -828,6 +832,8 @@ public:
 	bool comprarProductos(Lista<Producto<string>*>* l_productos_comprados, Usuario<double, int>* &usuario_actual, Pedido* &pedido_usuario,
 		Lista<Boleta<string>*>* l_boletas, queue<Pedido*> &c_pedidos)
 	{
+		string sedeAsignada;
+		sedeAsignada = sedeUsuario.calcularSedeCercana(usuario_actual->getDistrito());
 		string montoUsuario, fecha, idBoleta;
 		Boleta<string>* auxBoleta;
 		fecha = obtenerFechaYHora();
@@ -850,8 +856,18 @@ public:
 				Console::SetCursorPosition(ANCHO / 6, ALTO / 5 + 0);
 				cout << "=============:: Comprando Productos ::=============";
 				Console::SetCursorPosition(ANCHO / 6, ALTO / 5 + 1);
-				cout << "Monto total: " << pedido_usuario->conseguirCostoTotal();
+				if (sedeUsuario.getDistancia() != -1)
+					cout << "Sede Asignada: " << sedeAsignada << ", a " << sedeUsuario.getDistancia() << "km de distancia";
+				else
+					cout << "Sede Asignada por defecto: " << sedeAsignada;
 				Console::SetCursorPosition(ANCHO / 6, ALTO / 5 + 2);
+				if (sedeUsuario.getTiempo() != -1)
+					cout << "Tiempor de llegada: " << sedeUsuario.getTiempo() << " minutos";
+				else
+					cout << "Tiempor de llegada: " << 25 << " minutos";
+				Console::SetCursorPosition(ANCHO / 6, ALTO / 5 + 3);
+				cout << "Monto total: " << pedido_usuario->conseguirCostoTotal();
+				Console::SetCursorPosition(ANCHO / 6, ALTO / 5 + 4);
 				cout << "Poner costo su monto: "; cin >> montoUsuario;
 				system("cls");
 				mainInterfaz->encuadrar();
