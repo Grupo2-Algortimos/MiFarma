@@ -3,20 +3,21 @@
 #include"Lista.h"
 #include"Producto.h"
 
+template<class T>
 class Pedido
 {
 private:
-	string idPedido;
-	string nombreUsuario;
-	string nombreRepartidor;
-	string distrito;
-	Lista<Producto<string>*>* productosComprados;
-	string estado; // "Pendiente", "En camino", "Entregado"
-	string modoEntrega; // "Motocicleta", "Bicicleta"
+	T idPedido;
+	T nombreUsuario;
+	T nombreRepartidor;
+	T distrito;
+	Lista<Producto<T>*>* productosComprados;
+	T estado; // "Pendiente", "En camino", "Entregado"
+	T modoEntrega; // "Motocicleta", "Bicicleta"
 
 public:
-	Pedido(string p_idPedido, string p_nombreUsuario, string p_nombreRepartidor, string p_distrito, Lista<Producto<string>*>* p_productosComprados,
-		string p_estado, string p_modoEntrega){
+	Pedido(T p_idPedido, T p_nombreUsuario, T p_nombreRepartidor, T p_distrito, Lista<Producto<T>*>* p_productosComprados,
+		T p_estado, T p_modoEntrega){
 		this->idPedido = p_idPedido;
 		this->nombreUsuario = p_nombreUsuario;
 		this->nombreRepartidor = p_nombreRepartidor;
@@ -28,21 +29,21 @@ public:
 	~Pedido(){}
 
 
-	string getIdPedido() { return this->idPedido; }
-	string getNombreUsuario() { return this->nombreUsuario; }
-	string getNombreRepartidor() { return this->nombreRepartidor; }
-	string getDistrito() { return distrito; }
-	Lista<Producto<string>*>* getProductosComprados() { return this->productosComprados; }
-	string getEstado() { return this->estado; }
-	string getModoEntrega() { return this->modoEntrega; }
+	T getIdPedido() { return this->idPedido; }
+	T getNombreUsuario() { return this->nombreUsuario; }
+	T getNombreRepartidor() { return this->nombreRepartidor; }
+	T getDistrito() { return distrito; }
+	Lista<Producto<T>*>* getProductosComprados() { return this->productosComprados; }
+	T getEstado() { return this->estado; }
+	T getModoEntrega() { return this->modoEntrega; }
 
-	void setIdPedido(string p_idPedido) { this->idPedido = p_idPedido; }
-	void setNombreUsuario(string p_nombreUsuario) { this->nombreUsuario = p_nombreUsuario; }
-	void setNombreRepartidor(string p_nombreRepartidor) { this->nombreRepartidor = p_nombreRepartidor; }
-	void setDistrito(string p_distrito) { this->distrito = p_distrito; }
-	void setProductosComprados(Lista<Producto<string>*>* p_productosComprados) { this->productosComprados = p_productosComprados; }
-	void setEstado(string p_estado) { this->estado = p_estado; }
-	void setModoEntrega(string p_modoEntrega) { this->modoEntrega = p_modoEntrega; }
+	void setIdPedido(T p_idPedido) { this->idPedido = p_idPedido; }
+	void setNombreUsuario(T p_nombreUsuario) { this->nombreUsuario = p_nombreUsuario; }
+	void setNombreRepartidor(T p_nombreRepartidor) { this->nombreRepartidor = p_nombreRepartidor; }
+	void setDistrito(T p_distrito) { this->distrito = p_distrito; }
+	void setProductosComprados(Lista<Producto<T>*>* p_productosComprados) { this->productosComprados = p_productosComprados; }
+	void setEstado(T p_estado) { this->estado = p_estado; }
+	void setModoEntrega(T p_modoEntrega) { this->modoEntrega = p_modoEntrega; }
 
 	void mostarInformacion(int x, int y)
 	{
@@ -77,7 +78,7 @@ public:
 	double conseguirCostoTotal()
 	{
 		//Función lambda que retorna la suma de los precios del carrito para calcular el total
-		auto obtenerSumaTotal = [](Lista<Producto<string>*>* productosComprados) {
+		auto obtenerSumaTotal = [](Lista<Producto<T>*>* productosComprados) {
 
 			double suma = 0;
 			for (int i = 0; i < productosComprados->longitud(); i++)

@@ -8,6 +8,7 @@
 #include"Pila.h"
 #include"ArbolBinario.h"
 #include"ArbolBalanceado.h"
+#include"Cola.h"
 class VistaEmpleado
 {
 private:
@@ -15,24 +16,27 @@ private:
 	MainInterfaz* mainInterfaz;
 	ProductosInterfaz* productosInterfaz;
 	HashTablaA<Usuario<double, int>> hashTable;
-	Pila<Reclamo<string>*>* p_reclamo;
+	Pila<Reclamo<string>*>* p_reclamos;
 public:
 	VistaEmpleado()
 	{
 		//Interfaces o decoracion
 		mainInterfaz = new MainInterfaz();
 		productosInterfaz = new ProductosInterfaz();
-		p_reclamo = new Pila<Reclamo<string>*>();
+		p_reclamos = new Pila<Reclamo<string>*>();
+
+		lecturaArchivoReclamo();
 	}
 
 	~VistaEmpleado()
 	{
 		delete mainInterfaz;
 		delete productosInterfaz;
+		delete p_reclamos;
 	}
 
-	void vistaEmpleadoPantalla(Lista<Empleado<string>*>* l_empleados, Lista<Producto<string>*>* l_productos, queue<Pedido*> c_pedidos, Lista<Reclamo<string>*>* l_reclamos,
-		Lista<Proveedor*>* l_proveedores, Lista<Boleta<string>*>* l_boletas, ArbolBinario<int>* ab_ids_productos) {
+	void vistaEmpleadoPantalla(Lista<Empleado<string>*>* l_empleados, Lista<Producto<string>*>* l_productos, Cola<Pedido<string>*>* c_pedidos, Lista<Reclamo<string>*>* l_reclamos,
+		Lista<Proveedor*>* l_proveedores, Lista<Boleta<string>*>* l_boletas, ArbolBinario<int>* ab_ids_productos, ArbolBinario<int>* ab_ids_boletas, ArbolBinario<int>* ab_ids_reclamos) {
 		int op = 0;
 		string master_key = "";
 		do
@@ -53,7 +57,7 @@ public:
 			switch (op)
 			{
 			case 1:
-				loginEmpleado(l_empleados, l_productos, c_pedidos, l_reclamos, l_proveedores, l_boletas, ab_ids_productos);
+				loginEmpleado(l_empleados, l_productos, c_pedidos, l_reclamos, l_proveedores, l_boletas, ab_ids_productos, ab_ids_boletas, ab_ids_reclamos);
 				break;
 			case 2:
 				system("cls");
@@ -78,8 +82,8 @@ public:
 	}
 
 
-	void loginEmpleado(Lista<Empleado<string>*>* l_empleados, Lista<Producto<string>*>* l_productos, queue<Pedido*> c_pedidos, Lista<Reclamo<string>*>* l_reclamos,
-		Lista<Proveedor*>* l_proveedores, Lista<Boleta<string>*>* l_boletas, ArbolBinario<int>* ab_ids_productos) {
+	void loginEmpleado(Lista<Empleado<string>*>* l_empleados, Lista<Producto<string>*>* l_productos, Cola<Pedido<string>*>* c_pedidos, Lista<Reclamo<string>*>* l_reclamos,
+		Lista<Proveedor*>* l_proveedores, Lista<Boleta<string>*>* l_boletas, ArbolBinario<int>* ab_ids_productos, ArbolBinario<int>* ab_ids_boletas, ArbolBinario<int>* ab_ids_reclamos) {
 		string user, password;
 		bool salir = false;
 		bool usuario_encontrado = false, contrasena_correcta = false;
@@ -108,7 +112,7 @@ public:
 						Console::SetCursorPosition(ANCHO / 3, ALTO / 3 + 0);
 						cout << "Ingreso exitoso...";
 						system("pause>>null");
-						adminOpciones(l_productos, c_pedidos, l_reclamos, l_proveedores, l_boletas, ab_ids_productos);
+						adminOpciones(l_productos, c_pedidos, l_reclamos, l_proveedores, l_boletas, ab_ids_productos, ab_ids_boletas, ab_ids_reclamos);
 						salir = true;
 						break;
 					}
@@ -157,8 +161,9 @@ public:
 		l_empleados->agregaFinal(aux);
 	}
 
-	void adminOpciones(Lista<Producto<string>*>* l_productos, queue<Pedido*> c_pedidos, Lista<Reclamo<string>*>* l_reclamos,
-		Lista<Proveedor*>* l_proveedores, Lista<Boleta<string>*>* l_boletas, ArbolBinario<int>* ab_ids_productos)
+	void adminOpciones(Lista<Producto<string>*>* l_productos, Cola<Pedido<string>*>* c_pedidos, Lista<Reclamo<string>*>* l_reclamos,
+		Lista<Proveedor*>* l_proveedores, Lista<Boleta<string>*>* l_boletas, ArbolBinario<int>* ab_ids_productos, ArbolBinario<int>* ab_ids_boletas,
+		ArbolBinario<int>* ab_ids_reclamos)
 	{
 		int opcionM;
 		int i = 0;
@@ -211,10 +216,10 @@ public:
 				modificarProducto(l_productos);
 				break;
 			case 4:
-				buscarPedidos(c_pedidos);
+				buscarPedidos(c_pedidos, ab_ids_boletas);
 				break;
 			case 5:
-				buscarReclamos(l_reclamos);
+				buscarReclamos(l_reclamos, ab_ids_reclamos);
 				break;
 			case 6:
 				ingresarProveedor(p, l_proveedores);
@@ -264,10 +269,10 @@ public:
 	}
 
 	void buscarProducto(Lista<Producto<string>*>* l_productos, ArbolBinario<int>* ab_ids_productos) {
-		string nombre, categoria, auxCategoria;
+		string nombre, categoria, auxCategoria, id_producto;
 		bool productoEncontrado = false, salir = false, tecla_presionada = true;
 		int opcionesProducto, opcionesCategoria, contProductos = 0, contVentanas = 1, contadorCategoria = 0;
-		int primerProductoCategoria = 0, id_producto;
+		int primerProductoCategoria = 0;
 
 		Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 0);
 		cout << "=============:: Buscar Producto ::=============";
@@ -348,42 +353,86 @@ public:
 			}	
 			break;
 		case 2:
+			cin.ignore();
 			Console::SetCursorPosition(ANCHO / 5 - 10, ALTO / 4 + 0);
 			cout << "===========:: Buscar por ID del producto ::===========";
 			Console::SetCursorPosition(ANCHO / 5 - 10, ALTO / 4 + 1);
-			cout << "Ingresar ID del producto: "; cin >> id_producto;
+			cout << "Ingresar ID del producto: "; getline(cin, id_producto);
 
-			if (ab_ids_productos->buscar(id_producto))
+			if (obtenerPrimerCaracter(id_producto) >= 48 && obtenerPrimerCaracter(id_producto) <= 57)
 			{
-				Producto<string>* producto = l_productos->obtenerPos(id_producto - 1);
-				auxCategoria = producto->getCategoria();
-				if (auxCategoria == "Farmaco")
+				int id_producto_entero = stoi(id_producto);
+				if (ab_ids_productos->buscar(id_producto_entero))
 				{
-					productosInterfaz->dibujarFarmaco(ANCHO - 35, ALTO / 2 - 5);
+					Producto<string>* producto_aux = l_productos->obtenerPos(id_producto_entero - 1);
+					auxCategoria = producto_aux->getCategoria();
+					if (auxCategoria == "Farmaco")
+					{
+						productosInterfaz->dibujarFarmaco(ANCHO - 35, ALTO / 2 - 5);
+					}
+					if (auxCategoria == "Cosmeticos")
+					{
+						productosInterfaz->dibujarCosmetico(ANCHO - 35, ALTO / 2 - 5);
+					}
+					if (auxCategoria == "Cuidado para bebes")
+					{
+						productosInterfaz->dibujarBiberon(ANCHO - 35, ALTO / 2 - 5);
+					}
+					if (auxCategoria == "Cuidado personal")
+					{
+						productosInterfaz->dibujarCuidadoPersonal(ANCHO - 35, ALTO / 2 - 5);
+					}
+					if (auxCategoria == "Personas mayores")
+					{
+						productosInterfaz->dibujarPersonaMayor(ANCHO - 35, ALTO / 2 - 5);
+					}
+					producto_aux->mostrarProducto(ANCHO / 5 - 10, ALTO / 4 + 2);
 				}
-				if (auxCategoria == "Cosmeticos")
+				else
 				{
-					productosInterfaz->dibujarCosmetico(ANCHO - 35, ALTO / 2 - 5);
+					Console::SetCursorPosition(ANCHO / 5 - 10, ALTO / 4 + 2);
+					cout << "No hay productos con ese ID!";
 				}
-				if (auxCategoria == "Cuidado para bebes")
-				{
-					productosInterfaz->dibujarBiberon(ANCHO - 35, ALTO / 2 - 5);
-				}
-				if (auxCategoria == "Cuidado personal")
-				{
-					productosInterfaz->dibujarCuidadoPersonal(ANCHO - 35, ALTO / 2 - 5);
-				}
-				if (auxCategoria == "Personas mayores")
-				{
-					productosInterfaz->dibujarPersonaMayor(ANCHO - 35, ALTO / 2 - 5);
-				}
-				producto->mostrarProducto(ANCHO / 5 - 10, ALTO / 4 + 2);
 			}
 			else
 			{
-				Console::SetCursorPosition(ANCHO / 5 - 10, ALTO / 4 + 2);
-				cout << "No hay productos con ese ID!";
+				for (int i = 0; i < l_productos->longitud(); i++)
+				{
+					if (convertirStringMinuscula(l_productos->obtenerPos(i)->getIdProduct()) == convertirStringMinuscula(id_producto))
+					{
+						productoEncontrado = true;
+						auxCategoria = l_productos->obtenerPos(i)->getCategoria();
+						if (auxCategoria == "Farmaco")
+						{
+							productosInterfaz->dibujarFarmaco(ANCHO - 35, ALTO / 2 - 5);
+						}
+						if (auxCategoria == "Cosmeticos")
+						{
+							productosInterfaz->dibujarCosmetico(ANCHO - 35, ALTO / 2 - 5);
+						}
+						if (auxCategoria == "Cuidado para bebes")
+						{
+							productosInterfaz->dibujarBiberon(ANCHO - 35, ALTO / 2 - 5);
+						}
+						if (auxCategoria == "Cuidado personal")
+						{
+							productosInterfaz->dibujarCuidadoPersonal(ANCHO - 35, ALTO / 2 - 5);
+						}
+						if (auxCategoria == "Personas mayores")
+						{
+							productosInterfaz->dibujarPersonaMayor(ANCHO - 35, ALTO / 2 - 5);
+						}
+						l_productos->obtenerPos(i)->mostrarProducto(ANCHO / 5 - 10, ALTO / 4 + 2);
+					}
+				}
+				if (!productoEncontrado)
+				{
+					Console::SetCursorPosition(ANCHO / 5 - 10, ALTO / 4 + 2);
+					cout << "No hay productos con ese ID!";
+				}
+
 			}
+
 			break;
 
 		case 3:
@@ -571,16 +620,16 @@ public:
 		}
 	}
 
-	void buscarPedidos(queue<Pedido*> c_pedidos)
+	void buscarPedidos(Cola<Pedido<string>*>* c_pedidos, ArbolBinario<int>* ab_ids_boletas)
 	{
 		//Cola auxiliar para mostrar los pedidos
-		queue<Pedido*> c_pedidos_aux = c_pedidos;
-		int size_cola = c_pedidos.size();
-		Pedido* pedidoAux = NULL;
+		Cola<Pedido<string>*>* c_pedidos_aux = c_pedidos->copiar();
+		int size_cola = c_pedidos->size();
+		Pedido<string>* pedidoAux = NULL;
 		int opcModo, contPedidos = 0;
 		string idPedido;
-		bool salir = false, tecla_presionada = true;
-		if (c_pedidos_aux.empty())
+		bool salir = false, tecla_presionada = true, pedidoEncontrado = false;
+		if (c_pedidos_aux->esVacia())
 		{
 			Console::SetCursorPosition(ANCHO / 2.5, ALTO / 2 + 0);
 			cout << "No hay pedidos a mostrar!";
@@ -600,13 +649,13 @@ public:
 			switch (opcModo)
 			{
 			case 1:
-				while (!c_pedidos_aux.empty() && salir == false)
+				while (!c_pedidos_aux->esVacia() && salir == false)
 				{
 					if (tecla_presionada)
 					{
 						system("cls");
 						mainInterfaz->encuadrar();
-						c_pedidos_aux.front()->mostarInformacion(ANCHO / 4, ALTO / 5);
+						c_pedidos_aux->front()->mostarInformacion(ANCHO / 4, ALTO / 5);
 						Console::SetCursorPosition(ANCHO - 40, ALTO / 2 + 1);
 						cout << "[->] Siguente Pedido";
 						Console::SetCursorPosition(ANCHO - 40, ALTO / 2 + 2);
@@ -624,7 +673,7 @@ public:
 							if (contPedidos < size_cola)
 							{
 								contPedidos++;
-								c_pedidos_aux.pop();
+								c_pedidos_aux->desencolar();
 							}
 							break;
 						case TECLA_ESCAPE:
@@ -634,7 +683,7 @@ public:
 						tecla_presionada = true;
 					}
 				}
-				if (c_pedidos_aux.empty())
+				if (c_pedidos_aux->esVacia())
 				{
 					system("cls");
 					mainInterfaz->encuadrar();
@@ -650,25 +699,53 @@ public:
 				cout << "Ingresar Id del Pedido: "; getline(cin, idPedido);
 				system("cls");
 				mainInterfaz->encuadrar();
-				for (int i = 0; i < c_pedidos_aux.size(); i++)
+
+				if (obtenerPrimerCaracter(idPedido) >= 48 && obtenerPrimerCaracter(idPedido) <= 57)
 				{
-					if (c_pedidos_aux.back()->getIdPedido() == idPedido && i == c_pedidos_aux.size() - 1)
+					int id_pedido_entero = stoi(idPedido);
+					if (ab_ids_boletas->buscar(id_pedido_entero))
 					{
-						pedidoAux = c_pedidos_aux.back();
-						c_pedidos_aux.back()->mostarInformacion(ANCHO / 4, ALTO / 5);
+						while (!c_pedidos_aux->esVacia())
+						{
+							pedidoAux = c_pedidos_aux->front();
+							if (stoi(removerPrimerCaracter(pedidoAux->getIdPedido())) == id_pedido_entero)
+							{
+								pedidoEncontrado = true;
+								pedidoAux->mostarInformacion(ANCHO / 4, ALTO / 5);
+								break;
+							}
+						}
 					}
-					if (c_pedidos_aux.front()->getIdPedido() == idPedido)
+					else
 					{
-						pedidoAux = c_pedidos_aux.front();
-						c_pedidos_aux.front()->mostarInformacion(ANCHO / 4, ALTO / 5);
+						Console::SetCursorPosition(ANCHO / 3, ALTO / 5);
+						cout << "No hay Pedidos con ese ID!";
 					}
-					c_pedidos_aux.pop();
 				}
-				if (pedidoAux == NULL)
+				else
 				{
-					Console::SetCursorPosition(ANCHO / 3, ALTO / 5);
-					cout << "No hay Pedidos con ese ID!";
+					for (int i = 0; i < c_pedidos_aux->size(); i++)
+					{
+						if (convertirStringMinuscula(c_pedidos_aux->back()->getIdPedido()) == convertirStringMinuscula(idPedido) && i == c_pedidos_aux->size() - 1)
+						{
+							pedidoAux = c_pedidos_aux->back();
+							c_pedidos_aux->back()->mostarInformacion(ANCHO / 4, ALTO / 5);
+						}
+						if (convertirStringMinuscula(c_pedidos_aux->front()->getIdPedido()) == convertirStringMinuscula(idPedido))
+						{
+							pedidoAux = c_pedidos_aux->front();
+							c_pedidos_aux->front()->mostarInformacion(ANCHO / 4, ALTO / 5);
+						}
+						c_pedidos_aux->desencolar();
+					}
+					if (pedidoAux == NULL)
+					{
+						Console::SetCursorPosition(ANCHO / 3, ALTO / 5);
+						cout << "No hay Pedidos con ese ID!";
+					}
 				}
+
+				
 				break;
 			}
 		}
@@ -685,7 +762,6 @@ public:
 		}
 		string linea;
 		char delimitador = '|'; //Separador de cada columna de la línea
-		int i = 0;
 		Reclamo<string>* auxR;
 		// Encabezado: Leemos la primera línea para descartarla, pues es el encabezado
 		getline(archIN, linea);
@@ -705,20 +781,20 @@ public:
 			getline(stream, detalle, delimitador);
 			getline(stream, pedido, delimitador);
 			auxR = new Reclamo<string>(iDReclamo, fecha, nombre, telefono, distrito, nombreProducto, tipo, detalle, pedido);
-			p_reclamo->apilar(auxR);
-			i++;
+			p_reclamos->apilar(auxR);
 		}
 		// Cerramos Archivo
 		archIN.close();
 	}
 
-	void buscarReclamos(Lista<Reclamo<string>*>* l_reclamos) {
-		lecturaArchivoReclamo();
+	void buscarReclamos(Lista<Reclamo<string>*>* l_reclamos, ArbolBinario<int>* ab_ids_reclamos) {
 		bool escape = false;
 		string idReclamo;
 		int opcModo, contReclamos = 0, opcionMover;
-		bool encontrado = false;
-		Reclamo<string>* auxReclamo = new Reclamo<string>();
+		bool  salir = false, tecla_presionada = true, reclamoEncontrado = false;
+		Pila<Reclamo<string>*>* p_reclamos_aux = p_reclamos->copiar();
+		Reclamo<string>* auxReclamo = p_reclamos_aux->returnTope();
+		int size_pila = p_reclamos->size();
 		Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 0);
 		cout << "=============:: Buscar Reclamo ::=============";
 		Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 1);
@@ -731,70 +807,107 @@ public:
 		mainInterfaz->encuadrar();
 		switch (opcModo)
 		{
-		case 1:
-			do
+		case 1:				
+			while (!p_reclamos_aux->esVacia() && salir == false)
 			{
-				auxReclamo = p_reclamo->desapilar();
-				l_reclamos->agregaFinal(auxReclamo);
-			} while (!p_reclamo->esVacia());						
-			while (escape == false)
-			{
-				system("cls");				
-				mainInterfaz->encuadrar();
-				Console::SetCursorPosition(ANCHO / 6, ALTO / 6 + 0);
-				cout << "=============:: Reclamos ::=============";				
-				l_reclamos->obtenerPos(contReclamos)->mostrarReclamo(ANCHO / 6, ALTO / 6 + 1);
-				Console::SetCursorPosition(ANCHO - 40, ALTO / 5 + 1);
-				cout << "[1] Mover siguiente reclamo";
-				Console::SetCursorPosition(ANCHO - 40, ALTO / 5 + 2);
-				cout << "[2] Retroceder anterior reclamo";
-				Console::SetCursorPosition(ANCHO - 40, ALTO / 5 + 3);
-				cout << "[3] Salir";
-				Console::SetCursorPosition(ANCHO - 40, ALTO / 5 + 10);
-				cout << "<" << contReclamos + 1 << " : " << l_reclamos->longitud() << ">";
-				Console::SetCursorPosition(ANCHO - 40, ALTO / 5 + 4);
-				cout << "Escoger Opcion: "; cin >> opcionMover;
-				if (opcionMover == 3) break;
-				switch (opcionMover)
+				if (tecla_presionada)
 				{
-				case 1:
-					if (contReclamos < l_reclamos->longitud() - 1)
+					system("cls");
+					mainInterfaz->encuadrar();
+					auxReclamo->mostrarReclamo(ANCHO / 4, ALTO / 5);
+					Console::SetCursorPosition(ANCHO - 35, ALTO / 2 + 1);
+					cout << "[->] Siguente Reclamo";
+					Console::SetCursorPosition(ANCHO - 35, ALTO / 2 + 2);
+					cout << "[ESC] Salir";
+					Console::SetCursorPosition(ANCHO - 35, ALTO / 2 + 8);
+					cout << "<" << contReclamos + 1 << " : " << size_pila << ">";
+					tecla_presionada = false;
+				}
+				if (kbhit())
+				{
+					char tecla = getch();
+					switch (tecla)
 					{
-						contReclamos++;						
+					case TECLA_DERECHA:
+						if (contReclamos < size_pila)
+						{
+							contReclamos++;
+							p_reclamos_aux->desapilar();
+							auxReclamo = p_reclamos_aux->returnTope();
+						}
+						break;
+					case TECLA_ESCAPE:
+						salir = true;
+						break;
 					}
-					break;
-				case 2:
-					if (contReclamos > 0)
-					{
-						contReclamos--;
-					}
-					break;
-				}					
-			}			
+					tecla_presionada = true;
+				}
+			}
+			if (p_reclamos_aux->esVacia())
+			{
+				system("cls");
+				mainInterfaz->encuadrar();
+				Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 1);
+				cout << "Se han mostrado todos los reclamos!";
+			}
+
 			break;
 		case 2:
-			Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 0);
 			cin.ignore();
+			Console::SetCursorPosition(ANCHO / 3, ALTO / 5 - 2);
+			cout << "=============:: Reclamos ::=============";
+			Console::SetCursorPosition(ANCHO / 3, ALTO / 5 - 1);
 			cout << "Ingresar Id del Reclamo: "; getline(cin, idReclamo);
 			system("cls");
 			mainInterfaz->encuadrar();
-			for (int i = 0; i < l_reclamos->longitud(); i++)
+
+			if (obtenerPrimerCaracter(idReclamo) >= 48 && obtenerPrimerCaracter(idReclamo) <= 57)
 			{
-				if (l_reclamos->obtenerPos(i)->getIdReclamo() == idReclamo)
+				int id_reclamo_entero = stoi(idReclamo);
+				if (ab_ids_reclamos->buscar(id_reclamo_entero))
 				{
-					l_reclamos->obtenerPos(i)->mostrarReclamo(ANCHO / 3, ALTO / 5 + 0);
-					encontrado = true;
-					break;
+					while (!p_reclamos_aux->esVacia())
+					{
+						auxReclamo = p_reclamos_aux->desapilar();
+						if (stoi(removerPrimerCaracter(auxReclamo->getIdReclamo())) == id_reclamo_entero)
+						{
+							auxReclamo->mostrarReclamo(ANCHO / 4, ALTO / 5);
+							break;
+						}
+					}
+				}
+				else
+				{
+					Console::SetCursorPosition(ANCHO / 3, ALTO / 5);
+					cout << "No hay Reclamos con ese ID!";
 				}
 			}
-			if (!encontrado)
+			else
 			{
-				Console::SetCursorPosition(ANCHO / 3, ALTO / 5 + 0);
-				cout << "No hay reclamos con ese ID!";
+			int contador_reclamos_aux = 0;
+				while (!p_reclamos_aux->esVacia())
+				{
+					auxReclamo = p_reclamos_aux->desapilar();
+					if (convertirStringMinuscula(auxReclamo->getIdReclamo()) == convertirStringMinuscula(idReclamo))
+					{
+						reclamoEncontrado = true;
+						auxReclamo->mostrarReclamo(ANCHO / 4, ALTO / 5);
+						break;
+					}
+					contador_reclamos_aux++;
+				}
+
+				if (!reclamoEncontrado)
+				{
+					Console::SetCursorPosition(ANCHO / 3, ALTO / 5);
+					cout << "No hay Reclamos con ese ID!";
+				}
 			}
+
 			break;
 		}
 		
+		delete p_reclamos_aux;
 	}
 
 	void ingresarProveedor(int p, Lista<Proveedor*>* l_proveedores) {

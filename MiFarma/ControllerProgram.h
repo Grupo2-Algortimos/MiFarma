@@ -13,14 +13,17 @@ private:
 	Lista<Reclamo<string>*>* l_reclamos;
 	Lista<Proveedor*>* l_proveedores;
 	Lista<Boleta<string>*>* l_boletas;
+
 	//Declaron Interfaces
 	MainInterfaz* mainInterfaz;
 	ProductosInterfaz* productosInterfaz;
+
 	//Declarando colas
-	queue<Pedido*> c_pedidos;
+	Cola<Pedido<string>*>* c_pedidos;
+
 	//Declarando usuario
 	Usuario<double, int>* usuario_actual;
-	Pedido* pedido_usuario;
+	Pedido<string>* pedido_usuario;
 
 	//Declarando vistas
 	VistaUsuario* vistaUsuario;
@@ -29,8 +32,10 @@ private:
 	// hashtable
 	HashTablaA<Usuario<double, int>> hashTable;
 
-	//Arbol Binario de Busqueda de los IDs de los productos
+	//Arbol Binario de Busqueda
 	ArbolBinario<int>* ab_ids_productos;
+	ArbolBinario<int>* ab_ids_boletas;
+	ArbolBinario<int>* ab_ids_reclamos;
 
 	//Arbol Binario Balanceado de los precios de los productos
 	ArbolBalanceado<double>* abb_precios_productos;
@@ -51,8 +56,16 @@ public:
 		//Interfaces o decoracion
 		mainInterfaz = new MainInterfaz();
 		productosInterfaz = new ProductosInterfaz();
+
+		//Colas
+		c_pedidos = new Cola<Pedido<string>*>();
+		pedido_usuario = NULL;
+
 		//Arbol Binario de Busqueda
 		ab_ids_productos = new ArbolBinario<int>(imprimirInt);
+		ab_ids_boletas = new ArbolBinario<int>(imprimirInt);
+		ab_ids_reclamos = new ArbolBinario<int>(imprimirInt);
+
 		//Arboles Binarios Balanceados
 		abb_precios_productos = new ArbolBalanceado<double>(imprimirDouble);
 
@@ -86,9 +99,12 @@ public:
 		delete l_proveedores;
 		delete l_boletas;
 		delete l_reclamos;
+		delete c_pedidos;
 		delete usuario_actual;
 		delete pedido_usuario;
 		delete ab_ids_productos;
+		delete ab_ids_boletas;
+		delete ab_ids_reclamos;
 		delete abb_precios_productos;
 	}
 
@@ -194,7 +210,7 @@ public:
 			getline(stream, detalle, delimitador);
 			getline(stream, pedido, delimitador);
 			auxR = new Reclamo<string>(iDReclamo, fecha, nombre, telefono, distrito, nombreProducto, tipo, detalle, pedido);
-			//l_reclamos->agregaPos(auxR, i);
+			l_reclamos->agregaPos(auxR, i);
 			i++;
 		}
 		// Cerramos Archivo
@@ -317,8 +333,8 @@ public:
 			num_alea = r.Next(0, l_productos->longitud() + 1);
 			l_productosAleatorios->agregaPos(l_productos->obtenerPos(num_alea), j);
 		}
-		Pedido* pedido1 = new Pedido("P01", "Jose", "Kevin", "Puente Piedra", l_productosAleatorios, "En Camino", "Bicicleta");
-		c_pedidos.push(pedido1);
+		Pedido<string>* pedido1 = new Pedido<string>("P001", "Jose", "Kevin", "Puente Piedra", l_productosAleatorios, "En Camino", "Bicicleta");
+		c_pedidos->encolar(pedido1);
 
 		l_productosAleatorios = new Lista<Producto<string>*>();
 		catidad_productos = r.Next(1, 5); // [1-4]
@@ -327,8 +343,8 @@ public:
 			num_alea = r.Next(0, l_productos->longitud() + 1);
 			l_productosAleatorios->agregaPos(l_productos->obtenerPos(num_alea), j);
 		}
-		Pedido* pedido2 = new Pedido("P02", "Maria", "Luz", "San miguel", l_productosAleatorios, "Pendiente", "Motocicleta");
-		c_pedidos.push(pedido2);
+		Pedido<string>* pedido2 = new Pedido<string>("P002", "Maria", "Luz", "San miguel", l_productosAleatorios, "Pendiente", "Motocicleta");
+		c_pedidos->encolar(pedido2);
 
 		l_productosAleatorios = new Lista<Producto<string>*>();
 		catidad_productos = r.Next(1, 5); // [1-4]
@@ -337,22 +353,37 @@ public:
 			num_alea = r.Next(0, l_productos->longitud() + 1);
 			l_productosAleatorios->agregaPos(l_productos->obtenerPos(num_alea), j);
 		}
-		Pedido* pedido3 = new Pedido("P03", "Pepe", "Manuel", "San miguel", l_productosAleatorios, "Pendiente", "Bicicleta");
-		c_pedidos.push(pedido3);
+		Pedido<string>* pedido3 = new Pedido<string>("P003", "Pepe", "Manuel", "San miguel", l_productosAleatorios, "Pendiente", "Bicicleta");
+		c_pedidos->encolar(pedido3);
 	}
 
 	void registrarDatosArbolesBinarios()
 	{
+		//Registrar Ids y Precios de los productos
 		for (int i = 0; i < l_productos->longitud(); i++)
 		{
 			string id = removerPrimerCaracter(l_productos->obtenerPos(i)->getIdProduct());
+			string precio = l_productos->obtenerPos(i)->getPrecio();
 			ab_ids_productos->insertar(stoi(id));
+			abb_precios_productos->insertar(stod(precio));
 		}
 
-		for (int i = 0; i < l_productos->longitud(); i++)
+		//Registrar Ids de las boletas
+		Cola<Pedido<string>*>* c_pedidos_aux = c_pedidos->copiar();
+		while (!c_pedidos_aux->esVacia())
 		{
-			string precio = l_productos->obtenerPos(i)->getPrecio();
-			abb_precios_productos->insertar(stod(precio));
+			Pedido<string>* pedido_aux = c_pedidos_aux->front();
+			string id = removerPrimerCaracter(pedido_aux->getIdPedido());
+			ab_ids_boletas->insertar(stoi(id));
+			c_pedidos_aux->desencolar();
+		}
+
+		//Registrar Ids de los reclamos
+		for (int i = 0; i < l_reclamos->longitud(); i++)
+		{
+			Reclamo<string>* reclamo_aux = l_reclamos->obtenerPos(i);
+			string id = removerPrimerCaracter(reclamo_aux->getIdReclamo());
+			ab_ids_reclamos->insertar(stoi(id));
 		}
 	}
 
@@ -381,7 +412,7 @@ public:
 			switch (opcion)
 			{
 			case 1:
-				vistaEmpleado->vistaEmpleadoPantalla(l_empleados, l_productos, c_pedidos, l_reclamos, l_proveedores, l_boletas, ab_ids_productos);
+				vistaEmpleado->vistaEmpleadoPantalla(l_empleados, l_productos, c_pedidos, l_reclamos, l_proveedores, l_boletas, ab_ids_productos, ab_ids_boletas, ab_ids_reclamos);
 				break;
 			case 2:
 				vistaUsuario->vistaUsuarioPantalla(l_productos, l_productos_comprados, cont_productos_comprados, l_usuarios, usuario_actual,pedido_usuario, 
