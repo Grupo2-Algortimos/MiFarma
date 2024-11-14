@@ -8,6 +8,7 @@
 #include"Pila.h"
 #include"ArbolBinario.h"
 #include"ArbolBalanceado.h"
+#include"Cola.h"
 class VistaEmpleado
 {
 private:
@@ -34,7 +35,7 @@ public:
 		delete p_reclamos;
 	}
 
-	void vistaEmpleadoPantalla(Lista<Empleado<string>*>* l_empleados, Lista<Producto<string>*>* l_productos, queue<Pedido*> c_pedidos, Lista<Reclamo<string>*>* l_reclamos,
+	void vistaEmpleadoPantalla(Lista<Empleado<string>*>* l_empleados, Lista<Producto<string>*>* l_productos, Cola<Pedido<string>*>* c_pedidos, Lista<Reclamo<string>*>* l_reclamos,
 		Lista<Proveedor*>* l_proveedores, Lista<Boleta<string>*>* l_boletas, ArbolBinario<int>* ab_ids_productos, ArbolBinario<int>* ab_ids_boletas, ArbolBinario<int>* ab_ids_reclamos) {
 		int op = 0;
 		string master_key = "";
@@ -81,7 +82,7 @@ public:
 	}
 
 
-	void loginEmpleado(Lista<Empleado<string>*>* l_empleados, Lista<Producto<string>*>* l_productos, queue<Pedido*> c_pedidos, Lista<Reclamo<string>*>* l_reclamos,
+	void loginEmpleado(Lista<Empleado<string>*>* l_empleados, Lista<Producto<string>*>* l_productos, Cola<Pedido<string>*>* c_pedidos, Lista<Reclamo<string>*>* l_reclamos,
 		Lista<Proveedor*>* l_proveedores, Lista<Boleta<string>*>* l_boletas, ArbolBinario<int>* ab_ids_productos, ArbolBinario<int>* ab_ids_boletas, ArbolBinario<int>* ab_ids_reclamos) {
 		string user, password;
 		bool salir = false;
@@ -160,7 +161,7 @@ public:
 		l_empleados->agregaFinal(aux);
 	}
 
-	void adminOpciones(Lista<Producto<string>*>* l_productos, queue<Pedido*> c_pedidos, Lista<Reclamo<string>*>* l_reclamos,
+	void adminOpciones(Lista<Producto<string>*>* l_productos, Cola<Pedido<string>*>* c_pedidos, Lista<Reclamo<string>*>* l_reclamos,
 		Lista<Proveedor*>* l_proveedores, Lista<Boleta<string>*>* l_boletas, ArbolBinario<int>* ab_ids_productos, ArbolBinario<int>* ab_ids_boletas,
 		ArbolBinario<int>* ab_ids_reclamos)
 	{
@@ -619,16 +620,16 @@ public:
 		}
 	}
 
-	void buscarPedidos(queue<Pedido*> c_pedidos, ArbolBinario<int>* ab_ids_boletas)
+	void buscarPedidos(Cola<Pedido<string>*>* c_pedidos, ArbolBinario<int>* ab_ids_boletas)
 	{
 		//Cola auxiliar para mostrar los pedidos
-		queue<Pedido*> c_pedidos_aux = c_pedidos;
-		int size_cola = c_pedidos.size();
-		Pedido* pedidoAux = NULL;
+		Cola<Pedido<string>*>* c_pedidos_aux = c_pedidos->copiar();
+		int size_cola = c_pedidos->size();
+		Pedido<string>* pedidoAux = NULL;
 		int opcModo, contPedidos = 0;
 		string idPedido;
 		bool salir = false, tecla_presionada = true, pedidoEncontrado = false;
-		if (c_pedidos_aux.empty())
+		if (c_pedidos_aux->esVacia())
 		{
 			Console::SetCursorPosition(ANCHO / 2.5, ALTO / 2 + 0);
 			cout << "No hay pedidos a mostrar!";
@@ -648,13 +649,13 @@ public:
 			switch (opcModo)
 			{
 			case 1:
-				while (!c_pedidos_aux.empty() && salir == false)
+				while (!c_pedidos_aux->esVacia() && salir == false)
 				{
 					if (tecla_presionada)
 					{
 						system("cls");
 						mainInterfaz->encuadrar();
-						c_pedidos_aux.front()->mostarInformacion(ANCHO / 4, ALTO / 5);
+						c_pedidos_aux->front()->mostarInformacion(ANCHO / 4, ALTO / 5);
 						Console::SetCursorPosition(ANCHO - 40, ALTO / 2 + 1);
 						cout << "[->] Siguente Pedido";
 						Console::SetCursorPosition(ANCHO - 40, ALTO / 2 + 2);
@@ -672,7 +673,7 @@ public:
 							if (contPedidos < size_cola)
 							{
 								contPedidos++;
-								c_pedidos_aux.pop();
+								c_pedidos_aux->desencolar();
 							}
 							break;
 						case TECLA_ESCAPE:
@@ -682,7 +683,7 @@ public:
 						tecla_presionada = true;
 					}
 				}
-				if (c_pedidos_aux.empty())
+				if (c_pedidos_aux->esVacia())
 				{
 					system("cls");
 					mainInterfaz->encuadrar();
@@ -704,9 +705,9 @@ public:
 					int id_pedido_entero = stoi(idPedido);
 					if (ab_ids_boletas->buscar(id_pedido_entero))
 					{
-						while (!c_pedidos_aux.empty())
+						while (!c_pedidos_aux->esVacia())
 						{
-							pedidoAux = c_pedidos_aux.front();
+							pedidoAux = c_pedidos_aux->front();
 							if (stoi(removerPrimerCaracter(pedidoAux->getIdPedido())) == id_pedido_entero)
 							{
 								pedidoEncontrado = true;
@@ -723,19 +724,19 @@ public:
 				}
 				else
 				{
-					for (int i = 0; i < c_pedidos_aux.size(); i++)
+					for (int i = 0; i < c_pedidos_aux->size(); i++)
 					{
-						if (convertirStringMinuscula(c_pedidos_aux.back()->getIdPedido()) == convertirStringMinuscula(idPedido) && i == c_pedidos_aux.size() - 1)
+						if (convertirStringMinuscula(c_pedidos_aux->back()->getIdPedido()) == convertirStringMinuscula(idPedido) && i == c_pedidos_aux->size() - 1)
 						{
-							pedidoAux = c_pedidos_aux.back();
-							c_pedidos_aux.back()->mostarInformacion(ANCHO / 4, ALTO / 5);
+							pedidoAux = c_pedidos_aux->back();
+							c_pedidos_aux->back()->mostarInformacion(ANCHO / 4, ALTO / 5);
 						}
-						if (convertirStringMinuscula(c_pedidos_aux.front()->getIdPedido()) == convertirStringMinuscula(idPedido))
+						if (convertirStringMinuscula(c_pedidos_aux->front()->getIdPedido()) == convertirStringMinuscula(idPedido))
 						{
-							pedidoAux = c_pedidos_aux.front();
-							c_pedidos_aux.front()->mostarInformacion(ANCHO / 4, ALTO / 5);
+							pedidoAux = c_pedidos_aux->front();
+							c_pedidos_aux->front()->mostarInformacion(ANCHO / 4, ALTO / 5);
 						}
-						c_pedidos_aux.pop();
+						c_pedidos_aux->desencolar();
 					}
 					if (pedidoAux == NULL)
 					{

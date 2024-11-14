@@ -90,6 +90,9 @@
     <ClInclude Include="NodoAVL.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Cola.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Source.cpp">
