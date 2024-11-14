@@ -1,5 +1,5 @@
 #pragma once
-#include <iostream>
+#include<iostream>
 #include<fstream>//Gestion de Archivo
 #include<string>//getline
 #include<cstdlib>
@@ -8,10 +8,12 @@
 #include<cctype>
 #include<sstream>//stream
 #include<algorithm>
-#include"stack"
-#include"queue"
-#include <conio.h>
-#include <list>
+#include<stack>
+#include<queue>
+#include<conio.h>
+#include<list>
+#include<vector>
+#include<functional>
 //definimos predeterminados
 #define archivoEmpleados "ListaEmpleados.txt"
 #define archivoProductos "ListaProductos.txt"
