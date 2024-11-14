@@ -264,10 +264,10 @@ public:
 
 	void verProductos(Lista<Producto<string>*>* l_productos, ArbolBinario<int>* ab_ids_productos)
 	{
-		string nombre, categoria, auxCategoria;
+		string nombre, categoria, auxCategoria, id_producto;
 		bool productoEncontrado = false, salir = false, tecla_presionada = true;
 		int opcionesProducto, opcionesCategoria, contProductos = 0, contVentanas = 1, contadorCategoria = 0;
-		int primerProductoCategoria = 0, id_producto;
+		int primerProductoCategoria = 0;
 		Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 0);
 		cout << "=============:: Buscar Producto ::=============";
 		Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 1);
@@ -485,41 +485,84 @@ public:
 
 			break;
 		case 4:
+			cin.ignore();
 			Console::SetCursorPosition(ANCHO / 5 - 10, ALTO / 4 + 0);
 			cout << "===========:: Buscar por ID del producto ::===========";
 			Console::SetCursorPosition(ANCHO / 5 - 10, ALTO / 4 + 1);
-			cout << "Ingresar ID del producto: "; cin >> id_producto;
-			
-			if (ab_ids_productos->buscar(id_producto))
+			cout << "Ingresar ID del producto: "; getline(cin, id_producto);
+
+			if (obtenerPrimerCaracter(id_producto) >= 48 && obtenerPrimerCaracter(id_producto) <= 57)
 			{
-				Producto<string>* producto = l_productos->obtenerPos(id_producto - 1);
-				auxCategoria = producto->getCategoria();
-				if (auxCategoria == "Farmaco")
+				int id_producto_entero = stoi(id_producto);
+				if (ab_ids_productos->buscar(id_producto_entero))
 				{
-					productosInterfaz->dibujarFarmaco(ANCHO - 35, ALTO / 2 - 5);
+					Producto<string>* producto_aux = l_productos->obtenerPos(id_producto_entero - 1);
+					auxCategoria = producto_aux->getCategoria();
+					if (auxCategoria == "Farmaco")
+					{
+						productosInterfaz->dibujarFarmaco(ANCHO - 35, ALTO / 2 - 5);
+					}
+					if (auxCategoria == "Cosmeticos")
+					{
+						productosInterfaz->dibujarCosmetico(ANCHO - 35, ALTO / 2 - 5);
+					}
+					if (auxCategoria == "Cuidado para bebes")
+					{
+						productosInterfaz->dibujarBiberon(ANCHO - 35, ALTO / 2 - 5);
+					}
+					if (auxCategoria == "Cuidado personal")
+					{
+						productosInterfaz->dibujarCuidadoPersonal(ANCHO - 35, ALTO / 2 - 5);
+					}
+					if (auxCategoria == "Personas mayores")
+					{
+						productosInterfaz->dibujarPersonaMayor(ANCHO - 35, ALTO / 2 - 5);
+					}
+					producto_aux->mostrarProducto(ANCHO / 5 - 10, ALTO / 4 + 2);
 				}
-				if (auxCategoria == "Cosmeticos")
+				else
 				{
-					productosInterfaz->dibujarCosmetico(ANCHO - 35, ALTO / 2 - 5);
+					Console::SetCursorPosition(ANCHO / 5 - 10, ALTO / 4 + 2);
+					cout << "No hay productos con ese ID!";
 				}
-				if (auxCategoria == "Cuidado para bebes")
-				{
-					productosInterfaz->dibujarBiberon(ANCHO - 35, ALTO / 2 - 5);
-				}
-				if (auxCategoria == "Cuidado personal")
-				{
-					productosInterfaz->dibujarCuidadoPersonal(ANCHO - 35, ALTO / 2 - 5);
-				}
-				if (auxCategoria == "Personas mayores")
-				{
-					productosInterfaz->dibujarPersonaMayor(ANCHO - 35, ALTO / 2 - 5);
-				}
-				producto->mostrarProducto(ANCHO / 5 - 10, ALTO / 4 + 2);
 			}
 			else
 			{
-				Console::SetCursorPosition(ANCHO / 5 - 10, ALTO / 4 + 2);
-				cout << "No hay productos con ese ID!";
+				for (int i = 0; i < l_productos->longitud(); i++)
+				{
+					if (convertirStringMinuscula(l_productos->obtenerPos(i)->getIdProduct()) == convertirStringMinuscula(id_producto))
+					{
+						productoEncontrado = true;
+						auxCategoria = l_productos->obtenerPos(i)->getCategoria();
+						if (auxCategoria == "Farmaco")
+						{
+							productosInterfaz->dibujarFarmaco(ANCHO - 35, ALTO / 2 - 5);
+						}
+						if (auxCategoria == "Cosmeticos")
+						{
+							productosInterfaz->dibujarCosmetico(ANCHO - 35, ALTO / 2 - 5);
+						}
+						if (auxCategoria == "Cuidado para bebes")
+						{
+							productosInterfaz->dibujarBiberon(ANCHO - 35, ALTO / 2 - 5);
+						}
+						if (auxCategoria == "Cuidado personal")
+						{
+							productosInterfaz->dibujarCuidadoPersonal(ANCHO - 35, ALTO / 2 - 5);
+						}
+						if (auxCategoria == "Personas mayores")
+						{
+							productosInterfaz->dibujarPersonaMayor(ANCHO - 35, ALTO / 2 - 5);
+						}
+						l_productos->obtenerPos(i)->mostrarProducto(ANCHO / 5 - 10, ALTO / 4 + 2);
+					}
+				}
+				if (!productoEncontrado)
+				{
+					Console::SetCursorPosition(ANCHO / 5 - 10, ALTO / 4 + 2);
+					cout << "No hay productos con ese ID!";
+				}
+
 			}
 
 			break;
