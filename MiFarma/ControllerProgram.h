@@ -11,7 +11,7 @@ private:
 	Lista<Producto<string>*>* l_productos_comprados;
 	Lista<Usuario<double, int>*>* l_usuarios;
 	Lista<Reclamo<string>*>* l_reclamos;
-	Lista<Proveedor*>* l_proveedores;
+	Lista<Proveedor<string>*>* l_proveedores;
 	Lista<Boleta<string>*>* l_boletas;
 
 	//Declaron Interfaces
@@ -30,7 +30,7 @@ private:
 	VistaEmpleado* vistaEmpleado;
 
 	// hashtable
-	HashTablaA<Usuario<double, int>> hashTable;
+	HashTablaA<Usuario<double, int>> ht_usuarios;
 
 	//Arboles Binarios de Busqueda
 	ArbolBusqueda<int>* ab_ids_productos;
@@ -51,7 +51,7 @@ public:
 		l_productos_comprados = new Lista<Producto<string>*>();
 		l_usuarios = new Lista<Usuario<double, int>*>();
 		l_reclamos = new Lista<Reclamo<string>*>();
-		l_proveedores = new Lista<Proveedor*>();
+		l_proveedores = new Lista<Proveedor<string>*>();
 		l_boletas = new Lista<Boleta<string>*>();
 		//Interfaces o decoracion
 		mainInterfaz = new MainInterfaz();
@@ -85,6 +85,9 @@ public:
 		//Vistas
 		vistaUsuario = new VistaUsuario();
 		vistaEmpleado = new VistaEmpleado();
+
+		//Hash tables
+		ht_usuarios = HashTablaA<Usuario<double, int>>();
 
 		//Otras variables
 		cont_productos_comprados = 0;
@@ -227,7 +230,7 @@ public:
 		string linea;
 		char delimitador = '|'; //Separador de cada columna de la línea
 		int i = 0;
-		Proveedor* auxP;
+		Proveedor<string>* auxP;
 		// Encabezado: Leemos la primera línea para descartarla, pues es el encabezado
 		getline(archIN, linea);
 		// Contenido: Leemos todas las líneas
@@ -241,7 +244,7 @@ public:
 			getline(stream, distrito, delimitador);
 			getline(stream, producto, delimitador);
 
-			auxP = new Proveedor(nombre, telefono, distrito, producto);
+			auxP = new Proveedor<string>(nombre, telefono, distrito, producto);
 			l_proveedores->agregaPos(auxP, i);
 			i++;
 		}
@@ -315,7 +318,7 @@ public:
 
 			auxU = new Usuario<double, int>(user, password, nombre, apellido, telefono, sexo, distrito, stod(dinero), stoi(edad));
 			l_usuarios->agregaPos(auxU, i);
-			hashTable.insert(auxU);
+			ht_usuarios.insert(auxU);
 			i++;
 		}
 		// Cerramos Archivo

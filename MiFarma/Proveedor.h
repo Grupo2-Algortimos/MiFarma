@@ -1,30 +1,31 @@
 #pragma once
 #include"Libreria.h"
 
+template<class T>
 class Proveedor
 {
 private:
-	string nombre;
-	string telefono;
-	string distrito;
-	string producto;
+	T nombre;
+	T telefono;
+	T distrito;
+	T producto;
 public:
-	Proveedor(string _nombre,string _telefono,string _distrito,string _producto) {
+	Proveedor(T _nombre,T _telefono,T _distrito,T _producto) {
 		this->nombre = _nombre;
 		this->telefono = _telefono;
 		this->distrito = _distrito;
 		this->producto = _producto;
 	}
 	//metodos getter and setter
-	string getnombre() { return nombre; }
-	string gettelefono() { return telefono; }
-	string getdistrito() { return distrito; }
-	string getproducto() { return producto; }
+	T getnombre() { return nombre; }
+	T gettelefono() { return telefono; }
+	T getdistrito() { return distrito; }
+	T getproducto() { return producto; }
 	
-	void setnombre(string _nombre) { nombre = _nombre; }
-	void settelefono(string tele) { telefono = tele; }
-	void setdistrito(string distri) { distrito = distri; }
-	void setproducto(string product) { producto = product; }
+	void setnombre(T _nombre) { nombre = _nombre; }
+	void settelefono(T tele) { telefono = tele; }
+	void setdistrito(T distri) { distrito = distri; }
+	void setproducto(T product) { producto = product; }
 	//mostrar proveedor
 	void mostrar(int x, int y) {
 		Console::SetCursorPosition(x, y + 0);

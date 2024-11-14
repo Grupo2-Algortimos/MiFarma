@@ -14,7 +14,7 @@ private:
 	//Declaron Interfaces
 	MainInterfaz* mainInterfaz;
 	ProductosInterfaz* productosInterfaz;
-	SedeAsignada sedeUsuario;
+	SedeAsignada<int, string> sedeUsuario;
 	int cantProducto;	
 public:
 	VistaUsuario()

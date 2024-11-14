@@ -1,10 +1,5 @@
 #pragma once
-#ifndef __GRAFO_HPP__
-#define __GRAFO_HPP__
-
-#include <vector>
-#include <string>
-using namespace std;
+#include"Libreria.h"
 
 template<class T, T vacio = -1>
 class CGrafo {
@@ -159,5 +154,3 @@ public:
 
 
 };
-
-#endif // !__GRAFO_HPP__
