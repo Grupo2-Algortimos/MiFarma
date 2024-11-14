@@ -2,7 +2,7 @@
 #include"NodoAB.h"
 
 template<class T>
-class ArbolBinario
+class ArbolBusqueda
 {
 	NodoAB<T>* raiz;
 	void(*procesar)(T); //Puntero a una función
@@ -140,13 +140,13 @@ private:
 
 
 public:
-	ArbolBinario(void(*otroPunteroAFuncion)(T))
+	ArbolBusqueda(void(*otroPunteroAFuncion)(T))
 	{
 		this->procesar = otroPunteroAFuncion;
 		this->raiz = nullptr;
 	}
 
-	~ArbolBinario() {}
+	~ArbolBusqueda() {}
 
 	bool insertar(T e)
 	{

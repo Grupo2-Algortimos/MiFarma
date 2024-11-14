@@ -6,7 +6,7 @@
 #include"ProductosInterfaz.h"
 #include"HashTable.h"
 #include"Pila.h"
-#include"ArbolBinario.h"
+#include"ArbolBusqueda.h"
 #include"ArbolBalanceado.h"
 #include"Cola.h"
 class VistaEmpleado
@@ -36,7 +36,7 @@ public:
 	}
 
 	void vistaEmpleadoPantalla(Lista<Empleado<string>*>* l_empleados, Lista<Producto<string>*>* l_productos, Cola<Pedido<string>*>* c_pedidos, Lista<Reclamo<string>*>* l_reclamos,
-		Lista<Proveedor*>* l_proveedores, Lista<Boleta<string>*>* l_boletas, ArbolBinario<int>* ab_ids_productos, ArbolBinario<int>* ab_ids_boletas, ArbolBinario<int>* ab_ids_reclamos) {
+		Lista<Proveedor*>* l_proveedores, Lista<Boleta<string>*>* l_boletas, ArbolBusqueda<int>* ab_ids_productos, ArbolBusqueda<int>* ab_ids_boletas, ArbolBusqueda<int>* ab_ids_reclamos) {
 		int op = 0;
 		string master_key = "";
 		do
@@ -83,7 +83,7 @@ public:
 
 
 	void loginEmpleado(Lista<Empleado<string>*>* l_empleados, Lista<Producto<string>*>* l_productos, Cola<Pedido<string>*>* c_pedidos, Lista<Reclamo<string>*>* l_reclamos,
-		Lista<Proveedor*>* l_proveedores, Lista<Boleta<string>*>* l_boletas, ArbolBinario<int>* ab_ids_productos, ArbolBinario<int>* ab_ids_boletas, ArbolBinario<int>* ab_ids_reclamos) {
+		Lista<Proveedor*>* l_proveedores, Lista<Boleta<string>*>* l_boletas, ArbolBusqueda<int>* ab_ids_productos, ArbolBusqueda<int>* ab_ids_boletas, ArbolBusqueda<int>* ab_ids_reclamos) {
 		string user, password;
 		bool salir = false;
 		bool usuario_encontrado = false, contrasena_correcta = false;
@@ -162,8 +162,8 @@ public:
 	}
 
 	void adminOpciones(Lista<Producto<string>*>* l_productos, Cola<Pedido<string>*>* c_pedidos, Lista<Reclamo<string>*>* l_reclamos,
-		Lista<Proveedor*>* l_proveedores, Lista<Boleta<string>*>* l_boletas, ArbolBinario<int>* ab_ids_productos, ArbolBinario<int>* ab_ids_boletas,
-		ArbolBinario<int>* ab_ids_reclamos)
+		Lista<Proveedor*>* l_proveedores, Lista<Boleta<string>*>* l_boletas, ArbolBusqueda<int>* ab_ids_productos, ArbolBusqueda<int>* ab_ids_boletas,
+		ArbolBusqueda<int>* ab_ids_reclamos)
 	{
 		int opcionM;
 		int i = 0;
@@ -268,7 +268,7 @@ public:
 		l_productos->agregaPos(auxProduct, i);
 	}
 
-	void buscarProducto(Lista<Producto<string>*>* l_productos, ArbolBinario<int>* ab_ids_productos) {
+	void buscarProducto(Lista<Producto<string>*>* l_productos, ArbolBusqueda<int>* ab_ids_productos) {
 		string nombre, categoria, auxCategoria, id_producto;
 		bool productoEncontrado = false, salir = false, tecla_presionada = true;
 		int opcionesProducto, opcionesCategoria, contProductos = 0, contVentanas = 1, contadorCategoria = 0;
@@ -620,7 +620,7 @@ public:
 		}
 	}
 
-	void buscarPedidos(Cola<Pedido<string>*>* c_pedidos, ArbolBinario<int>* ab_ids_boletas)
+	void buscarPedidos(Cola<Pedido<string>*>* c_pedidos, ArbolBusqueda<int>* ab_ids_boletas)
 	{
 		//Cola auxiliar para mostrar los pedidos
 		Cola<Pedido<string>*>* c_pedidos_aux = c_pedidos->copiar();
@@ -787,7 +787,7 @@ public:
 		archIN.close();
 	}
 
-	void buscarReclamos(Lista<Reclamo<string>*>* l_reclamos, ArbolBinario<int>* ab_ids_reclamos) {
+	void buscarReclamos(Lista<Reclamo<string>*>* l_reclamos, ArbolBusqueda<int>* ab_ids_reclamos) {
 		bool escape = false;
 		string idReclamo;
 		int opcModo, contReclamos = 0, opcionMover;
