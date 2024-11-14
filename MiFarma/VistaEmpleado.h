@@ -1188,11 +1188,11 @@ public:
 			string distrito = distritoLimaMetro[rand() % 43];
 
 			double dinero = rand() % 1001;
-			int edad = rand() % 20 + 70;
+			int edad = rand() % 71 + 20;
 
 			hashTable.insert(new Usuario<double, int>(nomUsuario, password, nombre, apellido, telefono, sexoElegido, distrito, dinero, edad));
 
-			archivo << nomUsuario << "|" << password << "|" << nombre << "|" << apellido << "|" << telefono << "|" << sexoElegido << "|" << distrito << "|" << dinero << "|\n";
+			archivo << nomUsuario << "|" << password << "|" << nombre << "|" << apellido << "|" << telefono << "|" << sexoElegido << "|" << distrito << "|" << dinero << edad << "|\n";
 		}
 
 		archivo.close();

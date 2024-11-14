@@ -10,6 +10,8 @@ private:
     CGrafo<int>* G;
     vector<string> distritosLima;
     vector<string> sedesMiFarma;
+    int distancia;
+    int tiempo;
 
     // Función que asigna una distancia fija entre distritos colindantes para evitar aleatoriedad
     int distanciaFija() {
@@ -25,6 +27,8 @@ private:
 public:
     SedeAsignada() {
         G = new CGrafo<int>();
+        tiempo = -1;
+        distancia = -1;
         // Inicializar los distritos y sedes
         distritosLima = {
             "Ancon","Brena", "Santa Rosa", "Carabayllo", "Puente Piedra", "San Martin de Porres",
@@ -38,7 +42,7 @@ public:
             "Punta Negra", "San Bartolo", "Santa Maria del Mar", "Pucusana", "Chaclacayo", "Callao"
         };
 
-        sedesMiFarma = { "Los Olivos", "Miraflores", "Chorrillos" };
+        sedesMiFarma = { "San Miguel", "Los Olivos", "Chorrillos" };
 
         // Añadiendo los distritos como vértices
         for (int i = 0; i < distritosLima.size(); i++) {
@@ -75,6 +79,7 @@ public:
         agregarArcoBidireccional("Callao", "San Miguel", distanciaFija());
         agregarArcoBidireccional("San Miguel", "Pueblo Libre", distanciaFija());
         agregarArcoBidireccional("San Miguel", "Jesus Maria", distanciaFija());
+        agregarArcoBidireccional("Jesus Maria", "San Isidro", distanciaFija());
         agregarArcoBidireccional("Pueblo Libre", "Brena", distanciaFija());
         agregarArcoBidireccional("Brena", "La Victoria", distanciaFija());
         agregarArcoBidireccional("La Victoria", "Lince", distanciaFija());
@@ -127,7 +132,19 @@ public:
                 sedeMasCercana = sede;
             }
         }
+        if (distanciaMinima != -1) {
+            this->distancia = distanciaMinima;
+            this->tiempo = (distanciaMinima / 50) * 60 + 5;
+        }
         return sedeMasCercana;
+    }
+
+    int getDistancia() {
+        return this->distancia;
+    }
+
+    int getTiempo() {
+        return this->tiempo;
     }
 
     void mostrarConexiones() {
