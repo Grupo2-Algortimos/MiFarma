@@ -18,6 +18,9 @@ private:
 	MainInterfaz* mainInterfaz;
 	ProductosInterfaz* productosInterfaz;
 
+	//Declarando pilas
+	Pila<Reclamo<string>*>* p_reclamos;
+
 	//Declarando colas
 	Cola<Pedido<string>*>* c_pedidos;
 
@@ -56,6 +59,9 @@ public:
 		//Interfaces o decoracion
 		mainInterfaz = new MainInterfaz();
 		productosInterfaz = new ProductosInterfaz();
+
+		//Pilas
+		p_reclamos = new Pila<Reclamo<string>*>();
 
 		//Colas
 		c_pedidos = new Cola<Pedido<string>*>();
@@ -103,12 +109,14 @@ public:
 		delete l_boletas;
 		delete l_reclamos;
 		delete c_pedidos;
+		delete p_reclamos;
 		delete usuario_actual;
 		delete pedido_usuario;
 		delete ab_ids_productos;
 		delete ab_ids_boletas;
 		delete ab_ids_reclamos;
 		delete abb_precios_productos;
+		delete ht_usuarios;
 	}
 
 	//importacion de archivos
@@ -214,6 +222,7 @@ public:
 			getline(stream, pedido, delimitador);
 			auxR = new Reclamo<string>(iDReclamo, fecha, nombre, telefono, distrito, nombreProducto, tipo, detalle, pedido);
 			l_reclamos->agregaPos(auxR, i);
+			p_reclamos->apilar(auxR);
 			i++;
 		}
 		// Cerramos Archivo
@@ -318,7 +327,6 @@ public:
 
 			auxU = new Usuario<double, int>(user, password, nombre, apellido, telefono, sexo, distrito, stod(dinero), stoi(edad));
 			l_usuarios->agregaPos(auxU, i);
-			ht_usuarios.insert(auxU);
 			i++;
 		}
 		// Cerramos Archivo
@@ -415,7 +423,7 @@ public:
 			switch (opcion)
 			{
 			case 1:
-				vistaEmpleado->vistaEmpleadoPantalla(l_empleados, l_productos, c_pedidos, l_reclamos, l_proveedores, l_boletas, ab_ids_productos, ab_ids_boletas, ab_ids_reclamos);
+				vistaEmpleado->vistaEmpleadoPantalla(l_empleados, l_productos, c_pedidos, l_reclamos, l_proveedores, l_boletas, ab_ids_productos, ab_ids_boletas, ab_ids_reclamos, ht_usuarios, p_reclamos);
 				break;
 			case 2:
 				vistaUsuario->vistaUsuarioPantalla(l_productos, l_productos_comprados, cont_productos_comprados, l_usuarios, usuario_actual,pedido_usuario, 

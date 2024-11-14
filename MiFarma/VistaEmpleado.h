@@ -15,28 +15,23 @@ private:
 	//Declaron Interfaces
 	MainInterfaz* mainInterfaz;
 	ProductosInterfaz* productosInterfaz;
-	HashTablaA<Usuario<double, int>> ht_usuarios;
-	Pila<Reclamo<string>*>* p_reclamos;
 public:
 	VistaEmpleado()
 	{
 		//Interfaces o decoracion
 		mainInterfaz = new MainInterfaz();
 		productosInterfaz = new ProductosInterfaz();
-		p_reclamos = new Pila<Reclamo<string>*>();
-
-		lecturaArchivoReclamo();
 	}
 
 	~VistaEmpleado()
 	{
 		delete mainInterfaz;
 		delete productosInterfaz;
-		delete p_reclamos;
 	}
 
 	void vistaEmpleadoPantalla(Lista<Empleado<string>*>* l_empleados, Lista<Producto<string>*>* l_productos, Cola<Pedido<string>*>* c_pedidos, Lista<Reclamo<string>*>* l_reclamos,
-		Lista<Proveedor<string>*>* l_proveedores, Lista<Boleta<string>*>* l_boletas, ArbolBusqueda<int>* ab_ids_productos, ArbolBusqueda<int>* ab_ids_boletas, ArbolBusqueda<int>* ab_ids_reclamos) {
+		Lista<Proveedor<string>*>* l_proveedores, Lista<Boleta<string>*>* l_boletas, ArbolBusqueda<int>* ab_ids_productos, ArbolBusqueda<int>* ab_ids_boletas, ArbolBusqueda<int>* ab_ids_reclamos,
+		HashTablaA<Usuario<double, int>> &ht_usuarios, Pila<Reclamo<string>*>* p_reclamos) {
 		int op = 0;
 		string master_key = "";
 		do
@@ -57,7 +52,7 @@ public:
 			switch (op)
 			{
 			case 1:
-				loginEmpleado(l_empleados, l_productos, c_pedidos, l_reclamos, l_proveedores, l_boletas, ab_ids_productos, ab_ids_boletas, ab_ids_reclamos);
+				loginEmpleado(l_empleados, l_productos, c_pedidos, l_reclamos, l_proveedores, l_boletas, ab_ids_productos, ab_ids_boletas, ab_ids_reclamos, ht_usuarios, p_reclamos);
 				break;
 			case 2:
 				system("cls");
@@ -83,7 +78,8 @@ public:
 
 
 	void loginEmpleado(Lista<Empleado<string>*>* l_empleados, Lista<Producto<string>*>* l_productos, Cola<Pedido<string>*>* c_pedidos, Lista<Reclamo<string>*>* l_reclamos,
-		Lista<Proveedor<string>*>* l_proveedores, Lista<Boleta<string>*>* l_boletas, ArbolBusqueda<int>* ab_ids_productos, ArbolBusqueda<int>* ab_ids_boletas, ArbolBusqueda<int>* ab_ids_reclamos) {
+		Lista<Proveedor<string>*>* l_proveedores, Lista<Boleta<string>*>* l_boletas, ArbolBusqueda<int>* ab_ids_productos, ArbolBusqueda<int>* ab_ids_boletas, ArbolBusqueda<int>* ab_ids_reclamos,
+		HashTablaA<Usuario<double, int>> &ht_usuarios, Pila<Reclamo<string>*>* p_reclamos) {
 		string user, password;
 		bool salir = false;
 		bool usuario_encontrado = false, contrasena_correcta = false;
@@ -112,7 +108,7 @@ public:
 						Console::SetCursorPosition(ANCHO / 3, ALTO / 3 + 0);
 						cout << "Ingreso exitoso...";
 						system("pause>>null");
-						adminOpciones(l_productos, c_pedidos, l_reclamos, l_proveedores, l_boletas, ab_ids_productos, ab_ids_boletas, ab_ids_reclamos);
+						adminOpciones(l_productos, c_pedidos, l_reclamos, l_proveedores, l_boletas, ab_ids_productos, ab_ids_boletas, ab_ids_reclamos, ht_usuarios, p_reclamos);
 						salir = true;
 						break;
 					}
@@ -163,7 +159,7 @@ public:
 
 	void adminOpciones(Lista<Producto<string>*>* l_productos, Cola<Pedido<string>*>* c_pedidos, Lista<Reclamo<string>*>* l_reclamos,
 		Lista<Proveedor<string>*>* l_proveedores, Lista<Boleta<string>*>* l_boletas, ArbolBusqueda<int>* ab_ids_productos, ArbolBusqueda<int>* ab_ids_boletas,
-		ArbolBusqueda<int>* ab_ids_reclamos)
+		ArbolBusqueda<int>* ab_ids_reclamos, HashTablaA<Usuario<double, int>> &ht_usuarios, Pila<Reclamo<string>*>* p_reclamos)
 	{
 		int opcionM;
 		int i = 0;
@@ -219,7 +215,7 @@ public:
 				buscarPedidos(c_pedidos, ab_ids_boletas);
 				break;
 			case 5:
-				buscarReclamos(l_reclamos, ab_ids_reclamos);
+				buscarReclamos(l_reclamos, ab_ids_reclamos, p_reclamos);
 				break;
 			case 6:
 				ingresarProveedor(p, l_proveedores);
@@ -235,10 +231,10 @@ public:
 				actualizarLogistica();
 				break;
 			case 10:
-				crearDataSet();
+				crearDataSet(ht_usuarios);
 				break;
 			case 11:
-				buscarUsuario();
+				buscarUsuario(ht_usuarios);
 				break;
 			}
 			system("pause>>null");
@@ -752,42 +748,7 @@ public:
 
 	}
 
-	void lecturaArchivoReclamo() {
-		ifstream archIN;
-		archIN.open(archivoReclamo, ios::in); //Apertura
-		if (!archIN.is_open())
-		{
-			cout << "Error: No se pudo abrir el archivo !!!";
-			exit(1);
-		}
-		string linea;
-		char delimitador = '|'; //Separador de cada columna de la línea
-		Reclamo<string>* auxR;
-		// Encabezado: Leemos la primera línea para descartarla, pues es el encabezado
-		getline(archIN, linea);
-		// Contenido: Leemos todas las líneas
-		while (getline(archIN, linea))
-		{
-			stringstream stream(linea); // Convertir la cadena a un stream			
-			string iDReclamo, fecha, nombre, telefono, distrito, nombreProducto, tipo, detalle, pedido;
-			// Extraer todos los valores de esa fila [considerando 3 columans]
-			getline(stream, iDReclamo, delimitador);
-			getline(stream, fecha, delimitador);
-			getline(stream, nombre, delimitador);
-			getline(stream, telefono, delimitador);
-			getline(stream, distrito, delimitador);
-			getline(stream, nombreProducto, delimitador);
-			getline(stream, tipo, delimitador);
-			getline(stream, detalle, delimitador);
-			getline(stream, pedido, delimitador);
-			auxR = new Reclamo<string>(iDReclamo, fecha, nombre, telefono, distrito, nombreProducto, tipo, detalle, pedido);
-			p_reclamos->apilar(auxR);
-		}
-		// Cerramos Archivo
-		archIN.close();
-	}
-
-	void buscarReclamos(Lista<Reclamo<string>*>* l_reclamos, ArbolBusqueda<int>* ab_ids_reclamos) {
+	void buscarReclamos(Lista<Reclamo<string>*>* l_reclamos, ArbolBusqueda<int>* ab_ids_reclamos, Pila<Reclamo<string>*>* p_reclamos) {
 		bool escape = false;
 		string idReclamo;
 		int opcModo, contReclamos = 0, opcionMover;
@@ -1114,7 +1075,7 @@ public:
 
 	}
 
-	void crearDataSet() {
+	void crearDataSet(HashTablaA<Usuario<double, int>> &ht_usuarios) {
 		system("cls");
 		int N;
 		Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 0);
@@ -1202,10 +1163,83 @@ public:
 		
 	}
 	
-	void buscarUsuario() {			
+	void buscarUsuario(HashTablaA<Usuario<double, int>> &ht_usuarios) {
+		bool salir = false, tecla_presionada = true;
+		int contVentanas = 1;                 // Contador de páginas (ventanas)
+		int paginaActual = 0;                 // Índice de la página actual
+		const int elementosPorPagina = 10;    // Número de elementos por página
+
+		system("cls");
 		mainInterfaz->encuadrar();
-		Console::SetCursorPosition(ANCHO / 3, ALTO / 7 + 0);
-		cout << "===========:: lista de usuarios::===========" << endl;
-		ht_usuarios.DispAll();
+		if (ht_usuarios.is_empty())
+		{
+			Console::SetCursorPosition(ANCHO / 3, ALTO / 5 + 0);
+			cout << "No hay usuario con generados aleatoriamente!";
+		}
+		else
+		{
+			Console::SetCursorPosition(ANCHO / 3, ALTO / 7 + 0);
+			cout << "===========:: HashTable de Usuarios::===========" << endl;
+
+			while (!salir) {
+				// Limpiar la pantalla o posición inicial (esto dependerá de cómo implementes el entorno gráfico o consola)
+				if (tecla_presionada)
+				{
+					system("cls");  // Solo si estás en Windows; en Linux/Mac puedes usar `clear`
+					mainInterfaz->encuadrar();
+
+					int inicio = paginaActual * elementosPorPagina;
+					int fin = min(static_cast<int>(ht_usuarios.getsize()), inicio + elementosPorPagina);
+					int contEspacios = 0;
+
+					for (int i = inicio; i < fin; ++i) {
+						if (ht_usuarios.getTable()[i] != nullptr && ht_usuarios.getTable()[i] != ht_usuarios.getDELETED()) {
+							// Posicionar y mostrar cada elemento
+							Console::SetCursorPosition(ANCHO / 6, ALTO / 5 + 1 + contEspacios);
+							cout << "key " << i << " | Nombre: " << ht_usuarios.getTable()[i]->getNombre()
+								<< ", Apellido: " << ht_usuarios.getTable()[i]->getApellido() << endl;
+							contEspacios++;
+						}
+					}
+
+					// Mostrar las instrucciones de navegación
+					Console::SetCursorPosition(ANCHO - 40, ALTO / 5 + 1);
+					cout << "[->] Mover a la siguiente página";
+					Console::SetCursorPosition(ANCHO - 40, ALTO / 5 + 2);
+					cout << "[<-] Mover a la página anterior";
+					Console::SetCursorPosition(ANCHO - 40, ALTO / 5 + 3);
+					cout << "[ESC] Salir";
+					Console::SetCursorPosition(ANCHO - 40, ALTO / 5 + 10);
+					cout << "<" << paginaActual + 1 << " de " << (ht_usuarios.getsize() + elementosPorPagina - 1) / elementosPorPagina << ">";
+					tecla_presionada = false;
+				}
+				
+
+				// Detectar entrada de teclas
+				if (kbhit()) {
+					char tecla = getch();
+					switch (tecla) {
+					case TECLA_DERECHA:
+						if ((paginaActual + 1) * elementosPorPagina < ht_usuarios.getsize()) {
+							paginaActual++;  // Avanzar a la siguiente página
+							contVentanas++;
+						}
+						break;
+					case TECLA_IZQUIERDA:
+						if (paginaActual > 0) {
+							paginaActual--;  // Retroceder a la página anterior
+							contVentanas--;
+						}
+						break;
+					case TECLA_ESCAPE:
+						salir = true;  // Salir del bucle y de la función
+						break;
+					}
+					tecla_presionada = true;
+				}
+
+			}
+		}
+		
 	}
 };
