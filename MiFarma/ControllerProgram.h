@@ -13,14 +13,17 @@ private:
 	Lista<Reclamo<string>*>* l_reclamos;
 	Lista<Proveedor*>* l_proveedores;
 	Lista<Boleta<string>*>* l_boletas;
+
 	//Declaron Interfaces
 	MainInterfaz* mainInterfaz;
 	ProductosInterfaz* productosInterfaz;
+
 	//Declarando colas
-	queue<Pedido*> c_pedidos;
+	Cola<Pedido<string>*>* c_pedidos;
+
 	//Declarando usuario
 	Usuario<double, int>* usuario_actual;
-	Pedido* pedido_usuario;
+	Pedido<string>* pedido_usuario;
 
 	//Declarando vistas
 	VistaUsuario* vistaUsuario;
@@ -53,6 +56,11 @@ public:
 		//Interfaces o decoracion
 		mainInterfaz = new MainInterfaz();
 		productosInterfaz = new ProductosInterfaz();
+
+		//Colas
+		c_pedidos = new Cola<Pedido<string>*>();
+		pedido_usuario = NULL;
+
 		//Arbol Binario de Busqueda
 		ab_ids_productos = new ArbolBinario<int>(imprimirInt);
 		ab_ids_boletas = new ArbolBinario<int>(imprimirInt);
@@ -91,6 +99,7 @@ public:
 		delete l_proveedores;
 		delete l_boletas;
 		delete l_reclamos;
+		delete c_pedidos;
 		delete usuario_actual;
 		delete pedido_usuario;
 		delete ab_ids_productos;
@@ -324,8 +333,8 @@ public:
 			num_alea = r.Next(0, l_productos->longitud() + 1);
 			l_productosAleatorios->agregaPos(l_productos->obtenerPos(num_alea), j);
 		}
-		Pedido* pedido1 = new Pedido("P001", "Jose", "Kevin", "Puente Piedra", l_productosAleatorios, "En Camino", "Bicicleta");
-		c_pedidos.push(pedido1);
+		Pedido<string>* pedido1 = new Pedido<string>("P001", "Jose", "Kevin", "Puente Piedra", l_productosAleatorios, "En Camino", "Bicicleta");
+		c_pedidos->encolar(pedido1);
 
 		l_productosAleatorios = new Lista<Producto<string>*>();
 		catidad_productos = r.Next(1, 5); // [1-4]
@@ -334,8 +343,8 @@ public:
 			num_alea = r.Next(0, l_productos->longitud() + 1);
 			l_productosAleatorios->agregaPos(l_productos->obtenerPos(num_alea), j);
 		}
-		Pedido* pedido2 = new Pedido("P002", "Maria", "Luz", "San miguel", l_productosAleatorios, "Pendiente", "Motocicleta");
-		c_pedidos.push(pedido2);
+		Pedido<string>* pedido2 = new Pedido<string>("P002", "Maria", "Luz", "San miguel", l_productosAleatorios, "Pendiente", "Motocicleta");
+		c_pedidos->encolar(pedido2);
 
 		l_productosAleatorios = new Lista<Producto<string>*>();
 		catidad_productos = r.Next(1, 5); // [1-4]
@@ -344,8 +353,8 @@ public:
 			num_alea = r.Next(0, l_productos->longitud() + 1);
 			l_productosAleatorios->agregaPos(l_productos->obtenerPos(num_alea), j);
 		}
-		Pedido* pedido3 = new Pedido("P003", "Pepe", "Manuel", "San miguel", l_productosAleatorios, "Pendiente", "Bicicleta");
-		c_pedidos.push(pedido3);
+		Pedido<string>* pedido3 = new Pedido<string>("P003", "Pepe", "Manuel", "San miguel", l_productosAleatorios, "Pendiente", "Bicicleta");
+		c_pedidos->encolar(pedido3);
 	}
 
 	void registrarDatosArbolesBinarios()
@@ -360,13 +369,13 @@ public:
 		}
 
 		//Registrar Ids de las boletas
-		queue<Pedido*> c_pedidos_aux = c_pedidos;
-		while (!c_pedidos_aux.empty())
+		Cola<Pedido<string>*>* c_pedidos_aux = c_pedidos->copiar();
+		while (!c_pedidos_aux->esVacia())
 		{
-			Pedido* pedido_aux = c_pedidos_aux.front();
+			Pedido<string>* pedido_aux = c_pedidos_aux->front();
 			string id = removerPrimerCaracter(pedido_aux->getIdPedido());
 			ab_ids_boletas->insertar(stoi(id));
-			c_pedidos_aux.pop();
+			c_pedidos_aux->desencolar();
 		}
 
 		//Registrar Ids de los reclamos

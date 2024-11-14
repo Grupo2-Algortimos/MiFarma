@@ -5,6 +5,7 @@
 #include"Reclamos.h"
 #include"ArbolBinario.h"
 #include"ArbolBalanceado.h"
+#include"Cola.h"
 class VistaUsuario
 {
 private:
@@ -28,7 +29,7 @@ public:
 	
 
 	void vistaUsuarioPantalla(Lista<Producto<string>*>* l_productos, Lista<Producto<string>*>* l_productos_comprados, int& cont_productos_comprados,
-		Lista<Usuario<double, int>*>* l_usuarios, Usuario<double, int>* usario_actual, Pedido* &pedido_usuario, queue<Pedido*> &c_pedidos, Lista<Reclamo<string>*>* l_reclamos,
+		Lista<Usuario<double, int>*>* l_usuarios, Usuario<double, int>* usario_actual, Pedido<string>* &pedido_usuario, Cola<Pedido<string>*>* &c_pedidos, Lista<Reclamo<string>*>* l_reclamos,
 		Lista<Boleta<string>*>* l_boletas, ArbolBinario<int>* ab_ids_productos)
 	{
 		int op = 0;
@@ -71,7 +72,7 @@ public:
 	}
 
 	void loginUsuario(Lista<Producto<string>*>* l_productos, Lista<Producto<string>*>* l_productos_comprados, int& cont_productos_comprados, 
-		Lista<Usuario<double, int>*>* l_usuarios, Usuario<double, int>* usuario_actual, Pedido* &pedido_usuario, queue<Pedido*> &c_pedidos, Lista<Reclamo<string>*>* l_reclamos,
+		Lista<Usuario<double, int>*>* l_usuarios, Usuario<double, int>* usuario_actual, Pedido<string>* &pedido_usuario, Cola<Pedido<string>*>* &c_pedidos, Lista<Reclamo<string>*>* l_reclamos,
 		Lista<Boleta<string>*>* l_boletas, ArbolBinario<int>* ab_ids_productos)
 	{
 		string user, password;
@@ -209,7 +210,7 @@ public:
 	}
 
 	void userOpciones(Lista<Producto<string>*>* l_productos, Lista<Producto<string>*>* l_productos_comprados, int &cont_productos_comprados, Usuario<double, int>* usuario_actual,
-		Pedido* &pedido_usuario, queue<Pedido*> &c_pedidos, Lista<Reclamo<string>*>* l_reclamos, Lista<Boleta<string>*>* l_boletas, ArbolBinario<int>* ab_ids_productos) {
+		Pedido<string>* &pedido_usuario, Cola<Pedido<string>*>* &c_pedidos, Lista<Reclamo<string>*>* l_reclamos, Lista<Boleta<string>*>* l_boletas, ArbolBinario<int>* ab_ids_productos) {
 		int opcionM;
 		int i = 0;
 		int p = 0;
@@ -773,7 +774,7 @@ public:
 		cout << "Todo los productos del carrito han sido eliminados";
 	}
 	
-	void verCarrito(Lista<Producto<string>*>* l_productos_comprados, Pedido* &pedido_usuario, queue<Pedido*> &c_pedidos, Usuario<double, int>* usuario_actual)
+	void verCarrito(Lista<Producto<string>*>* l_productos_comprados, Pedido<string>* &pedido_usuario, Cola<Pedido<string>*>* &c_pedidos, Usuario<double, int>* usuario_actual)
 	{
 		int opcCarrito;
 		int contEspacios = 0;
@@ -837,7 +838,7 @@ public:
 					contEspacios++;
 				}
 
-				pedido_usuario = new Pedido("P0" + to_string(c_pedidos.size()), usuario_actual->getNombre(), "Javier", usuario_actual->getDistrito(),
+				pedido_usuario = new Pedido<string>("P0" + to_string(c_pedidos->size() + 1), usuario_actual->getNombre(), "Javier", usuario_actual->getDistrito(),
 					l_productos_comprados, "Pendiente", "Motocicleta");
 				Console::SetCursorPosition(ANCHO - 25, ALTO / 2);
 				cout << "Total: " << pedido_usuario->conseguirCostoTotal();
@@ -868,8 +869,8 @@ public:
 		l_reclamos->agregaPos(auxReclamo, l_reclamos->longitud());
 	}
 
-	bool comprarProductos(Lista<Producto<string>*>* l_productos_comprados, Usuario<double, int>* &usuario_actual, Pedido* &pedido_usuario,
-		Lista<Boleta<string>*>* l_boletas, queue<Pedido*> &c_pedidos)
+	bool comprarProductos(Lista<Producto<string>*>* l_productos_comprados, Usuario<double, int>* &usuario_actual, Pedido<string>* &pedido_usuario,
+		Lista<Boleta<string>*>* l_boletas, Cola<Pedido<string>*>* &c_pedidos)
 	{
 		string montoUsuario, fecha, idBoleta;
 		Boleta<string>* auxBoleta;
@@ -900,8 +901,8 @@ public:
 				mainInterfaz->encuadrar();
 				if (stod(montoUsuario) >= pedido_usuario->conseguirCostoTotal())
 				{
-					idBoleta = "B03" + to_string(l_boletas->longitud());
-					c_pedidos.push(pedido_usuario);
+					idBoleta = "B0" + to_string(l_boletas->longitud() + 1);
+					c_pedidos->encolar(pedido_usuario);
 					auxBoleta = new Boleta<string>(idBoleta, usuario_actual->getNombre(), fecha, montoUsuario, to_string(pedido_usuario->conseguirCostoTotal()));
 					l_boletas->agregaPos(auxBoleta, l_boletas->longitud());
 					mainInterfaz->compra();
