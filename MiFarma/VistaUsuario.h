@@ -3,7 +3,7 @@
 #include"Boleta.h"
 #include"ProductosInterfaz.h"
 #include"Reclamos.h"
-#include"ArbolBinario.h"
+#include"ArbolBusqueda.h"
 #include"ArbolBalanceado.h"
 #include"Usuario.h"
 #include"SedeAsignada.h"
@@ -33,7 +33,7 @@ public:
 
 	void vistaUsuarioPantalla(Lista<Producto<string>*>* l_productos, Lista<Producto<string>*>* l_productos_comprados, int& cont_productos_comprados,
 		Lista<Usuario<double, int>*>* l_usuarios, Usuario<double, int>* usario_actual, Pedido<string>* &pedido_usuario, Cola<Pedido<string>*>* &c_pedidos, Lista<Reclamo<string>*>* l_reclamos,
-		Lista<Boleta<string>*>* l_boletas, ArbolBinario<int>* ab_ids_productos)
+		Lista<Boleta<string>*>* l_boletas, ArbolBusqueda<int>* ab_ids_productos)
 	{
 		int op = 0;
 		int i = 0;
@@ -76,7 +76,7 @@ public:
 
 	void loginUsuario(Lista<Producto<string>*>* l_productos, Lista<Producto<string>*>* l_productos_comprados, int& cont_productos_comprados, 
 		Lista<Usuario<double, int>*>* l_usuarios, Usuario<double, int>* usuario_actual, Pedido<string>* &pedido_usuario, Cola<Pedido<string>*>* &c_pedidos, Lista<Reclamo<string>*>* l_reclamos,
-		Lista<Boleta<string>*>* l_boletas, ArbolBinario<int>* ab_ids_productos)
+		Lista<Boleta<string>*>* l_boletas, ArbolBusqueda<int>* ab_ids_productos)
 	{
 		string user, password;
 		bool salir = false;
@@ -213,7 +213,7 @@ public:
 	}
 
 	void userOpciones(Lista<Producto<string>*>* l_productos, Lista<Producto<string>*>* l_productos_comprados, int &cont_productos_comprados, Usuario<double, int>* usuario_actual,
-		Pedido<string>* &pedido_usuario, Cola<Pedido<string>*>* &c_pedidos, Lista<Reclamo<string>*>* l_reclamos, Lista<Boleta<string>*>* l_boletas, ArbolBinario<int>* ab_ids_productos) {
+		Pedido<string>* &pedido_usuario, Cola<Pedido<string>*>* &c_pedidos, Lista<Reclamo<string>*>* l_reclamos, Lista<Boleta<string>*>* l_boletas, ArbolBusqueda<int>* ab_ids_productos) {
 		int opcionM;
 		int i = 0;
 		int p = 0;
@@ -266,7 +266,7 @@ public:
 		}
 	}
 
-	void verProductos(Lista<Producto<string>*>* l_productos, ArbolBinario<int>* ab_ids_productos)
+	void verProductos(Lista<Producto<string>*>* l_productos, ArbolBusqueda<int>* ab_ids_productos)
 	{
 		string nombre, categoria, auxCategoria, id_producto;
 		bool productoEncontrado = false, salir = false, tecla_presionada = true;

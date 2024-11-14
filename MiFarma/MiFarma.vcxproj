@@ -112,7 +112,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="ArbolBalanceado.h" />
-    <ClInclude Include="ArbolBinario.h" />
+    <ClInclude Include="ArbolBusqueda.h" />
     <ClInclude Include="Boleta.h" />
     <ClInclude Include="Cola.h" />
     <ClInclude Include="ControllerProgram.h" />

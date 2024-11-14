@@ -32,12 +32,12 @@ private:
 	// hashtable
 	HashTablaA<Usuario<double, int>> hashTable;
 
-	//Arbol Binario de Busqueda
-	ArbolBinario<int>* ab_ids_productos;
-	ArbolBinario<int>* ab_ids_boletas;
-	ArbolBinario<int>* ab_ids_reclamos;
+	//Arboles Binarios de Busqueda
+	ArbolBusqueda<int>* ab_ids_productos;
+	ArbolBusqueda<int>* ab_ids_boletas;
+	ArbolBusqueda<int>* ab_ids_reclamos;
 
-	//Arbol Binario Balanceado de los precios de los productos
+	//Arboles Binarios Balanceados
 	ArbolBalanceado<double>* abb_precios_productos;
 
 	// Otras variables
@@ -62,9 +62,9 @@ public:
 		pedido_usuario = NULL;
 
 		//Arbol Binario de Busqueda
-		ab_ids_productos = new ArbolBinario<int>(imprimirInt);
-		ab_ids_boletas = new ArbolBinario<int>(imprimirInt);
-		ab_ids_reclamos = new ArbolBinario<int>(imprimirInt);
+		ab_ids_productos = new ArbolBusqueda<int>(imprimirInt);
+		ab_ids_boletas = new ArbolBusqueda<int>(imprimirInt);
+		ab_ids_reclamos = new ArbolBusqueda<int>(imprimirInt);
 
 		//Arboles Binarios Balanceados
 		abb_precios_productos = new ArbolBalanceado<double>(imprimirDouble);
