@@ -14,7 +14,7 @@ private:
 	//Declaron Interfaces
 	MainInterfaz* mainInterfaz;
 	ProductosInterfaz* productosInterfaz;
-	HashTablaA hashTable;
+	HashTablaA<Usuario<double, int>> hashTable;
 	Pila<Reclamo<string>*>* p_reclamo;
 public:
 	VistaEmpleado()
@@ -31,7 +31,7 @@ public:
 		delete productosInterfaz;
 	}
 
-	void vistaEmpleadoPantalla(Lista<Empleado*>* l_empleados, Lista<Producto<string>*>* l_productos, queue<Pedido*> c_pedidos, Lista<Reclamo<string>*>* l_reclamos,
+	void vistaEmpleadoPantalla(Lista<Empleado<string>*>* l_empleados, Lista<Producto<string>*>* l_productos, queue<Pedido*> c_pedidos, Lista<Reclamo<string>*>* l_reclamos,
 		Lista<Proveedor*>* l_proveedores, Lista<Boleta<string>*>* l_boletas, ArbolBinario<int>* ab_ids_productos) {
 		int op = 0;
 		string master_key = "";
@@ -78,7 +78,7 @@ public:
 	}
 
 
-	void loginEmpleado(Lista<Empleado*>* l_empleados, Lista<Producto<string>*>* l_productos, queue<Pedido*> c_pedidos, Lista<Reclamo<string>*>* l_reclamos,
+	void loginEmpleado(Lista<Empleado<string>*>* l_empleados, Lista<Producto<string>*>* l_productos, queue<Pedido*> c_pedidos, Lista<Reclamo<string>*>* l_reclamos,
 		Lista<Proveedor*>* l_proveedores, Lista<Boleta<string>*>* l_boletas, ArbolBinario<int>* ab_ids_productos) {
 		string user, password;
 		bool salir = false;
@@ -126,46 +126,13 @@ public:
 	}
 
 
-	void sobrescribirArchivo(Lista<Empleado*>* l_empleados) {
-		ofstream archOUT;
-		archOUT.open(archivoEmpleados, ios::out); // Apertura en modo de salida (sobrescribe el archivo)
-		if (!archOUT.is_open()) {
-			cout << "Error: No se pudo abrir el archivo para escribir!!!" << endl;
-			exit(1);
-		}
+	
 
-		// Información de ejemplo, en un caso real podrías generar o recibir estos datos.
-		
-
-		// Escribir encabezado
-		archOUT << "usuario|password|nombre|apellido|telefono|sexo|distrito|idTrabajador|puesto" << endl;
-
-		// Escribir cada reclamo en el archivo
-		for (uint i = 0; i < l_empleados->longitud(); i++) {
-			Empleado* empleado = l_empleados->obtenerPos(i);
-			if (empleado != nullptr) { // Verificar que el empleado no sea nullptr
-				archOUT << empleado->getUser() << "|"
-					<< empleado->getPassword() << "|"
-					<< empleado->getNombre() << "|"
-					<< empleado->getApellido() << "|"
-					<< empleado->getTelefono() << "|"
-					<< empleado->getSexo() << "|"
-					<< empleado->getDistrito() << "|"
-					<< empleado->getIdTrabajador() << "|"
-					<< empleado->getPuesto() << endl;
-			}
-		}
-
-		// Cerramos el archivo
-		archOUT.close();
-		cout << "Archivo sobrescrito exitosamente." << endl;
-	}
-
-	void registroEmpleado(Lista<Empleado*>* l_empleados) {
+	void registroEmpleado(Lista<Empleado<string>*>* l_empleados) {
 		system("cls");
 		mainInterfaz->encuadrar();
 		string user, password, nombre, apellido, telefono, sexo, distrito, idTrabajador, puesto;
-		Empleado* aux;
+		Empleado<string>* aux;
 		Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 0);
 		cout << "=============:: Resgistro de Empleado ::=============";
 		Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 1);
@@ -186,9 +153,8 @@ public:
 		cout << "Ingrese su idTrabajador: "; cin >> idTrabajador;
 		Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 9);
 		cout << "Ingrese su puesto: "; cin >> puesto;
-		aux = new Empleado(user, password, nombre, apellido, telefono, sexo, distrito, idTrabajador, puesto);
+		aux = new Empleado<string>(user, password, nombre, apellido, telefono, sexo, distrito, idTrabajador, puesto);
 		l_empleados->agregaFinal(aux);
-		//sobrescribirArchivo(l_empleados);
 	}
 
 	void adminOpciones(Lista<Producto<string>*>* l_productos, queue<Pedido*> c_pedidos, Lista<Reclamo<string>*>* l_reclamos,
@@ -274,37 +240,7 @@ public:
 		}
 	}
 
-	void sobrescribirArchivoProducto(Lista<Producto<string>*>* l_productos) {
-		ofstream archOUT;
-		archOUT.open(archivoProductos, ios::out); // Apertura en modo de salida (sobrescribe el archivo)
-		if (!archOUT.is_open()) {
-			cout << "Error: No se pudo abrir el archivo para escribir!!!" << endl;
-			exit(1);
-		}
-
-		// Información de ejemplo, en un caso real podrías generar o recibir estos datos.
-
-
-		// Escribir encabezado
-		archOUT << "idProduct|nombre|precio|categoria|volumen|fechaCaducidad" << endl;
-
-		// Escribir cada reclamo en el archivo
-		for (uint i = 0; i < l_productos->longitud(); i++) {
-			Producto<string>* _producto = l_productos->obtenerPos(i);
-			if (_producto != nullptr) { // Verificar que el empleado no sea nullptr
-				archOUT << _producto->getIdProduct() << "|"
-					<< _producto->getNombre() << "|"
-					<< _producto->getPrecio() << "|"
-					<< _producto->getCategoria() << "|"
-					<< _producto->getVolumen() << "|"
-					<< _producto->getFechaCad() << endl;
-			}
-		}
-
-		// Cerramos el archivo
-		archOUT.close();
-		cout << "Archivo sobrescrito exitosamente." << endl;
-	}
+	
 
 	void ingresarProducto(int i, Lista<Producto<string>*>* l_productos) {
 		string idProduct, nombre, precio, categoria, cantidad, fechaCad;
@@ -325,7 +261,6 @@ public:
 		cout << "Ingresar Fecha de caducidad del Producto: "; cin >> fechaCad;;
 		auxProduct = new Producto<string>(idProduct, nombre, precio, categoria, cantidad, fechaCad);
 		l_productos->agregaPos(auxProduct, i);
-		//sobrescribirArchivoProducto(l_productos);
 	}
 
 	void buscarProducto(Lista<Producto<string>*>* l_productos, ArbolBinario<int>* ab_ids_productos) {
@@ -1139,7 +1074,10 @@ public:
 
 			string distrito = distritoLimaMetro[rand() % 43];
 
-			int dinero = rand() % 1001;
+			double dinero = rand() % 1001;
+			int edad = rand() % 20 + 70;
+
+			hashTable.insert(new Usuario<double, int>(nomUsuario, password, nombre, apellido, telefono, sexoElegido, distrito, dinero, edad));
 
 			archivo << nomUsuario << "|" << password << "|" << nombre << "|" << apellido << "|" << telefono << "|" << sexoElegido << "|" << distrito << "|" << dinero << "|\n";
 		}
@@ -1150,45 +1088,8 @@ public:
 		
 		
 	}
-
-	void lecturaArchivoUsuario() {
-		ifstream archIN;
-		archIN.open(archivoUsuarios, ios::in); //Apertura
-		if (!archIN.is_open())
-		{
-			cout << "Error: No se pudo abrir el archivo !!!";
-			exit(1);
-		}
-		string linea;
-		char delimitador = '|'; //Separador de cada columna de la línea
-		int i = 0;
-		Usuario* auxU;
-		// Encabezado: Leemos la primera línea para descartarla, pues es el encabezado
-		getline(archIN, linea);
-		// Contenido: Leemos todas las líneas
-		while (getline(archIN, linea))
-		{
-			stringstream stream(linea); // Convertir la cadena a un stream			
-			string user, password, nombre, apellido, telefono, sexo, distrito, dinero;
-			// Extraer todos los valores de esa fila [considerando 3 columans]
-			getline(stream, user, delimitador);
-			getline(stream, password, delimitador);
-			getline(stream, nombre, delimitador);
-			getline(stream, apellido, delimitador);
-			getline(stream, telefono, delimitador);
-			getline(stream, sexo, delimitador);
-			getline(stream, distrito, delimitador);
-			getline(stream, dinero, delimitador);
-			//insertar datos en la tablahash
-			hashTable.insert(new Usuario(user, password, nombre, apellido, telefono, sexo, distrito, stod(dinero)));
-			
-		}
-		// Cerramos Archivo
-		archIN.close();
-	}
-
-	void buscarUsuario() {	
-		lecturaArchivoUsuario();
+	
+	void buscarUsuario() {			
 		mainInterfaz->encuadrar();
 		Console::SetCursorPosition(ANCHO / 3, ALTO / 7 + 0);
 		cout << "===========:: lista de usuarios::===========" << endl;

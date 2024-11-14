@@ -2,14 +2,14 @@
 #include"VistaUsuario.h"
 #include"VistaEmpleado.h"
 
-
+template<class T1, class T2>
 class ControllerProgram {
 private:
 	//declarando lista
-	Lista<Empleado*>* l_empleados;
+	Lista<Empleado<string>*>* l_empleados;
 	Lista<Producto<string>*>* l_productos;
 	Lista<Producto<string>*>* l_productos_comprados;
-	Lista<Usuario*>* l_usuarios;
+	Lista<Usuario<double, int>*>* l_usuarios;
 	Lista<Reclamo<string>*>* l_reclamos;
 	Lista<Proveedor*>* l_proveedores;
 	Lista<Boleta<string>*>* l_boletas;
@@ -19,7 +19,7 @@ private:
 	//Declarando colas
 	queue<Pedido*> c_pedidos;
 	//Declarando usuario
-	Usuario* usuario_actual;
+	Usuario<double, int>* usuario_actual;
 	Pedido* pedido_usuario;
 
 	//Declarando vistas
@@ -27,7 +27,7 @@ private:
 	VistaEmpleado* vistaEmpleado;
 
 	// hashtable
-	HashTablaA hashTable;
+	HashTablaA<Usuario<double, int>> hashTable;
 
 	//Arbol Binario de Busqueda de los IDs de los productos
 	ArbolBinario<int>* ab_ids_productos;
@@ -39,12 +39,12 @@ private:
 	int cont_productos_comprados;
 
 public:
-	ControllerProgram(void(*imprimirInt)(int), void(*imprimirDouble)(double)) {
+	ControllerProgram(void(*imprimirInt)(T1), void(*imprimirDouble)(T2)) {
 		//Listas
-		l_empleados = new Lista<Empleado*>();
+		l_empleados = new Lista<Empleado<string>*>();
 		l_productos = new Lista<Producto<string>*>();
 		l_productos_comprados = new Lista<Producto<string>*>();
-		l_usuarios = new Lista<Usuario*>();
+		l_usuarios = new Lista<Usuario<double, int>*>();
 		l_reclamos = new Lista<Reclamo<string>*>();
 		l_proveedores = new Lista<Proveedor*>();
 		l_boletas = new Lista<Boleta<string>*>();
@@ -104,7 +104,7 @@ public:
 		string linea;
 		char delimitador = '|'; //Separador de cada columna de la línea
 		int i = 0;
-		Empleado* auxE;
+		Empleado<string>* auxE;
 		// Encabezado: Leemos la primera línea para descartarla, pues es el encabezado
 		getline(archIN, linea);
 		// Contenido: Leemos todas las líneas
@@ -123,7 +123,7 @@ public:
 			getline(stream, idTrabajador, delimitador);
 			getline(stream, puesto, delimitador);
 
-			auxE = new Empleado(user, password, nombre, apellido, telefono, sexo, distrito, idTrabajador, puesto);
+			auxE = new Empleado<string>(user, password, nombre, apellido, telefono, sexo, distrito, idTrabajador, puesto);
 			l_empleados->agregaPos(auxE, i);
 			i++;
 		}
@@ -278,14 +278,14 @@ public:
 		string linea;
 		char delimitador = '|'; //Separador de cada columna de la línea
 		int i = 0;
-		Usuario* auxU;
+		Usuario<double, int>* auxU;
 		// Encabezado: Leemos la primera línea para descartarla, pues es el encabezado
 		getline(archIN, linea);
 		// Contenido: Leemos todas las líneas
 		while (getline(archIN, linea))
 		{
 			stringstream stream(linea); // Convertir la cadena a un stream			
-			string user, password, nombre, apellido, telefono, sexo, distrito, dinero;
+			string user, password, nombre, apellido, telefono, sexo, distrito, dinero, edad;
 			// Extraer todos los valores de esa fila [considerando 3 columans]
 			getline(stream, user, delimitador);
 			getline(stream, password, delimitador);
@@ -295,10 +295,11 @@ public:
 			getline(stream, sexo, delimitador);
 			getline(stream, distrito, delimitador);
 			getline(stream, dinero, delimitador);
+			getline(stream, edad, delimitador);
 
-			auxU = new Usuario(user, password, nombre, apellido, telefono, sexo, distrito, stod(dinero));
+			auxU = new Usuario<double, int>(user, password, nombre, apellido, telefono, sexo, distrito, stod(dinero), stoi(edad));
 			l_usuarios->agregaPos(auxU, i);
-			hashTable.insert(new Usuario(user, password, nombre, apellido, telefono, sexo, distrito, stod(dinero)));
+			hashTable.insert(auxU);
 			i++;
 		}
 		// Cerramos Archivo

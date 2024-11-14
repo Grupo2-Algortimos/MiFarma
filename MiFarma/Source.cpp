@@ -10,7 +10,7 @@ void imprimir(T e)
 int main()
 {
     Console::CursorVisible = false;
-    ControllerProgram* run = new ControllerProgram(imprimir, imprimir);
+    ControllerProgram<int, double>* run = new ControllerProgram<int, double>(imprimir, imprimir);
     run->menu();
 }
 
