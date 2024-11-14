@@ -15,7 +15,7 @@ private:
 	//Declaron Interfaces
 	MainInterfaz* mainInterfaz;
 	ProductosInterfaz* productosInterfaz;
-	HashTablaA<Usuario<double, int>> hashTable;
+	HashTablaA<Usuario<double, int>> ht_usuarios;
 	Pila<Reclamo<string>*>* p_reclamos;
 public:
 	VistaEmpleado()
@@ -36,7 +36,7 @@ public:
 	}
 
 	void vistaEmpleadoPantalla(Lista<Empleado<string>*>* l_empleados, Lista<Producto<string>*>* l_productos, Cola<Pedido<string>*>* c_pedidos, Lista<Reclamo<string>*>* l_reclamos,
-		Lista<Proveedor*>* l_proveedores, Lista<Boleta<string>*>* l_boletas, ArbolBusqueda<int>* ab_ids_productos, ArbolBusqueda<int>* ab_ids_boletas, ArbolBusqueda<int>* ab_ids_reclamos) {
+		Lista<Proveedor<string>*>* l_proveedores, Lista<Boleta<string>*>* l_boletas, ArbolBusqueda<int>* ab_ids_productos, ArbolBusqueda<int>* ab_ids_boletas, ArbolBusqueda<int>* ab_ids_reclamos) {
 		int op = 0;
 		string master_key = "";
 		do
@@ -83,7 +83,7 @@ public:
 
 
 	void loginEmpleado(Lista<Empleado<string>*>* l_empleados, Lista<Producto<string>*>* l_productos, Cola<Pedido<string>*>* c_pedidos, Lista<Reclamo<string>*>* l_reclamos,
-		Lista<Proveedor*>* l_proveedores, Lista<Boleta<string>*>* l_boletas, ArbolBusqueda<int>* ab_ids_productos, ArbolBusqueda<int>* ab_ids_boletas, ArbolBusqueda<int>* ab_ids_reclamos) {
+		Lista<Proveedor<string>*>* l_proveedores, Lista<Boleta<string>*>* l_boletas, ArbolBusqueda<int>* ab_ids_productos, ArbolBusqueda<int>* ab_ids_boletas, ArbolBusqueda<int>* ab_ids_reclamos) {
 		string user, password;
 		bool salir = false;
 		bool usuario_encontrado = false, contrasena_correcta = false;
@@ -162,7 +162,7 @@ public:
 	}
 
 	void adminOpciones(Lista<Producto<string>*>* l_productos, Cola<Pedido<string>*>* c_pedidos, Lista<Reclamo<string>*>* l_reclamos,
-		Lista<Proveedor*>* l_proveedores, Lista<Boleta<string>*>* l_boletas, ArbolBusqueda<int>* ab_ids_productos, ArbolBusqueda<int>* ab_ids_boletas,
+		Lista<Proveedor<string>*>* l_proveedores, Lista<Boleta<string>*>* l_boletas, ArbolBusqueda<int>* ab_ids_productos, ArbolBusqueda<int>* ab_ids_boletas,
 		ArbolBusqueda<int>* ab_ids_reclamos)
 	{
 		int opcionM;
@@ -910,9 +910,9 @@ public:
 		delete p_reclamos_aux;
 	}
 
-	void ingresarProveedor(int p, Lista<Proveedor*>* l_proveedores) {
+	void ingresarProveedor(int p, Lista<Proveedor<string>*>* l_proveedores) {
 		string nombre, telefono, distrito, producto;
-		Proveedor* auxProve;
+		Proveedor<string>* auxProve;
 		Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 0);
 		cout << "=============:: Ingresar Proveedor ::=============";
 		Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 1);
@@ -923,11 +923,11 @@ public:
 		cout << "Ingresar Distrito: "; cin >> distrito;
 		Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 4);
 		cout << "Ingresar Producto: "; cin >> producto;
-		auxProve = new Proveedor(nombre, telefono, distrito, producto);
+		auxProve = new Proveedor<string>(nombre, telefono, distrito, producto);
 		l_proveedores->agregaPos(auxProve, p);
 	}
 
-	void buscarProveedor(Lista<Proveedor*>* l_proveedores) {
+	void buscarProveedor(Lista<Proveedor<string>*>* l_proveedores) {
 		string nombre;
 		bool proveedorEncontrado = false;
 		int opcModo, contProveedores = 0;
@@ -1190,7 +1190,7 @@ public:
 			double dinero = rand() % 1001;
 			int edad = rand() % 71 + 20;
 
-			hashTable.insert(new Usuario<double, int>(nomUsuario, password, nombre, apellido, telefono, sexoElegido, distrito, dinero, edad));
+			ht_usuarios.insert(new Usuario<double, int>(nomUsuario, password, nombre, apellido, telefono, sexoElegido, distrito, dinero, edad));
 
 			archivo << nomUsuario << "|" << password << "|" << nombre << "|" << apellido << "|" << telefono << "|" << sexoElegido << "|" << distrito << "|" << dinero << edad << "|\n";
 		}
@@ -1206,6 +1206,6 @@ public:
 		mainInterfaz->encuadrar();
 		Console::SetCursorPosition(ANCHO / 3, ALTO / 7 + 0);
 		cout << "===========:: lista de usuarios::===========" << endl;
-		hashTable.DispAll();
+		ht_usuarios.DispAll();
 	}
 };

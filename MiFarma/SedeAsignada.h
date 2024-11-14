@@ -1,15 +1,12 @@
 #pragma once
-#include <iostream>
-#include <conio.h>
-#include "Grafo.h"
+#include"Grafo.h"
 
-using namespace std;
-
+template<class T1, class T2>
 class SedeAsignada {
 private:
-    CGrafo<int>* G;
-    vector<string> distritosLima;
-    vector<string> sedesMiFarma;
+    CGrafo<T1>* G;
+    vector<T2> distritosLima;
+    vector<T2> sedesMiFarma;
     int distancia;
     int tiempo;
 
@@ -19,14 +16,14 @@ private:
     }
 
     // Método para agregar arcos bidireccionales entre distritos colindantes
-    void agregarArcoBidireccional(string desde, string hasta, int distancia) {
+    void agregarArcoBidireccional(T2 desde, T2 hasta, T1 distancia) {
         G->adicionarArco(desde, hasta, distancia);   // Arco de desde -> hasta
         G->adicionarArco(hasta, desde, distancia);   // Arco de hasta -> desde (bidireccional)
     }
 
 public:
     SedeAsignada() {
-        G = new CGrafo<int>();
+        G = new CGrafo<T1>();
         tiempo = -1;
         distancia = -1;
         // Inicializar los distritos y sedes
@@ -121,12 +118,12 @@ public:
     }
 
     // Método para calcular y mostrar la sede más cercana
-    string calcularSedeCercana(const string& distritoUser) {
-        int distanciaMinima = 999999;
-        string sedeMasCercana = sedesMiFarma[0];
+    T2 calcularSedeCercana(const T2& distritoUser) {
+        T1 distanciaMinima = 999999;
+        T2 sedeMasCercana = sedesMiFarma[0];
 
         for (const auto& sede : sedesMiFarma) {
-            int distancia = G->distanciaMinima(distritoUser, sede);
+            T1 distancia = G->distanciaMinima(distritoUser, sede);
             if (distancia < distanciaMinima) {
                 distanciaMinima = distancia;
                 sedeMasCercana = sede;
@@ -139,21 +136,21 @@ public:
         return sedeMasCercana;
     }
 
-    int getDistancia() {
+    T1 getDistancia() {
         return this->distancia;
     }
 
-    int getTiempo() {
+    T1 getTiempo() {
         return this->tiempo;
     }
 
     void mostrarConexiones() {
-        for (string distrito : distritosLima) {
+        for (T2 distrito : distritosLima) {
             cout << "Conexiones desde " << distrito << ": ";
-            int cantidadArcos = G->cantidadArcos(distrito);
+            T1 cantidadArcos = G->cantidadArcos(distrito);
             for (int j = 0; j < cantidadArcos; j++) {
-                string destino = G->obtenerEtiquetaVertice(G->obtenerVerticeLlegada(distrito, j));
-                int distancia = G->obtenerArco(distrito, destino);
+                T2 destino = G->obtenerEtiquetaVertice(G->obtenerVerticeLlegada(distrito, j));
+                T1 distancia = G->obtenerArco(distrito, destino);
                 cout << destino << " (" << distancia << " km) ";
             }
             cout << endl;
