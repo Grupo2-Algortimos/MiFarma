@@ -1,13 +1,11 @@
 #pragma once
 #include"Libreria.h"
-#include "Usuario.h"
-
-using namespace std;
+#include"Usuario.h"
 
 template <class T>
 class HashTablaA {
 private:
-    std::vector<T*> table;    // Vector que contiene punteros a T o nullptr si la posición está vacía
+    vector<T*> table;    // Vector que contiene punteros a T o nullptr si la posición está vacía
     int currentSize;          // Cantidad de elementos en la tabla
     const T* DELETED;         // Marcador especial para posiciones borradas
 

@@ -29,6 +29,9 @@ public:
 	void apilar(T v);
 	T desapilar();
 	bool esVacia();
+	int size();
+	Pila<T>* copiar();
+	T returnTope();
 };
 //IMPLEMENTACIÓN
 template <class T>
@@ -66,3 +69,51 @@ bool Pila<T>::esVacia()
 }
 
 
+template <class T>
+int Pila<T>::size()
+{
+	NodoP<T>* aux = tope;
+	int cont = 0;
+	while (aux != NULL)
+	{
+		cont++;
+		aux = aux->siguiente;
+	}
+	return cont;
+}
+
+template <class T>
+Pila<T>* Pila<T>::copiar()
+{
+	Pila<T> temporal;
+	NodoP<T>* aux = tope;
+
+	while (aux != NULL)
+	{
+		temporal.apilar(aux->dato);
+		aux = aux->siguiente;
+	}
+
+	Pila<T>* pila_copia = new Pila<T>();
+	aux = temporal.tope;
+	while (aux != NULL)
+	{
+		pila_copia->apilar(aux->dato);
+		aux = aux->siguiente;
+	}
+
+	return pila_copia;
+}
+
+template <class T>
+T Pila<T>::returnTope()
+{
+	if (esVacia())
+	{
+		return NULL;
+	}
+	else
+	{
+		return tope->dato;
+	}
+}

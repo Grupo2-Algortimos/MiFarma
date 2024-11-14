@@ -2,57 +2,70 @@
 #include"VistaUsuario.h"
 #include"VistaEmpleado.h"
 
-
+template<class T1, class T2>
 class ControllerProgram {
 private:
 	//declarando lista
-	Lista<Empleado*>* l_empleados;
+	Lista<Empleado<string>*>* l_empleados;
 	Lista<Producto<string>*>* l_productos;
 	Lista<Producto<string>*>* l_productos_comprados;
-	Lista<Usuario*>* l_usuarios;
+	Lista<Usuario<double, int>*>* l_usuarios;
 	Lista<Reclamo<string>*>* l_reclamos;
-	Lista<Proveedor*>* l_proveedores;
+	Lista<Proveedor<string>*>* l_proveedores;
 	Lista<Boleta<string>*>* l_boletas;
+
 	//Declaron Interfaces
 	MainInterfaz* mainInterfaz;
 	ProductosInterfaz* productosInterfaz;
+
 	//Declarando colas
-	queue<Pedido*> c_pedidos;
+	Cola<Pedido<string>*>* c_pedidos;
+
 	//Declarando usuario
-	Usuario* usuario_actual;
-	Pedido* pedido_usuario;
+	Usuario<double, int>* usuario_actual;
+	Pedido<string>* pedido_usuario;
 
 	//Declarando vistas
 	VistaUsuario* vistaUsuario;
 	VistaEmpleado* vistaEmpleado;
 
 	// hashtable
-	HashTablaA<Usuario> hashTable;
+	HashTablaA<Usuario<double, int>> ht_usuarios;
 
-	//Arbol Binario de Busqueda de los IDs de los productos
-	ArbolBinario<int>* ab_ids_productos;
+	//Arboles Binarios de Busqueda
+	ArbolBusqueda<int>* ab_ids_productos;
+	ArbolBusqueda<int>* ab_ids_boletas;
+	ArbolBusqueda<int>* ab_ids_reclamos;
 
-	//Arbol Binario Balanceado de los precios de los productos
+	//Arboles Binarios Balanceados
 	ArbolBalanceado<double>* abb_precios_productos;
 
 	// Otras variables
 	int cont_productos_comprados;
 
 public:
-	ControllerProgram(void(*imprimirInt)(int), void(*imprimirDouble)(double)) {
+	ControllerProgram(void(*imprimirInt)(T1), void(*imprimirDouble)(T2)) {
 		//Listas
-		l_empleados = new Lista<Empleado*>();
+		l_empleados = new Lista<Empleado<string>*>();
 		l_productos = new Lista<Producto<string>*>();
 		l_productos_comprados = new Lista<Producto<string>*>();
-		l_usuarios = new Lista<Usuario*>();
+		l_usuarios = new Lista<Usuario<double, int>*>();
 		l_reclamos = new Lista<Reclamo<string>*>();
-		l_proveedores = new Lista<Proveedor*>();
+		l_proveedores = new Lista<Proveedor<string>*>();
 		l_boletas = new Lista<Boleta<string>*>();
 		//Interfaces o decoracion
 		mainInterfaz = new MainInterfaz();
 		productosInterfaz = new ProductosInterfaz();
+
+		//Colas
+		c_pedidos = new Cola<Pedido<string>*>();
+		pedido_usuario = NULL;
+
 		//Arbol Binario de Busqueda
-		ab_ids_productos = new ArbolBinario<int>(imprimirInt);
+		ab_ids_productos = new ArbolBusqueda<int>(imprimirInt);
+		ab_ids_boletas = new ArbolBusqueda<int>(imprimirInt);
+		ab_ids_reclamos = new ArbolBusqueda<int>(imprimirInt);
+
 		//Arboles Binarios Balanceados
 		abb_precios_productos = new ArbolBalanceado<double>(imprimirDouble);
 
@@ -73,6 +86,9 @@ public:
 		vistaUsuario = new VistaUsuario();
 		vistaEmpleado = new VistaEmpleado();
 
+		//Hash tables
+		ht_usuarios = HashTablaA<Usuario<double, int>>();
+
 		//Otras variables
 		cont_productos_comprados = 0;
 	}
@@ -86,9 +102,12 @@ public:
 		delete l_proveedores;
 		delete l_boletas;
 		delete l_reclamos;
+		delete c_pedidos;
 		delete usuario_actual;
 		delete pedido_usuario;
 		delete ab_ids_productos;
+		delete ab_ids_boletas;
+		delete ab_ids_reclamos;
 		delete abb_precios_productos;
 	}
 
@@ -104,7 +123,7 @@ public:
 		string linea;
 		char delimitador = '|'; //Separador de cada columna de la línea
 		int i = 0;
-		Empleado* auxE;
+		Empleado<string>* auxE;
 		// Encabezado: Leemos la primera línea para descartarla, pues es el encabezado
 		getline(archIN, linea);
 		// Contenido: Leemos todas las líneas
@@ -123,7 +142,7 @@ public:
 			getline(stream, idTrabajador, delimitador);
 			getline(stream, puesto, delimitador);
 
-			auxE = new Empleado(user, password, nombre, apellido, telefono, sexo, distrito, idTrabajador, puesto);
+			auxE = new Empleado<string>(user, password, nombre, apellido, telefono, sexo, distrito, idTrabajador, puesto);
 			l_empleados->agregaPos(auxE, i);
 			i++;
 		}
@@ -194,7 +213,7 @@ public:
 			getline(stream, detalle, delimitador);
 			getline(stream, pedido, delimitador);
 			auxR = new Reclamo<string>(iDReclamo, fecha, nombre, telefono, distrito, nombreProducto, tipo, detalle, pedido);
-			//l_reclamos->agregaPos(auxR, i);
+			l_reclamos->agregaPos(auxR, i);
 			i++;
 		}
 		// Cerramos Archivo
@@ -211,7 +230,7 @@ public:
 		string linea;
 		char delimitador = '|'; //Separador de cada columna de la línea
 		int i = 0;
-		Proveedor* auxP;
+		Proveedor<string>* auxP;
 		// Encabezado: Leemos la primera línea para descartarla, pues es el encabezado
 		getline(archIN, linea);
 		// Contenido: Leemos todas las líneas
@@ -225,7 +244,7 @@ public:
 			getline(stream, distrito, delimitador);
 			getline(stream, producto, delimitador);
 
-			auxP = new Proveedor(nombre, telefono, distrito, producto);
+			auxP = new Proveedor<string>(nombre, telefono, distrito, producto);
 			l_proveedores->agregaPos(auxP, i);
 			i++;
 		}
@@ -278,14 +297,14 @@ public:
 		string linea;
 		char delimitador = '|'; //Separador de cada columna de la línea
 		int i = 0;
-		Usuario* auxU;
+		Usuario<double, int>* auxU;
 		// Encabezado: Leemos la primera línea para descartarla, pues es el encabezado
 		getline(archIN, linea);
 		// Contenido: Leemos todas las líneas
 		while (getline(archIN, linea))
 		{
 			stringstream stream(linea); // Convertir la cadena a un stream			
-			string user, password, nombre, apellido, telefono, sexo, distrito, dinero;
+			string user, password, nombre, apellido, telefono, sexo, distrito, dinero, edad;
 			// Extraer todos los valores de esa fila [considerando 3 columans]
 			getline(stream, user, delimitador);
 			getline(stream, password, delimitador);
@@ -295,10 +314,11 @@ public:
 			getline(stream, sexo, delimitador);
 			getline(stream, distrito, delimitador);
 			getline(stream, dinero, delimitador);
+			getline(stream, edad, delimitador);
 
-			auxU = new Usuario(user, password, nombre, apellido, telefono, sexo, distrito, stod(dinero));
+			auxU = new Usuario<double, int>(user, password, nombre, apellido, telefono, sexo, distrito, stod(dinero), stoi(edad));
 			l_usuarios->agregaPos(auxU, i);
-			hashTable.insert(new Usuario(user, password, nombre, apellido, telefono, sexo, distrito, stod(dinero)));
+			ht_usuarios.insert(auxU);
 			i++;
 		}
 		// Cerramos Archivo
@@ -316,8 +336,8 @@ public:
 			num_alea = r.Next(0, l_productos->longitud() + 1);
 			l_productosAleatorios->agregaPos(l_productos->obtenerPos(num_alea), j);
 		}
-		Pedido* pedido1 = new Pedido("P01", "Jose", "Kevin", "Puente Piedra", l_productosAleatorios, "En Camino", "Bicicleta");
-		c_pedidos.push(pedido1);
+		Pedido<string>* pedido1 = new Pedido<string>("P001", "Jose", "Kevin", "Puente Piedra", l_productosAleatorios, "En Camino", "Bicicleta");
+		c_pedidos->encolar(pedido1);
 
 		l_productosAleatorios = new Lista<Producto<string>*>();
 		catidad_productos = r.Next(1, 5); // [1-4]
@@ -326,8 +346,8 @@ public:
 			num_alea = r.Next(0, l_productos->longitud() + 1);
 			l_productosAleatorios->agregaPos(l_productos->obtenerPos(num_alea), j);
 		}
-		Pedido* pedido2 = new Pedido("P02", "Maria", "Luz", "San miguel", l_productosAleatorios, "Pendiente", "Motocicleta");
-		c_pedidos.push(pedido2);
+		Pedido<string>* pedido2 = new Pedido<string>("P002", "Maria", "Luz", "San miguel", l_productosAleatorios, "Pendiente", "Motocicleta");
+		c_pedidos->encolar(pedido2);
 
 		l_productosAleatorios = new Lista<Producto<string>*>();
 		catidad_productos = r.Next(1, 5); // [1-4]
@@ -336,22 +356,37 @@ public:
 			num_alea = r.Next(0, l_productos->longitud() + 1);
 			l_productosAleatorios->agregaPos(l_productos->obtenerPos(num_alea), j);
 		}
-		Pedido* pedido3 = new Pedido("P03", "Pepe", "Manuel", "San miguel", l_productosAleatorios, "Pendiente", "Bicicleta");
-		c_pedidos.push(pedido3);
+		Pedido<string>* pedido3 = new Pedido<string>("P003", "Pepe", "Manuel", "San miguel", l_productosAleatorios, "Pendiente", "Bicicleta");
+		c_pedidos->encolar(pedido3);
 	}
 
 	void registrarDatosArbolesBinarios()
 	{
+		//Registrar Ids y Precios de los productos
 		for (int i = 0; i < l_productos->longitud(); i++)
 		{
 			string id = removerPrimerCaracter(l_productos->obtenerPos(i)->getIdProduct());
+			string precio = l_productos->obtenerPos(i)->getPrecio();
 			ab_ids_productos->insertar(stoi(id));
+			abb_precios_productos->insertar(stod(precio));
 		}
 
-		for (int i = 0; i < l_productos->longitud(); i++)
+		//Registrar Ids de las boletas
+		Cola<Pedido<string>*>* c_pedidos_aux = c_pedidos->copiar();
+		while (!c_pedidos_aux->esVacia())
 		{
-			string precio = l_productos->obtenerPos(i)->getPrecio();
-			abb_precios_productos->insertar(stod(precio));
+			Pedido<string>* pedido_aux = c_pedidos_aux->front();
+			string id = removerPrimerCaracter(pedido_aux->getIdPedido());
+			ab_ids_boletas->insertar(stoi(id));
+			c_pedidos_aux->desencolar();
+		}
+
+		//Registrar Ids de los reclamos
+		for (int i = 0; i < l_reclamos->longitud(); i++)
+		{
+			Reclamo<string>* reclamo_aux = l_reclamos->obtenerPos(i);
+			string id = removerPrimerCaracter(reclamo_aux->getIdReclamo());
+			ab_ids_reclamos->insertar(stoi(id));
 		}
 	}
 
@@ -380,7 +415,7 @@ public:
 			switch (opcion)
 			{
 			case 1:
-				vistaEmpleado->vistaEmpleadoPantalla(l_empleados, l_productos, c_pedidos, l_reclamos, l_proveedores, l_boletas, ab_ids_productos);
+				vistaEmpleado->vistaEmpleadoPantalla(l_empleados, l_productos, c_pedidos, l_reclamos, l_proveedores, l_boletas, ab_ids_productos, ab_ids_boletas, ab_ids_reclamos);
 				break;
 			case 2:
 				vistaUsuario->vistaUsuarioPantalla(l_productos, l_productos_comprados, cont_productos_comprados, l_usuarios, usuario_actual,pedido_usuario, 

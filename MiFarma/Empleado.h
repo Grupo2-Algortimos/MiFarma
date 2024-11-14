@@ -1,11 +1,12 @@
 #pragma once
 #include "Entidad.h"
 
-class Empleado : public Entidad 
+template<class T>
+class Empleado : public Entidad<T>
 {
 private:
-    string idTrabajador;
-    string puesto;
+    T idTrabajador;
+    T puesto;
 
 public:
     // Constructor
@@ -14,8 +15,8 @@ public:
         this->idTrabajador = "";
         this->puesto = "";
     }
-    Empleado(string p_user, string p_password, string p_nombre, string p_apellido, string p_telefono,
-        string p_sexo, string p_distrito, string p_idTrabajador, string p_puesto)
+    Empleado(T p_user, T p_password, T p_nombre, T p_apellido, T p_telefono,
+        T p_sexo, T p_distrito, T p_idTrabajador, T p_puesto)
         : Entidad(p_user, p_password, p_nombre, p_apellido, p_telefono, p_sexo, p_distrito)
     {
         this->idTrabajador = p_idTrabajador;
@@ -23,13 +24,13 @@ public:
     }
 
     // Métodos getter y setter para `Empleado`
-    string getIdTrabajador() { return idTrabajador; }
-    string getPuesto() { return puesto; }
+    T getIdTrabajador() { return idTrabajador; }
+    T getPuesto() { return puesto; }
 
-    void setIdTrabajador(string p_idTrabajador) { idTrabajador = p_idTrabajador; }
-    void setPuesto(string p_puesto) { puesto = p_puesto; }
+    void setIdTrabajador(T p_idTrabajador) { idTrabajador = p_idTrabajador; }
+    void setPuesto(T p_puesto) { puesto = p_puesto; }
 
-    //mostrar el empleado
+    //Mostrar en consola
     void mostrarEmpleado() {
         cout << "ID Trabajador: " << getIdTrabajador() << endl; // 2 -> O(1)
         cout << "Puesto: " << getPuesto() << endl; // 2 -> O(1)
