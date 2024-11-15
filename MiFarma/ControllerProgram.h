@@ -11,12 +11,15 @@ private:
 	Lista<Producto<string>*>* l_productos_comprados;
 	Lista<Usuario<double, int>*>* l_usuarios;
 	Lista<Reclamo<string>*>* l_reclamos;
-	Lista<Proveedor*>* l_proveedores;
+	Lista<Proveedor<string>*>* l_proveedores;
 	Lista<Boleta<string>*>* l_boletas;
 
 	//Declaron Interfaces
 	MainInterfaz* mainInterfaz;
 	ProductosInterfaz* productosInterfaz;
+
+	//Declarando pilas
+	Pila<Reclamo<string>*>* p_reclamos;
 
 	//Declarando colas
 	Cola<Pedido<string>*>* c_pedidos;
@@ -30,14 +33,14 @@ private:
 	VistaEmpleado* vistaEmpleado;
 
 	// hashtable
-	HashTablaA<Usuario<double, int>> hashTable;
+	HashTablaA<Usuario<double, int>> ht_usuarios;
 
-	//Arbol Binario de Busqueda
-	ArbolBinario<int>* ab_ids_productos;
-	ArbolBinario<int>* ab_ids_boletas;
-	ArbolBinario<int>* ab_ids_reclamos;
+	//Arboles Binarios de Busqueda
+	ArbolBusqueda<int>* ab_ids_productos;
+	ArbolBusqueda<int>* ab_ids_boletas;
+	ArbolBusqueda<int>* ab_ids_reclamos;
 
-	//Arbol Binario Balanceado de los precios de los productos
+	//Arboles Binarios Balanceados
 	ArbolBalanceado<double>* abb_precios_productos;
 
 	// Otras variables
@@ -51,20 +54,23 @@ public:
 		l_productos_comprados = new Lista<Producto<string>*>();
 		l_usuarios = new Lista<Usuario<double, int>*>();
 		l_reclamos = new Lista<Reclamo<string>*>();
-		l_proveedores = new Lista<Proveedor*>();
+		l_proveedores = new Lista<Proveedor<string>*>();
 		l_boletas = new Lista<Boleta<string>*>();
 		//Interfaces o decoracion
 		mainInterfaz = new MainInterfaz();
 		productosInterfaz = new ProductosInterfaz();
+
+		//Pilas
+		p_reclamos = new Pila<Reclamo<string>*>();
 
 		//Colas
 		c_pedidos = new Cola<Pedido<string>*>();
 		pedido_usuario = NULL;
 
 		//Arbol Binario de Busqueda
-		ab_ids_productos = new ArbolBinario<int>(imprimirInt);
-		ab_ids_boletas = new ArbolBinario<int>(imprimirInt);
-		ab_ids_reclamos = new ArbolBinario<int>(imprimirInt);
+		ab_ids_productos = new ArbolBusqueda<int>(imprimirInt);
+		ab_ids_boletas = new ArbolBusqueda<int>(imprimirInt);
+		ab_ids_reclamos = new ArbolBusqueda<int>(imprimirInt);
 
 		//Arboles Binarios Balanceados
 		abb_precios_productos = new ArbolBalanceado<double>(imprimirDouble);
@@ -86,6 +92,9 @@ public:
 		vistaUsuario = new VistaUsuario();
 		vistaEmpleado = new VistaEmpleado();
 
+		//Hash tables
+		ht_usuarios = HashTablaA<Usuario<double, int>>();
+
 		//Otras variables
 		cont_productos_comprados = 0;
 	}
@@ -100,12 +109,14 @@ public:
 		delete l_boletas;
 		delete l_reclamos;
 		delete c_pedidos;
+		delete p_reclamos;
 		delete usuario_actual;
 		delete pedido_usuario;
 		delete ab_ids_productos;
 		delete ab_ids_boletas;
 		delete ab_ids_reclamos;
 		delete abb_precios_productos;
+		delete ht_usuarios;
 	}
 
 	//importacion de archivos
@@ -211,6 +222,7 @@ public:
 			getline(stream, pedido, delimitador);
 			auxR = new Reclamo<string>(iDReclamo, fecha, nombre, telefono, distrito, nombreProducto, tipo, detalle, pedido);
 			l_reclamos->agregaPos(auxR, i);
+			p_reclamos->apilar(auxR);
 			i++;
 		}
 		// Cerramos Archivo
@@ -227,7 +239,7 @@ public:
 		string linea;
 		char delimitador = '|'; //Separador de cada columna de la línea
 		int i = 0;
-		Proveedor* auxP;
+		Proveedor<string>* auxP;
 		// Encabezado: Leemos la primera línea para descartarla, pues es el encabezado
 		getline(archIN, linea);
 		// Contenido: Leemos todas las líneas
@@ -241,7 +253,7 @@ public:
 			getline(stream, distrito, delimitador);
 			getline(stream, producto, delimitador);
 
-			auxP = new Proveedor(nombre, telefono, distrito, producto);
+			auxP = new Proveedor<string>(nombre, telefono, distrito, producto);
 			l_proveedores->agregaPos(auxP, i);
 			i++;
 		}
@@ -315,7 +327,6 @@ public:
 
 			auxU = new Usuario<double, int>(user, password, nombre, apellido, telefono, sexo, distrito, stod(dinero), stoi(edad));
 			l_usuarios->agregaPos(auxU, i);
-			hashTable.insert(auxU);
 			i++;
 		}
 		// Cerramos Archivo
@@ -412,7 +423,7 @@ public:
 			switch (opcion)
 			{
 			case 1:
-				vistaEmpleado->vistaEmpleadoPantalla(l_empleados, l_productos, c_pedidos, l_reclamos, l_proveedores, l_boletas, ab_ids_productos, ab_ids_boletas, ab_ids_reclamos);
+				vistaEmpleado->vistaEmpleadoPantalla(l_empleados, l_productos, c_pedidos, l_reclamos, l_proveedores, l_boletas, ab_ids_productos, ab_ids_boletas, ab_ids_reclamos, ht_usuarios, p_reclamos);
 				break;
 			case 2:
 				vistaUsuario->vistaUsuarioPantalla(l_productos, l_productos_comprados, cont_productos_comprados, l_usuarios, usuario_actual,pedido_usuario, 

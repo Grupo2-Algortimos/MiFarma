@@ -1,13 +1,11 @@
 #pragma once
 #include"Libreria.h"
-#include "Usuario.h"
-
-using namespace std;
+#include"Usuario.h"
 
 template <class T>
 class HashTablaA {
 private:
-    std::vector<T*> table;    // Vector que contiene punteros a T o nullptr si la posición está vacía
+    vector<T*> table;    // Vector que contiene punteros a T o nullptr si la posición está vacía
     int currentSize;          // Cantidad de elementos en la tabla
     const T* DELETED;         // Marcador especial para posiciones borradas
 
@@ -17,6 +15,19 @@ public:
         // `DELETED` es una dirección especial para marcar eliminaciones sin usar memoria real
         DELETED = reinterpret_cast<T*>(0xFFFFFFFF);
     }
+
+	~HashTablaA() {
+		makeEmpty();
+	}
+
+    vector<T*> getTable()
+    {
+        return table;
+    }
+
+	T* getDELETED() const {
+	    return const_cast<T*>(DELETED);
+	}
 
     int getsize() const {
         return table.size();
@@ -67,18 +78,9 @@ public:
         return false;
     }
 
-    void DispAll() {
-        int contEspacios = 0;
-        for (size_t i = 0; i < table.size(); i++) {
-            if (table[i] != nullptr && table[i] != DELETED) {
-                if (contEspacios > 18) break;
-                Console::SetCursorPosition(ANCHO / 6, ALTO / 5 + 1 + contEspacios);
-                std::cout << "key " << i << " | Nombre: " << table[i]->getNombre() << ", Apellido: " << table[i]->getApellido() << endl;
-                contEspacios++;
-            }
-        }
-    }
-
+	bool is_empty() const {
+		return currentSize == 0;
+	}
 private:
     int conversor(const std::string& a, const std::string& b) const {
         int sumaNombre = 0;
