@@ -154,3 +154,68 @@ int obtenerPrimerProductoPorCategoria(Lista<Producto<string>*>* l_productos, str
 	}
 	return -1;
 }
+
+// ordenamiento avanzado con Mergesort
+void merge(Lista<Usuario<double, int>*>* l_usuarios, int inicio, int medio, int fin) {
+	int n1 = medio - inicio + 1;
+	int n2 = fin - medio;
+
+	// Crear sublistas temporales
+	vector<Usuario<double, int>*> izquierda(n1);
+	vector<Usuario<double, int>*> derecha(n2);
+
+	// Copiar datos a las sublistas
+	for (int i = 0; i < n1; i++) {
+		izquierda[i] = l_usuarios->obtenerPos(inicio + i);
+	}
+	for (int j = 0; j < n2; j++) {
+		derecha[j] = l_usuarios->obtenerPos(medio + 1 + j);
+	}
+
+	// Fusionar las sublistas en orden
+	int i = 0, j = 0, k = inicio;
+	while (i < n1 && j < n2) {
+		if (izquierda[i]->getEdad() <= derecha[j]->getEdad()) {
+			l_usuarios->modificarPos(izquierda[i], k);
+			i++;
+		}
+		else {
+			l_usuarios->modificarPos(derecha[j], k);
+			j++;
+		}
+		k++;
+	}
+
+	// Copiar elementos restantes de izquierda, si los hay
+	while (i < n1) {
+		l_usuarios->modificarPos(izquierda[i], k);
+		i++;
+		k++;
+	}
+
+	// Copiar elementos restantes de derecha, si los hay
+	while (j < n2) {
+		l_usuarios->modificarPos(derecha[j], k);
+		j++;
+		k++;
+	}
+}
+
+void mergeSort(Lista<Usuario<double, int>*>* l_usuarios, int inicio, int fin) {
+	if (inicio < fin) {
+		int medio = inicio + (fin - inicio) / 2;
+
+		// Ordenar cada mitad recursivamente
+		mergeSort(l_usuarios, inicio, medio);
+		mergeSort(l_usuarios, medio + 1, fin);
+
+		// Fusionar las mitades ordenadas
+		merge(l_usuarios, inicio, medio, fin);
+	}
+}
+
+void ordenarUsuarioxEdad(Lista<Usuario<double, int>*>* l_usuarios) {
+	if (l_usuarios->longitud() > 1) {
+		mergeSort(l_usuarios, 0, l_usuarios->longitud() - 1);
+	}
+}
