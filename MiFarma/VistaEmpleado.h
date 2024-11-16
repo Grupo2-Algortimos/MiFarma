@@ -29,10 +29,10 @@ public:
 		delete productosInterfaz;
 	}
 
-	void vistaEmpleadoPantalla(Lista<Empleado<string>*>* l_empleados, Lista<Producto<string>*>* l_productos, Cola<Pedido<string>*>* c_pedidos, Lista<Reclamo<string>*>* l_reclamos,
-		Lista<Proveedor<string>*>* l_proveedores, Lista<Boleta<string>*>* l_boletas, ArbolBusqueda<int>* ab_ids_productos, ArbolBusqueda<int>* ab_ids_pedidos, ArbolBusqueda<int>* ab_ids_reclamos,
-		HashTablaA<Usuario<double, int>> &ht_usuarios, Pila<Reclamo<string>*>* p_reclamos, ArbolBalanceado<double>* abb_precios_productos, ArbolBusqueda<int>* ab_ids_proveedores,
-		ArbolBusqueda<int>* ab_ids_boletas) {
+	void vistaEmpleadoPantalla(Lista<Empleado<string>*>* l_empleados, Lista<Producto<string>*>* l_productos, Lista<Proveedor<string>*>* l_proveedores,
+		Lista<Boleta<string>*>* l_boletas, Pila<Reclamo<string>*>* p_reclamos, Cola<Pedido<string>*>* c_pedidos, ArbolBusqueda<int>* ab_ids_productos,
+		ArbolBusqueda<int>* ab_ids_pedidos, ArbolBusqueda<int>* ab_ids_reclamos, ArbolBusqueda<int>* ab_ids_boletas, ArbolBusqueda<int>* ab_ids_proveedores,
+		ArbolBalanceado<double>* abb_precios_productos, ArbolBalanceado<int>* abb_edades_usuarios, HashTablaA<Usuario<double, int>>& ht_usuarios) {
 		int op = 0;
 		string master_key = "";
 		do
@@ -53,8 +53,8 @@ public:
 			switch (op)
 			{
 			case 1:
-				loginEmpleado(l_empleados, l_productos, c_pedidos, l_reclamos, l_proveedores, l_boletas, ab_ids_productos, ab_ids_pedidos, ab_ids_reclamos, ht_usuarios, p_reclamos, 
-					abb_precios_productos, ab_ids_proveedores, ab_ids_boletas);
+				loginEmpleado(l_empleados, l_productos, l_proveedores, l_boletas, p_reclamos, c_pedidos, ab_ids_productos, ab_ids_pedidos,
+					ab_ids_reclamos, ab_ids_boletas, ab_ids_proveedores, abb_precios_productos, abb_edades_usuarios, ht_usuarios);
 				break;
 			case 2:
 				system("cls");
@@ -79,10 +79,10 @@ public:
 	}
 
 
-	void loginEmpleado(Lista<Empleado<string>*>* l_empleados, Lista<Producto<string>*>* l_productos, Cola<Pedido<string>*>* c_pedidos, Lista<Reclamo<string>*>* l_reclamos,
-		Lista<Proveedor<string>*>* l_proveedores, Lista<Boleta<string>*>* l_boletas, ArbolBusqueda<int>* ab_ids_productos, ArbolBusqueda<int>* ab_ids_pedidos, ArbolBusqueda<int>* ab_ids_reclamos,
-		HashTablaA<Usuario<double, int>> &ht_usuarios, Pila<Reclamo<string>*>* p_reclamos, ArbolBalanceado<double>* abb_precios_productos, ArbolBusqueda<int>* ab_ids_proveedores,
-		ArbolBusqueda<int>* ab_ids_boletas) {
+	void loginEmpleado(Lista<Empleado<string>*>* l_empleados, Lista<Producto<string>*>* l_productos, Lista<Proveedor<string>*>* l_proveedores,
+		Lista<Boleta<string>*>* l_boletas, Pila<Reclamo<string>*>* p_reclamos, Cola<Pedido<string>*>* c_pedidos, ArbolBusqueda<int>* ab_ids_productos,
+		ArbolBusqueda<int>* ab_ids_pedidos, ArbolBusqueda<int>* ab_ids_reclamos, ArbolBusqueda<int>* ab_ids_boletas, ArbolBusqueda<int>* ab_ids_proveedores,
+		ArbolBalanceado<double>* abb_precios_productos, ArbolBalanceado<int>* abb_edades_usuarios, HashTablaA<Usuario<double, int>>& ht_usuarios) {
 		string user, password;
 		bool salir = false;
 		bool usuario_encontrado = false, contrasena_correcta = false;
@@ -111,8 +111,8 @@ public:
 						Console::SetCursorPosition(ANCHO / 3, ALTO / 3 + 0);
 						cout << "Ingreso exitoso...";
 						system("pause>>null");
-						adminOpciones(l_productos, c_pedidos, l_reclamos, l_proveedores, l_boletas, ab_ids_productos, ab_ids_pedidos, ab_ids_reclamos, ht_usuarios, p_reclamos, abb_precios_productos,
-							ab_ids_proveedores, ab_ids_boletas);
+						adminOpciones(l_empleados, l_productos, l_proveedores, l_boletas, p_reclamos, c_pedidos, ab_ids_productos, ab_ids_pedidos,
+							ab_ids_reclamos, ab_ids_boletas, ab_ids_proveedores, abb_precios_productos, abb_edades_usuarios, ht_usuarios);
 						salir = true;
 						break;
 					}
@@ -161,10 +161,10 @@ public:
 		l_empleados->agregaFinal(aux);
 	}
 
-	void adminOpciones(Lista<Producto<string>*>* l_productos, Cola<Pedido<string>*>* c_pedidos, Lista<Reclamo<string>*>* l_reclamos,
-		Lista<Proveedor<string>*>* l_proveedores, Lista<Boleta<string>*>* l_boletas, ArbolBusqueda<int>* ab_ids_productos, ArbolBusqueda<int>* ab_ids_pedidos,
-		ArbolBusqueda<int>* ab_ids_reclamos, HashTablaA<Usuario<double, int>> &ht_usuarios, Pila<Reclamo<string>*>* p_reclamos, ArbolBalanceado<double>* abb_precios_productos, 
-		ArbolBusqueda<int>* ab_ids_proveedores, ArbolBusqueda<int>* ab_ids_boletas)
+	void adminOpciones(Lista<Empleado<string>*>* l_empleados, Lista<Producto<string>*>* l_productos,Lista<Proveedor<string>*>* l_proveedores, 
+		Lista<Boleta<string>*>* l_boletas, Pila<Reclamo<string>*>* p_reclamos, Cola<Pedido<string>*>* c_pedidos, ArbolBusqueda<int>* ab_ids_productos, 
+		ArbolBusqueda<int>* ab_ids_pedidos, ArbolBusqueda<int>* ab_ids_reclamos, ArbolBusqueda<int>* ab_ids_boletas, ArbolBusqueda<int>* ab_ids_proveedores, 
+		ArbolBalanceado<double>* abb_precios_productos, ArbolBalanceado<int>* abb_edades_usuarios, HashTablaA<Usuario<double, int>>& ht_usuarios)
 	{
 		int opcionM;
 		while (true)
@@ -217,7 +217,7 @@ public:
 				buscarPedidos(c_pedidos, ab_ids_pedidos);
 				break;
 			case 5:
-				buscarReclamos(l_reclamos, ab_ids_reclamos, p_reclamos);
+				buscarReclamos(p_reclamos, ab_ids_reclamos);
 				break;
 			case 6:
 				ingresarProveedor(l_proveedores);
@@ -232,10 +232,10 @@ public:
 				actualizarLogistica();
 				break;
 			case 10:
-				crearDataSet(ht_usuarios);
+				crearDataSet(ht_usuarios, abb_edades_usuarios);
 				break;
 			case 11:
-				buscarUsuario(ht_usuarios);
+				buscarUsuario(ht_usuarios, abb_edades_usuarios);
 				break;
 			}
 			system("pause>>null");
@@ -900,6 +900,7 @@ public:
 								pedidoAux->mostarInformacion(ANCHO / 4, ALTO / 5);
 								break;
 							}
+							c_pedidos_aux->desencolar();
 						}
 					}
 					else
@@ -938,7 +939,7 @@ public:
 
 	}
 
-	void buscarReclamos(Lista<Reclamo<string>*>* l_reclamos, ArbolBusqueda<int>* ab_ids_reclamos, Pila<Reclamo<string>*>* p_reclamos) {
+	void buscarReclamos(Pila<Reclamo<string>*>* p_reclamos, ArbolBusqueda<int>* ab_ids_reclamos) {
 		bool escape = false;
 		string idReclamo;
 		int opcModo, contReclamos = 0, opcionMover;
@@ -1243,9 +1244,7 @@ public:
 					{
 						system("cls");
 						mainInterfaz->encuadrar();
-						Console::SetCursorPosition(ANCHO / 6, ALTO / 6 + 0);
-						cout << "=============:: Boleta ::=============";
-						l_boletas->obtenerPos(contBoletas)->mostrarInformacion(ANCHO / 6, ALTO / 6 + 1);
+						l_boletas->obtenerPos(contBoletas)->mostrarInformacion(ANCHO / 6, ALTO / 5 + 1);
 						Console::SetCursorPosition(ANCHO - 40, ALTO / 5 + 1);
 						cout << "[->] Mover siguiente boleta";
 						Console::SetCursorPosition(ANCHO - 40, ALTO / 5 + 2);
@@ -1253,7 +1252,7 @@ public:
 						Console::SetCursorPosition(ANCHO - 40, ALTO / 5 + 3);
 						cout << "[ESC] Salir";
 						Console::SetCursorPosition(ANCHO - 40, ALTO / 5 + 10);
-						cout << "<" << contBoletas + 1 << " : " << l_boletas->longitud() - 1 << ">";
+						cout << "<" << contBoletas + 1 << " : " << l_boletas->longitud() << ">";
 						tecla_presionada = false;
 					}
 					if (kbhit())
@@ -1262,7 +1261,7 @@ public:
 						switch (tecla)
 						{
 						case TECLA_DERECHA:
-							if (contBoletas < l_boletas->longitud() - 2)
+							if (contBoletas < l_boletas->longitud() - 1)
 							{
 								contBoletas++;
 							}
@@ -1295,7 +1294,7 @@ public:
 					if (ab_ids_boletas->buscar(id_boleta_entero))
 					{
 						Boleta<string>* boleta_aux = l_boletas->obtenerPos(id_boleta_entero - 1);
-						boleta_aux->mostrarInformacion(ANCHO / 5 - 10, ALTO / 4 + 2);
+						boleta_aux->mostrarInformacion(ANCHO / 3, ALTO / 5 + 1);
 					}
 					else
 					{
@@ -1310,7 +1309,7 @@ public:
 						if (convertirStringMinuscula(l_boletas->obtenerPos(i)->getIdBoleta()) == convertirStringMinuscula(idBoleta))
 						{
 							boletaEncontrada = true;
-							l_boletas->obtenerPos(i)->mostrarInformacion(ANCHO / 5 - 10, ALTO / 4 + 2);
+							l_boletas->obtenerPos(i)->mostrarInformacion(ANCHO / 3, ALTO / 5 + 1);
 						}
 					}
 					if (!boletaEncontrada)
@@ -1332,10 +1331,10 @@ public:
 
 	}
 
-	void crearDataSet(HashTablaA<Usuario<double, int>> &ht_usuarios) {
+	void crearDataSet(HashTablaA<Usuario<double, int>> &ht_usuarios, ArbolBalanceado<int>* abb_edades_usuarios) {
 		system("cls");
 		mainInterfaz->encuadrar();
-		int N;
+		int N, edad;
 		Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 0);
 		cout << "=============:: Crear Usuarios ::=============";
 		Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 1);
@@ -1371,7 +1370,7 @@ public:
 		string distritoLimaMetro[] = {
 			"Ancon","Brena", "Santa Rosa", "Carabayllo", "Puente Piedra", "San Martin de Porres",
 			"Los Olivos", "Comas", "Independencia", "Rimac", "Cercado de Lima",
-			"Breña", "Jesus Maria", "Pueblo Libre", "San Miguel", "Magdalena del Mar",
+			"Brenia", "Jesus Maria", "Pueblo Libre", "San Miguel", "Magdalena del Mar",
 			"Lince", "La Victoria", "San Isidro", "Miraflores", "Barranco",
 			"Chorrillos", "San Juan de Lurigancho", "El Agustino", "Ate",
 			"Santa Anita", "La Molina", "San Borja", "Surquillo", "Santiago de Surco",
@@ -1407,11 +1406,12 @@ public:
 			string distrito = distritoLimaMetro[rand() % 43];
 
 			double dinero = rand() % 1001;
-			int edad = rand() % 71 + 20;
+			edad = rand() % 71 + 20;
 
 			ht_usuarios.insert(new Usuario<double, int>(nomUsuario, password, nombre, apellido, telefono, sexoElegido, distrito, dinero, edad));
+			abb_edades_usuarios->insertar(edad);
 
-			archivo << nomUsuario << "|" << password << "|" << nombre << "|" << apellido << "|" << telefono << "|" << sexoElegido << "|" << distrito << "|" << dinero << edad << "|\n";
+			archivo << nomUsuario << "|" << password << "|" << nombre << "|" << apellido << "|" << telefono << "|" << sexoElegido << "|" << distrito << "|" << dinero << "|" << edad << "\n";
 		}
 
 		archivo.close();
@@ -1421,11 +1421,13 @@ public:
 		
 	}
 	
-	void buscarUsuario(HashTablaA<Usuario<double, int>> &ht_usuarios) {
+	void buscarUsuario(HashTablaA<Usuario<double, int>> &ht_usuarios, ArbolBalanceado<int>* abb_edades_usuarios) {
 		bool salir = false, tecla_presionada = true;
 		int contVentanas = 1;                 // Contador de páginas (ventanas)
 		int paginaActual = 0;                 // Índice de la página actual
 		const int elementosPorPagina = 10;    // Número de elementos por página
+
+		int opcModo, contUsuarios;
 
 		system("cls");
 		mainInterfaz->encuadrar();
@@ -1436,67 +1438,142 @@ public:
 		}
 		else
 		{
-			Console::SetCursorPosition(ANCHO / 3, ALTO / 7 + 0);
-			cout << "===========:: HashTable de Usuarios::===========";
+			Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 0);
+			cout << "=============:: Buscar Usuarios ::=============";
+			Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 1);
+			cout << "[1] Mostrar todos";
+			Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 2);
+			cout << "[2] Mostrar todos ordenados por edad";
+			Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 3);
+			cout << "Seleccionar una opcion: "; cin >> opcModo;
+			system("cls");
+			mainInterfaz->encuadrar();
+			switch (opcModo)
+			{
+			case 1:
+				Console::SetCursorPosition(ANCHO / 3, ALTO / 7 + 0);
+				cout << "===========:: HashTable de Usuarios::===========";
+				while (!salir) {
+					// Limpiar la pantalla o posición inicial (esto dependerá de cómo implementes el entorno gráfico o consola)
+					if (tecla_presionada)
+					{
+						system("cls");  // Solo si estás en Windows; en Linux/Mac puedes usar `clear`
+						mainInterfaz->encuadrar();
 
-			while (!salir) {
-				// Limpiar la pantalla o posición inicial (esto dependerá de cómo implementes el entorno gráfico o consola)
-				if (tecla_presionada)
-				{
-					system("cls");  // Solo si estás en Windows; en Linux/Mac puedes usar `clear`
-					mainInterfaz->encuadrar();
+						int inicio = paginaActual * elementosPorPagina;
+						int fin = min(static_cast<int>(ht_usuarios.getsize()), inicio + elementosPorPagina);
+						int contEspacios = 0;
 
-					int inicio = paginaActual * elementosPorPagina;
-					int fin = min(static_cast<int>(ht_usuarios.getsize()), inicio + elementosPorPagina);
-					int contEspacios = 0;
-
-					for (int i = inicio; i < fin; ++i) {
-						if (ht_usuarios.getTable()[i] != nullptr && ht_usuarios.getTable()[i] != ht_usuarios.getDELETED()) {
-							// Posicionar y mostrar cada elemento
-							Console::SetCursorPosition(ANCHO / 6, ALTO / 5 + 1 + contEspacios);
-							cout << "key " << i << " | Nombre: " << ht_usuarios.getTable()[i]->getNombre()
-								<< ", Apellido: " << ht_usuarios.getTable()[i]->getApellido();
-							contEspacios++;
+						for (int i = inicio; i < fin; ++i) {
+							if (ht_usuarios.getTable()[i] != nullptr && ht_usuarios.getTable()[i] != ht_usuarios.getDELETED()) {
+								// Posicionar y mostrar cada elemento
+								Console::SetCursorPosition(ANCHO / 6, ALTO / 5 + 1 + contEspacios);
+								cout << "key " << i << " | Nombre: " << ht_usuarios.getTable()[i]->getNombre()
+									<< ", Apellido: " << ht_usuarios.getTable()[i]->getApellido();
+								contEspacios++;
+							}
 						}
+
+						// Mostrar las instrucciones de navegación
+						Console::SetCursorPosition(ANCHO - 40, ALTO / 5 + 1);
+						cout << "[->] Mover a la siguiente página";
+						Console::SetCursorPosition(ANCHO - 40, ALTO / 5 + 2);
+						cout << "[<-] Mover a la página anterior";
+						Console::SetCursorPosition(ANCHO - 40, ALTO / 5 + 3);
+						cout << "[ESC] Salir";
+						Console::SetCursorPosition(ANCHO - 40, ALTO / 5 + 10);
+						cout << "<" << paginaActual + 1 << " de " << (ht_usuarios.getsize() + elementosPorPagina - 1) / elementosPorPagina << ">";
+						tecla_presionada = false;
 					}
 
-					// Mostrar las instrucciones de navegación
-					Console::SetCursorPosition(ANCHO - 40, ALTO / 5 + 1);
-					cout << "[->] Mover a la siguiente página";
-					Console::SetCursorPosition(ANCHO - 40, ALTO / 5 + 2);
-					cout << "[<-] Mover a la página anterior";
-					Console::SetCursorPosition(ANCHO - 40, ALTO / 5 + 3);
-					cout << "[ESC] Salir";
-					Console::SetCursorPosition(ANCHO - 40, ALTO / 5 + 10);
-					cout << "<" << paginaActual + 1 << " de " << (ht_usuarios.getsize() + elementosPorPagina - 1) / elementosPorPagina << ">";
-					tecla_presionada = false;
+
+					// Detectar entrada de teclas
+					if (kbhit()) {
+						char tecla = getch();
+						switch (tecla) {
+						case TECLA_DERECHA:
+							if ((paginaActual + 1) * elementosPorPagina < ht_usuarios.getsize()) {
+								paginaActual++;  // Avanzar a la siguiente página
+								contVentanas++;
+							}
+							break;
+						case TECLA_IZQUIERDA:
+							if (paginaActual > 0) {
+								paginaActual--;  // Retroceder a la página anterior
+								contVentanas--;
+							}
+							break;
+						case TECLA_ESCAPE:
+							salir = true;  // Salir del bucle y de la función
+							break;
+						}
+						tecla_presionada = true;
+					}
+
 				}
+				break;
+			case 2:
+				Lista<Usuario<double, int>*>* l_usuarios_aux = new Lista<Usuario<double, int>*>();
 				
-
-				// Detectar entrada de teclas
-				if (kbhit()) {
-					char tecla = getch();
-					switch (tecla) {
-					case TECLA_DERECHA:
-						if ((paginaActual + 1) * elementosPorPagina < ht_usuarios.getsize()) {
-							paginaActual++;  // Avanzar a la siguiente página
-							contVentanas++;
-						}
-						break;
-					case TECLA_IZQUIERDA:
-						if (paginaActual > 0) {
-							paginaActual--;  // Retroceder a la página anterior
-							contVentanas--;
-						}
-						break;
-					case TECLA_ESCAPE:
-						salir = true;  // Salir del bucle y de la función
-						break;
+				for (int i = 0; i < ht_usuarios.getsize(); ++i) {
+					if (ht_usuarios.getTable()[i] != nullptr && ht_usuarios.getTable()[i] != ht_usuarios.getDELETED()) {
+						l_usuarios_aux->agregaFinal(ht_usuarios.getTable()[i]);
 					}
-					tecla_presionada = true;
 				}
 
+				if (l_usuarios_aux->longitud() > 1) {
+					mergeSort(l_usuarios_aux, 0, l_usuarios_aux->longitud() - 1);
+				}
+
+				contUsuarios = 0;
+				while (!salir)
+				{
+					if (tecla_presionada)
+					{
+						system("cls");
+						mainInterfaz->encuadrar();
+						Console::SetCursorPosition(ANCHO / 6, ALTO / 6 + 0);
+						cout << "=============:: Usuario ::=============";
+						l_usuarios_aux->obtenerPos(contUsuarios)->mostrar(ANCHO / 6, ALTO / 6 + 1);
+						Console::SetCursorPosition(ANCHO - 40, ALTO / 5 + 1);
+						cout << "[->] Mover siguiente usuario";
+						Console::SetCursorPosition(ANCHO - 40, ALTO / 5 + 2);
+						cout << "[<-] Retroceder anterior usuario";
+						Console::SetCursorPosition(ANCHO - 40, ALTO / 5 + 3);
+						cout << "[ESC] Salir";
+						Console::SetCursorPosition(ANCHO - 40, ALTO / 5 + 10);
+						cout << "<" << contUsuarios + 1 << " : " << l_usuarios_aux->longitud() << ">";
+						tecla_presionada = false;
+					}
+					if (kbhit())
+					{
+						char tecla = getch();
+						switch (tecla)
+						{
+						case TECLA_DERECHA:
+							if (contUsuarios < l_usuarios_aux->longitud() - 1)
+							{
+								contUsuarios++;
+							}
+							break;
+						case TECLA_IZQUIERDA:
+							if (contUsuarios > 0)
+							{
+								contUsuarios--;
+							}
+							break;
+						case TECLA_ESCAPE:
+							salir = true;
+							break;
+						}
+						tecla_presionada = true;
+					}
+				}
+
+
+				break;
 			}
+			
 		}
 		
 	}

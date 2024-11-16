@@ -8,11 +8,6 @@ private:
 	T1 dinero;
 	T2 edad;
 public:
-	//constructor
-	Usuario() :Entidad()
-	{
-		this->dinero = 0;
-	}
 	Usuario(string p_user, string p_password, string p_nombre, string p_apellido, string p_telefono,
 		string p_sexo, string p_distrito, T1 p_dinero, T2 p_edad):	Entidad(p_user, p_password, p_nombre, p_apellido, p_telefono, p_sexo, p_distrito){
 		
@@ -40,7 +35,7 @@ public:
 		Console::SetCursorPosition(x, y + 5);
 		cout << "Dinero: " << getDinero();
 		Console::SetCursorPosition(x, y + 6);
-		cout << "Edad: " << getDinero();
+		cout << "Edad: " << getEdad();
 	}
 
 	bool operator==( Usuario& other)  {
