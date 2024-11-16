@@ -222,3 +222,52 @@ void mergeSort(Lista<Usuario<double, int>*>* l_usuarios, int inicio, int fin) {
 		merge(l_usuarios, inicio, medio, fin);
 	}
 }
+
+void ordenarUsuarioxEdad(Lista<Usuario<double, int>*>* l_usuarios) {
+	if (l_usuarios->longitud() > 1) {
+		mergeSort(l_usuarios, 0, l_usuarios->longitud() - 1);
+	}
+}
+
+// ordenamiento Quick sort
+int partition(Lista<Producto<string>*>* l_productos, int inicio, int fin) {
+	// Seleccionar el último elemento como pivote
+	Producto<string>* pivote = l_productos->obtenerPos(fin);
+	double precioPivote = stod(pivote->getPrecio());
+	int i = inicio - 1;
+
+	for (int j = inicio; j < fin; j++) {
+		Producto<string>* productoJ = l_productos->obtenerPos(j);
+		if (stod(productoJ->getPrecio()) <= precioPivote) {
+			i++;
+			// Intercambiar elementos
+			Producto<string>* temp = l_productos->obtenerPos(i);
+			l_productos->modificarPos(productoJ, i);
+			l_productos->modificarPos(temp, j);
+		}
+	}
+
+	// Colocar el pivote en su posición final
+	Producto<string>* temp = l_productos->obtenerPos(i + 1);
+	l_productos->modificarPos(pivote, i + 1);
+	l_productos->modificarPos(temp, fin);
+
+	return i + 1; // Retornar la posición del pivote
+}
+
+void quickSort(Lista<Producto<string>*>* l_productos, int inicio, int fin) {
+	if (inicio < fin) {
+		// Particionar la lista y obtener la posición del pivote
+		int pi = partition(l_productos, inicio, fin);
+
+		// Ordenar las sublistas de manera recursiva
+		quickSort(l_productos, inicio, pi - 1);
+		quickSort(l_productos, pi + 1, fin);
+	}
+}
+
+void ordenarXPrecio(Lista<Producto<string>*>* l_productos) {
+	if (l_productos->longitud() > 1) {
+		quickSort(l_productos, 0, l_productos->longitud() - 1);
+	}
+}
