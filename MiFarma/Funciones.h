@@ -2,7 +2,16 @@
 #include"Usuario.h"
 #include"Producto.h"
 #include"Pedido.h"
-using namespace std;
+
+
+// Función para truncar cadenas largas y rellenar con espacios si son cortas
+string ajustarTexto(const string& texto, int ancho) {
+	if (texto.length() > ancho) {
+		return texto.substr(0, ancho); // Trunca el texto si es muy largo
+	}
+	return texto + string(ancho - texto.length(), ' '); // Rellena con espacios si es corto
+}
+
 //Recursivas
 // 
 //Contraseña de 10 caracteres máx
@@ -155,7 +164,7 @@ int obtenerPrimerProductoPorCategoria(Lista<Producto<string>*>* l_productos, str
 	return -1;
 }
 
-// ordenamiento avanzado con Mergesort
+// Ordenamiento avanzado con Mergesort
 void merge(Lista<Usuario<double, int>*>* l_usuarios, int inicio, int medio, int fin) {
 	int n1 = medio - inicio + 1;
 	int n2 = fin - medio;
@@ -211,11 +220,5 @@ void mergeSort(Lista<Usuario<double, int>*>* l_usuarios, int inicio, int fin) {
 
 		// Fusionar las mitades ordenadas
 		merge(l_usuarios, inicio, medio, fin);
-	}
-}
-
-void ordenarUsuarioxEdad(Lista<Usuario<double, int>*>* l_usuarios) {
-	if (l_usuarios->longitud() > 1) {
-		mergeSort(l_usuarios, 0, l_usuarios->longitud() - 1);
 	}
 }
