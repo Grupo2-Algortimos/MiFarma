@@ -597,7 +597,12 @@ public:
 				{
 					l_productos_ordenados->agregaFinal(l_productos->obtenerPos(i));
 				}
-				ordShellProductoMenorAMayor(l_productos_ordenados);
+
+				if (l_productos_ordenados->longitud() > 1) {
+					quickSort(l_productos, 0, l_productos_ordenados->longitud() - 1);
+				}
+
+				//ordShellProductoMenorAMayor(l_productos_ordenados);
 
 				while (!salir)
 				{

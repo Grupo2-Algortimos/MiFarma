@@ -223,12 +223,6 @@ void mergeSort(Lista<Usuario<double, int>*>* l_usuarios, int inicio, int fin) {
 	}
 }
 
-void ordenarUsuarioxEdad(Lista<Usuario<double, int>*>* l_usuarios) {
-	if (l_usuarios->longitud() > 1) {
-		mergeSort(l_usuarios, 0, l_usuarios->longitud() - 1);
-	}
-}
-
 // ordenamiento Quick sort
 
 int partition(Lista<Producto<string>*>* l_productos, int inicio, int fin) {
@@ -262,11 +256,5 @@ void quickSort(Lista<Producto<string>*>* l_productos, int inicio, int fin) {
 		// Ordenar sublistas recursivamente
 		quickSort(l_productos, inicio, pi - 1);
 		quickSort(l_productos, pi + 1, fin);
-	}
-}
-
-void ordenarXPrecio(Lista<Producto<string>*>* l_productos) {
-	if (l_productos->longitud() > 1) {
-		quickSort(l_productos, 0, l_productos->longitud() - 1);
 	}
 }

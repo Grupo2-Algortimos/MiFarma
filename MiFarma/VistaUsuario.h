@@ -265,7 +265,7 @@ public:
 				agregarProducto(l_productos, l_productos_comprados, usuario_actual, cont_productos_comprados);
 				break;
 			case 3:
-				verCarrito(l_productos_comprados, pedido_usuario, c_pedidos, usuario_actual);
+				verCarrito(l_productos_comprados, pedido_usuario, c_pedidos, usuario_actual, cont_productos_comprados);
 				break;
 			case 4:
 				ingresarReclamo(p_reclamos, usuario_actual);
@@ -969,16 +969,18 @@ public:
 		}
 	}
 
-	void eliminarTodoCarrito(Lista<Producto<string>*>* l_productos_comprados)
+	void eliminarTodoCarrito(Lista<Producto<string>*>* l_productos_comprados, int& cont_productos_comprados)
 	{
 		l_productos_comprados->eliminaTodo();
+		cont_productos_comprados = 0;
 		system("cls");
 		mainInterfaz->encuadrar();
 		Console::SetCursorPosition(ANCHO / 4, ALTO / 5 + 9);
 		cout << "Todo los productos del carrito han sido eliminados";
 	}
 	
-	void verCarrito(Lista<Producto<string>*>* l_productos_comprados, Pedido<string>* &pedido_usuario, Cola<Pedido<string>*>* &c_pedidos, Usuario<double, int>* usuario_actual)
+	void verCarrito(Lista<Producto<string>*>* l_productos_comprados, Pedido<string>* &pedido_usuario, Cola<Pedido<string>*>* &c_pedidos, Usuario<double, int>* usuario_actual,
+		int& cont_productos_comprados)
 	{
 		int opcCarrito;
 		int contEspacios = 0;
@@ -1018,7 +1020,7 @@ public:
 				eliminarElementoCarrito(l_productos_comprados);
 				break;
 			case 4:
-				eliminarTodoCarrito(l_productos_comprados);
+				eliminarTodoCarrito(l_productos_comprados, cont_productos_comprados);
 				break;
 			}
 
