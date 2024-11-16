@@ -1,11 +1,11 @@
-nombre|telefono|distrito|producto
-Maria Torres|987654321|Miraflores|Ibuprofeno
-Julio Ramirez|912345678|San Isidro|Paracetamol
-Andrea Lopez|998765432|Magdalena|Omeprazol
-Carmen Sanchez|954321678|La Molina|Amoxicilina
-Luis Vargas|956789012|San Miguel|Loratadina
-Ana Fernandez|976543210|Surco|Salbutamol Inhalador
-Pedro Rojas|945678901|Lince|Azitromicina
-Claudia Medina|943210987|San Borja|Simvastatina
-Juan Perez|956789012|Jesus Maria|Ciprofloxacina
-Gabriela Castro|934567890|Callao|Metformina
+id|nombre|telefono|distrito|producto
+O001|Maria Torres|987654321|Miraflores|Ibuprofeno
+O002|Julio Ramirez|912345678|San Isidro|Paracetamol
+O003|Andrea Lopez|998765432|Magdalena|Omeprazol
+O004|Carmen Sanchez|954321678|La Molina|Amoxicilina
+O005|Luis Vargas|956789012|San Miguel|Loratadina
+O006|Ana Fernandez|976543210|Surco|Salbutamol Inhalador
+O007|Pedro Rojas|945678901|Lince|Azitromicina
+O008|Claudia Medina|943210987|San Borja|Simvastatina
+O009|Juan Perez|956789012|Jesus Maria|Ciprofloxacina
+O010|Gabriela Castro|934567890|Callao|Metformina

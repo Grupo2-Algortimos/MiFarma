@@ -119,6 +119,34 @@ private:
 		}
 	}
 
+	int _cantidadTotalNodos(NodoAVL<T>* nodo)
+	{
+		if (nodo == nullptr) return 0;
+		return 1 + _cantidadTotalNodos(nodo->izq) + _cantidadTotalNodos(nodo->der);
+	}
+
+	int _cantidadNodoIzquierda(NodoAVL<T>* nodo)
+	{
+		return _cantidad(nodo->izq);
+	}
+
+	int _cantidadNodoDerecha(NodoAVL<T>* nodo)
+	{
+		return _cantidad(nodo->der);
+	}
+
+
+	T _minimo(NodoAVL<T>* nodo)
+	{
+		if (nodo->izq == nullptr) return nodo->elemento;
+		return _minimo(nodo->izq);
+	}
+
+	T _maximo(NodoAVL<T>* nodo)
+	{
+		if (nodo->der == nullptr) return nodo->elemento;
+		return _maximo(nodo->der);
+	}
 
 public:
 	ArbolBalanceado(void(*nuevaFuncion)(T))
@@ -126,6 +154,8 @@ public:
 		this->procesar = nuevaFuncion;
 		this->raiz = nullptr;
 	}
+
+	~ArbolBalanceado() {}
 
 	bool insertar(T e)
 	{
@@ -152,5 +182,29 @@ public:
 		return _buscar(raiz, e);
 	}
 
-	~ArbolBalanceado() {}
+	int cantidadTotalNodos()
+	{
+		return _cantidadTotalNodos(raiz);
+	}
+
+	int cantidadNodoIzquierda()
+	{
+		return _cantidadNodoIzquierda(raiz);
+	}
+
+	int cantidadNodoDerecha()
+	{
+		return _cantidadNodoDerecha(raiz);
+	}
+
+	T minimo()
+	{
+		return _minimo(raiz);
+	}
+
+	T maximo()
+	{
+		return _maximo(raiz);
+	}
+
 };

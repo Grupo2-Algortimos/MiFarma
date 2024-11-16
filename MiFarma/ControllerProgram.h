@@ -37,8 +37,10 @@ private:
 
 	//Arboles Binarios de Busqueda
 	ArbolBusqueda<int>* ab_ids_productos;
-	ArbolBusqueda<int>* ab_ids_boletas;
+	ArbolBusqueda<int>* ab_ids_pedidos;
 	ArbolBusqueda<int>* ab_ids_reclamos;
+	ArbolBusqueda<int>* ab_ids_proveedores;
+	ArbolBusqueda<int>* ab_ids_boletas;
 
 	//Arboles Binarios Balanceados
 	ArbolBalanceado<double>* abb_precios_productos;
@@ -67,10 +69,12 @@ public:
 		c_pedidos = new Cola<Pedido<string>*>();
 		pedido_usuario = NULL;
 
-		//Arbol Binario de Busqueda
+		//Arboles Binarios de Busqueda
 		ab_ids_productos = new ArbolBusqueda<int>(imprimirInt);
-		ab_ids_boletas = new ArbolBusqueda<int>(imprimirInt);
+		ab_ids_pedidos = new ArbolBusqueda<int>(imprimirInt);
 		ab_ids_reclamos = new ArbolBusqueda<int>(imprimirInt);
+		ab_ids_proveedores = new ArbolBusqueda<int>(imprimirInt);
+		ab_ids_boletas = new ArbolBusqueda<int>(imprimirInt);
 
 		//Arboles Binarios Balanceados
 		abb_precios_productos = new ArbolBalanceado<double>(imprimirDouble);
@@ -113,8 +117,10 @@ public:
 		delete usuario_actual;
 		delete pedido_usuario;
 		delete ab_ids_productos;
-		delete ab_ids_boletas;
+		delete ab_ids_pedidos;
 		delete ab_ids_reclamos;
+		delete ab_ids_proveedores;
+		delete ab_ids_boletas;
 		delete abb_precios_productos;
 		delete ht_usuarios;
 	}
@@ -130,7 +136,6 @@ public:
 		}
 		string linea;
 		char delimitador = '|'; //Separador de cada columna de la línea
-		int i = 0;
 		Empleado<string>* auxE;
 		// Encabezado: Leemos la primera línea para descartarla, pues es el encabezado
 		getline(archIN, linea);
@@ -151,8 +156,7 @@ public:
 			getline(stream, puesto, delimitador);
 
 			auxE = new Empleado<string>(user, password, nombre, apellido, telefono, sexo, distrito, idTrabajador, puesto);
-			l_empleados->agregaPos(auxE, i);
-			i++;
+			l_empleados->agregaFinal(auxE);
 		}
 		// Cerramos Archivo
 		archIN.close();
@@ -168,7 +172,6 @@ public:
 		}
 		string linea;
 		char delimitador = '|'; //Separador de cada columna de la línea
-		int i = 0;
 		Producto<string>* aux;
 		// Encabezado: Leemos la primera línea para descartarla, pues es el encabezado
 		getline(archIN, linea);
@@ -185,8 +188,7 @@ public:
 			getline(stream, volumen, delimitador);
 			getline(stream, fechaCaducidad, delimitador);
 			aux = new Producto<string>(idProduct, nombre, precio, categoria, volumen, fechaCaducidad);
-			l_productos->agregaPos(aux, i);
-			i++;
+			l_productos->agregaFinal(aux);
 		}
 		// Cerramos Archivo
 		archIN.close();
@@ -201,7 +203,6 @@ public:
 		}
 		string linea;
 		char delimitador = '|'; //Separador de cada columna de la línea
-		int i = 0;
 		Reclamo<string>* auxR;
 		// Encabezado: Leemos la primera línea para descartarla, pues es el encabezado
 		getline(archIN, linea);
@@ -221,9 +222,8 @@ public:
 			getline(stream, detalle, delimitador);
 			getline(stream, pedido, delimitador);
 			auxR = new Reclamo<string>(iDReclamo, fecha, nombre, telefono, distrito, nombreProducto, tipo, detalle, pedido);
-			l_reclamos->agregaPos(auxR, i);
+			l_reclamos->agregaFinal(auxR);
 			p_reclamos->apilar(auxR);
-			i++;
 		}
 		// Cerramos Archivo
 		archIN.close();
@@ -238,7 +238,6 @@ public:
 		}
 		string linea;
 		char delimitador = '|'; //Separador de cada columna de la línea
-		int i = 0;
 		Proveedor<string>* auxP;
 		// Encabezado: Leemos la primera línea para descartarla, pues es el encabezado
 		getline(archIN, linea);
@@ -246,16 +245,16 @@ public:
 		while (getline(archIN, linea))
 		{
 			stringstream stream(linea); // Convertir la cadena a un stream			
-			string nombre, telefono, distrito, producto;
+			string id, nombre, telefono, distrito, producto;
 			// Extraer todos los valores de esa fila [considerando 4 columnas]
+			getline(stream, id, delimitador);
 			getline(stream, nombre, delimitador);
 			getline(stream, telefono, delimitador);
 			getline(stream, distrito, delimitador);
 			getline(stream, producto, delimitador);
 
-			auxP = new Proveedor<string>(nombre, telefono, distrito, producto);
-			l_proveedores->agregaPos(auxP, i);
-			i++;
+			auxP = new Proveedor<string>(id, nombre, telefono, distrito, producto);
+			l_proveedores->agregaFinal(auxP);
 		}
 		// Cerramos Archivo
 		archIN.close();
@@ -271,7 +270,6 @@ public:
 		}
 		string linea;
 		char delimitador = '|'; //Separador de cada columna de la línea
-		int i = 0;
 		Boleta<string>* auxB;
 		// Encabezado: Leemos la primera línea para descartarla, pues es el encabezado
 		getline(archIN, linea);
@@ -288,8 +286,7 @@ public:
 			getline(stream, costoPedido, delimitador);
 
 			auxB = new Boleta<string>(idBoleta, nombre, fecha, montoUsuario, costoPedido);
-			l_boletas->agregaPos(auxB, i);
-			i++;
+			l_boletas->agregaFinal(auxB);
 		}
 		// Cerramos Archivo
 		archIN.close();
@@ -379,13 +376,13 @@ public:
 			abb_precios_productos->insertar(stod(precio));
 		}
 
-		//Registrar Ids de las boletas
+		//Registrar Ids de las pedidos
 		Cola<Pedido<string>*>* c_pedidos_aux = c_pedidos->copiar();
 		while (!c_pedidos_aux->esVacia())
 		{
 			Pedido<string>* pedido_aux = c_pedidos_aux->front();
 			string id = removerPrimerCaracter(pedido_aux->getIdPedido());
-			ab_ids_boletas->insertar(stoi(id));
+			ab_ids_pedidos->insertar(stoi(id));
 			c_pedidos_aux->desencolar();
 		}
 
@@ -395,6 +392,22 @@ public:
 			Reclamo<string>* reclamo_aux = l_reclamos->obtenerPos(i);
 			string id = removerPrimerCaracter(reclamo_aux->getIdReclamo());
 			ab_ids_reclamos->insertar(stoi(id));
+		}
+
+		//Registrar Ids de los proveedores
+		for (int i = 0; i < l_proveedores->longitud(); i++)
+		{
+			Proveedor<string>* proveedor_aux = l_proveedores->obtenerPos(i);
+			string id = removerPrimerCaracter(proveedor_aux->getidProveedor());
+			ab_ids_proveedores->insertar(stoi(id));
+		}
+
+		//Registrar ids de las boletas
+		for (int i = 0; i < l_boletas->longitud(); i++)
+		{
+			Boleta<string>* boleta_aux = l_boletas->obtenerPos(i);
+			string id = removerPrimerCaracter(boleta_aux->getIdBoleta());
+			ab_ids_boletas->insertar(stoi(id));
 		}
 	}
 
@@ -423,11 +436,12 @@ public:
 			switch (opcion)
 			{
 			case 1:
-				vistaEmpleado->vistaEmpleadoPantalla(l_empleados, l_productos, c_pedidos, l_reclamos, l_proveedores, l_boletas, ab_ids_productos, ab_ids_boletas, ab_ids_reclamos, ht_usuarios, p_reclamos);
+				vistaEmpleado->vistaEmpleadoPantalla(l_empleados, l_productos, c_pedidos, l_reclamos, l_proveedores, l_boletas, ab_ids_productos, ab_ids_pedidos,
+					ab_ids_reclamos, ht_usuarios, p_reclamos, abb_precios_productos, ab_ids_proveedores, ab_ids_boletas);
 				break;
 			case 2:
 				vistaUsuario->vistaUsuarioPantalla(l_productos, l_productos_comprados, cont_productos_comprados, l_usuarios, usuario_actual,pedido_usuario, 
-					c_pedidos, l_reclamos, l_boletas, ab_ids_productos);
+					c_pedidos, l_reclamos, l_boletas, ab_ids_productos, abb_precios_productos);
 				break;
 			}
 			system("pause>>null");
