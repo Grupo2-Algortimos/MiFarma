@@ -1,6 +1,6 @@
 usuario|password|nombre|apellido|telefono|sexo|distrito|idTrabajador|puesto
 a|a|q|w|e|r|t|y|u
-cmartinez|abc123|Carlos|Martinez|987654321|M|Miraflores|cmartinez|Farmacéutico
+cmartinez|abc123|Carlos|Martinez|987654321|M|Miraflores|cmartinez|Farmaceutico
 jgomez|123abc|Juliana|Gomez|912345678|F|San Isidro|jgomez|Auxiliar de Farmacia
 jrojas|def456|Juan|Rojas|976543210|M|Surco|jrojas|Técnico en Farmacia
 mfernandez|ghi789|Marta|Fernandez|945678901|F|Lince|mfernandez|Cajera

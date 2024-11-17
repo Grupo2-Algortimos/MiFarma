@@ -122,4 +122,21 @@ public:
 		};
 		return obtenerSumaTotal(getProductosComprados());
 	}
+
+	void escribirArchivo(ofstream &archOUT)
+	{
+		archOUT << "ID Pedido: " << getIdPedido() << "\n";
+		archOUT << "Nombre de Usuario: " << getNombreUsuario() << "\n";
+		archOUT << "Nombre de Repartidor: " << getNombreRepartidor() << "\n";
+		archOUT << "Distrito: " << getDistrito() << "\n";
+		archOUT << "Productos: " << "\n";
+		for (int i = 0; i < getProductosComprados()->longitud(); i++)
+		{
+			archOUT << getProductosComprados()->obtenerPos(i)->getNombre() << " : x" << getProductosComprados()->obtenerPos(i)->getCantidad() << "\n";
+		}
+		archOUT << "Estado: " << getEstado() << "\n";
+		archOUT << "Modo de Entrega: " << getModoEntrega() << "\n";
+		archOUT << "Costo Total: " << conseguirCostoTotal() << "\n";
+		archOUT << "---------------------------------------------------------" << "\n";
+	}
 };

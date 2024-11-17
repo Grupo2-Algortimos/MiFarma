@@ -43,5 +43,15 @@ public:
 		Console::SetCursorPosition(x, y + 4);
 		cout << "Producto: " << getproducto();
 	}
+
+	void escribirArchivo(ofstream &archOUT)
+	{
+		archOUT << "ID Proveedor: " << getidProveedor() << "\n";
+		archOUT << "Nombre: " << getnombre() << "\n";
+		archOUT << "Telefono: " << gettelefono() << "\n";
+		archOUT << "Distrito: " << getdistrito() << "\n";
+		archOUT << "Producto: " << getproducto() << "\n";
+		archOUT << "-----------------------------------\n";
+	}
 };
 

@@ -27,7 +27,7 @@ public:
 		Console::SetCursorPosition(x, y + 1);
 		cout << "Apellido: " << getApellido();
 		Console::SetCursorPosition(x, y + 2);
-		cout << "Teléfono: " << getTelefono();
+		cout << "Telefono: " << getTelefono();
 		Console::SetCursorPosition(x, y + 3);
 		cout << "Sexo: " << getSexo();
 		Console::SetCursorPosition(x, y + 4);
@@ -40,6 +40,20 @@ public:
 
 	bool operator==( Usuario& other)  {
 		return (getNombre() == other.getNombre() && getApellido() == other.getApellido());
+	}
+
+	void escribirArchivo(ofstream &archOUT)
+	{
+		archOUT << "Nombre: " << getNombre() << "\n";
+		archOUT << "Apellido: " << getApellido() << "\n";
+		archOUT << "Telefono: " << getTelefono() << "\n";
+		archOUT << "Sexo: " << getSexo() << "\n";
+		archOUT << "Distrito: " << getDistrito() << "\n";
+		archOUT << "Dinero: " << getDinero() << "\n";
+		archOUT << "Edad: " << getEdad() << "\n";
+		archOUT << "Nombre usuario: " << getUser() << "\n";
+		archOUT << "Password: " << getPassword() << "\n";
+		archOUT << "-----------------------------------\n";
 	}
 };
 

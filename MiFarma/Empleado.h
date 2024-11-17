@@ -1,5 +1,5 @@
 #pragma once
-#include "Entidad.h"
+#include"Entidad.h"
 
 template<class T>
 class Empleado : public Entidad<T>
@@ -42,5 +42,20 @@ public:
     }
     // Tiempo detallado: 14
     // Tiempo asintótico: O(1)
+
+
+    void escribirArchivo(ofstream &archOUT)
+    {
+        archOUT << "ID Trabajador: " << getIdTrabajador() << "\n";
+		archOUT << "Puesto: " << getPuesto() << "\n";
+		archOUT << "Nombre: " << getNombre() << "\n";
+		archOUT << "Apellido: " << getApellido() << "\n";
+		archOUT << "Teléfono: " << getTelefono() << "\n";
+		archOUT << "Sexo: " << getSexo() << "\n";
+		archOUT << "Distrito: " << getDistrito() << "\n";
+		archOUT << "Nombre de usuario: " << getUser() << "\n";
+		archOUT << "Contraseña: " << getPassword() << "\n";
+		archOUT << "-------------------------------------------\n";
+    }
 };
 
