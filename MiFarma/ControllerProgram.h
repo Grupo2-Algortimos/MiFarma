@@ -127,7 +127,7 @@ public:
 	//importacion de archivos
 	void lecturaArchivoEmpleados() {
 		ifstream archIN;
-		archIN.open(archivoEmpleados, ios::in); //Apertura
+		archIN.open(archivoEmpleadosLectura, ios::in); //Apertura
 		if (!archIN.is_open())
 		{
 			cout << "Error: No se pudo abrir el archivo !!!";
@@ -163,7 +163,7 @@ public:
 
 	void lecturaArchivoProductos() {
 		ifstream archIN;
-		archIN.open(archivoProductos, ios::in); //Apertura
+		archIN.open(archivoProductosLectura, ios::in); //Apertura
 		if (!archIN.is_open())
 		{
 			cout << "Error: No se pudo abrir el archivo !!!";
@@ -194,7 +194,7 @@ public:
 	}
 	void lecturaArchivoReclamo() {
 		ifstream archIN;
-		archIN.open(archivoReclamo, ios::in); //Apertura
+		archIN.open(archivoReclamoLectura, ios::in); //Apertura
 		if (!archIN.is_open())
 		{
 			cout << "Error: No se pudo abrir el archivo !!!";
@@ -228,7 +228,7 @@ public:
 	}
 	void lecturaArchivoProveedor() {
 		ifstream archIN;
-		archIN.open(archivoProveedor, ios::in); //Apertura
+		archIN.open(archivoProveedorLectura, ios::in); //Apertura
 		if (!archIN.is_open())
 		{
 			cout << "Error: No se pudo abrir el archivo !!!";
@@ -260,7 +260,7 @@ public:
 
 	void lecturaArchivoBoletas() {
 		ifstream archIN;
-		archIN.open(archivoBoletas, ios::in); //Apertura
+		archIN.open(archivoBoletasLectura, ios::in); //Apertura
 		if (!archIN.is_open())
 		{
 			cout << "Error: No se pudo abrir el archivo !!!";
@@ -292,7 +292,7 @@ public:
 
 	void lecturaArchivoUsuario() {
 		ifstream archIN;
-		archIN.open(archivoUsuarios, ios::in); //Apertura
+		archIN.open(archivoUsuariosLectura, ios::in); //Apertura
 		if (!archIN.is_open())
 		{
 			cout << "Error: No se pudo abrir el archivo !!!";
@@ -334,7 +334,7 @@ public:
 		int num_alea;
 		for (int j = 0; j < catidad_productos; j++)
 		{
-			num_alea = r.Next(0, l_productos->longitud() + 1);
+			num_alea = r.Next(0, l_productos->longitud());
 			l_productosAleatorios->agregaPos(l_productos->obtenerPos(num_alea), j);
 		}
 		Pedido<string>* pedido1 = new Pedido<string>("P001", "Jose", "Kevin", "Puente Piedra", l_productosAleatorios, "En Camino", "Bicicleta");
@@ -344,7 +344,7 @@ public:
 		catidad_productos = r.Next(1, 5); // [1-4]
 		for (int j = 0; j < catidad_productos; j++)
 		{
-			num_alea = r.Next(0, l_productos->longitud() + 1);
+			num_alea = r.Next(0, l_productos->longitud());
 			l_productosAleatorios->agregaPos(l_productos->obtenerPos(num_alea), j);
 		}
 		Pedido<string>* pedido2 = new Pedido<string>("P002", "Maria", "Luz", "San miguel", l_productosAleatorios, "Pendiente", "Motocicleta");
@@ -354,7 +354,7 @@ public:
 		catidad_productos = r.Next(1, 5); // [1-4]
 		for (int j = 0; j < catidad_productos; j++)
 		{
-			num_alea = r.Next(0, l_productos->longitud() + 1);
+			num_alea = r.Next(0, l_productos->longitud());
 			l_productosAleatorios->agregaPos(l_productos->obtenerPos(num_alea), j);
 		}
 		Pedido<string>* pedido3 = new Pedido<string>("P003", "Pepe", "Manuel", "San miguel", l_productosAleatorios, "Pendiente", "Bicicleta");
@@ -411,6 +411,65 @@ public:
 	}
 
 
+	void actualizarLogistica()
+	{
+		ofstream archProductos(archivoProductosEscritura, ios::out);
+		ofstream archEmpleados(archivoEmpleadosEscritura, ios::out);
+		ofstream archUsuarios(archivoUsuariosEscritura, ios::out);
+		ofstream archProveedores(archivoProveedorEscritura, ios::out);
+		ofstream archBoletas(archivoBoletasEscritura, ios::out);
+		ofstream archPedidos(archivoPedidosEscritura, ios::out);
+		ofstream archReclamos(archivoReclamoEscritura, ios::out);
+
+		if (archProductos.fail() || archEmpleados.fail() || archUsuarios.fail() || archProveedores.fail() || archBoletas.fail() || archPedidos.fail() || archReclamos.fail())
+		{
+			system("cls");
+			Console::SetCursorPosition(ANCHO / 2.5, ALTO / 2);
+			cout << "Error: No se pudo abrir el archivo !!!";
+			exit(1);
+		}
+
+		for (int i = 0; i < l_productos->longitud(); i++)
+		{
+			l_productos->obtenerPos(i)->escribirArchivo(archProductos);
+		}
+		for (int i = 0; i < l_empleados->longitud(); i++)
+		{
+			l_empleados->obtenerPos(i)->escribirArchivo(archEmpleados);
+		}
+		for (int i = 0; i < l_usuarios->longitud(); i++)
+		{
+			l_usuarios->obtenerPos(i)->escribirArchivo(archUsuarios);
+		}
+		for (int i = 0; i < l_proveedores->longitud(); i++)
+		{
+			l_proveedores->obtenerPos(i)->escribirArchivo(archProveedores);
+		}
+		for (int i = 0; i < l_boletas->longitud(); i++)
+		{
+			l_boletas->obtenerPos(i)->escribirArchivo(archBoletas);
+		}
+		while (!c_pedidos->esVacia())
+		{
+			c_pedidos->front()->escribirArchivo(archPedidos);
+			c_pedidos->desencolar();
+		}
+		while (!p_reclamos->esVacia())
+		{
+			p_reclamos->returnTope()->escribirArchivo(archReclamos);
+			p_reclamos->desapilar();
+		}
+
+		archProductos.close();
+		archEmpleados.close();
+		archUsuarios.close();
+		archProveedores.close();
+		archBoletas.close();
+		archPedidos.close();
+		archReclamos.close();
+	}
+
+
 	//Menu del programa
 	void menu(){
 		srand(time(0));
@@ -446,5 +505,6 @@ public:
 			}
 			system("pause>>null");
 		}
+		actualizarLogistica();
 	}
 };

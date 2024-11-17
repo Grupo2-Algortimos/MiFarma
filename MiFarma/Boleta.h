@@ -65,5 +65,15 @@ public:
 		// Tiempo detallado: 7
 		// Tiempo asintótico: O(1)
 	}
+
+	void escribirArchivo(ofstream &archOUT)
+	{
+		archOUT << "ID de Boleta: " << getIdBoleta() << "\n";
+		archOUT << "Nombre del comprador: " << getNombre() << "\n";
+		archOUT << "Fecha de la Boleta: " << getFecha() << "\n";
+		archOUT << "Costo de la compra: S/. " << getCostoPedido() << "\n";
+		archOUT << "Vuelto para el usuario: S/. " << to_string(getVuelto()) << "\n";
+		archOUT << "------------------------------------------" << "\n";
+	}
 };
 

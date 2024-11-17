@@ -190,16 +190,14 @@ public:
 			Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 8);
 			cout << "[8] Buscar Boletas";
 			Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 9);
-			cout << "[9] Actualizar Logistica";
+			cout << "[9] Generar Usuarios";
 			Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 10);
-			cout << "[10] Generar Usuarios";
+			cout << "[10] Buscar Usuario";
 			Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 11);
-			cout << "[11] Buscar Usuario";
+			cout << "[11] Salir";
 			Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 12);
-			cout << "[12] Salir";
-			Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 13);
 			cout << "Seleccione una opcion : "; cin >> opcionM;
-			if (opcionM == 12)break;
+			if (opcionM == 11)break;
 			system("cls");
 			mainInterfaz->encuadrar();
 			switch (opcionM)
@@ -229,12 +227,9 @@ public:
 				buscarBoletas(l_boletas, ab_ids_boletas);
 				break;
 			case 9:
-				actualizarLogistica();
-				break;
-			case 10:
 				crearDataSet(ht_usuarios, abb_edades_usuarios);
 				break;
-			case 11:
+			case 10:
 				buscarUsuario(ht_usuarios, abb_edades_usuarios);
 				break;
 			}
@@ -1345,11 +1340,6 @@ public:
 			}
 			
 		}
-
-	}
-
-	void actualizarLogistica()
-	{
 
 	}
 

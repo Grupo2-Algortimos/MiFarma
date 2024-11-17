@@ -105,6 +105,18 @@ public:
 		cout << "Pedido: " << getPedido();
 	}
 
+	void escribirArchivo(ofstream &archOUT)
+	{
+		archOUT << "ID Reclamo: " << getIdReclamo() << "\n";
+		archOUT << "Fecha: " << getFecha() << "\n";
+		archOUT << "Nombre: " << getNombre() << "\n";
+		archOUT << "Telefono: " << getTelefono() << "\n";
+		archOUT << "Distrito: " << getDistrito() << "\n";
+		archOUT << "Nombre del Producto: " << getNombreProducto() << "\n";
+		archOUT << "Tipo de reclamo (R: reclamo || Q: queja): " << getTipo() << "\n";
+		archOUT << "Detalle: " << getDetalle() << "\n";
+		archOUT << "Pedido: " << getPedido() << "\n";
+		archOUT << "--------------------------------------------------------------" << "\n";
+	}
+
 };
-
-
