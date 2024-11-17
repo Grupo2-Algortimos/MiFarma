@@ -1342,6 +1342,8 @@ public:
 
 	}
 
+	//metodo para crear datos aleatoriamente
+
 	void crearDataSet(HashTable<Usuario<double, int>> &ht_usuarios, ArbolBalanceado<int>* abb_edades_usuarios) {
 		system("cls");
 		mainInterfaz->encuadrar();
@@ -1491,8 +1493,8 @@ public:
 									cout << "|";
 								}
 								Console::SetCursorPosition(ANCHO / 6, ALTO / 5 + 1 + contEspacios);
-								cout << "key " << i << " | Nombre: " << ht_usuarios.getTable()[i]->getNombre()
-									<< ", Apellido: " << ht_usuarios.getTable()[i]->getApellido();
+								cout << "key " << i << " | Nombre y Apellido: " << ht_usuarios.getTable()[i]->getNombre()
+									<< " " << ht_usuarios.getTable()[i]->getApellido();
 								
 								contEspacios++;
 							}
