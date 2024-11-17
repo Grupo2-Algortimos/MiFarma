@@ -9,12 +9,14 @@
 #include"ArbolBusqueda.h"
 #include"ArbolBalanceado.h"
 #include"Cola.h"
+
+template<class T1, class T2>
 class VistaEmpleado
 {
 private:
 	//Declaron Interfaces
-	MainInterfaz* mainInterfaz;
-	ProductosInterfaz* productosInterfaz;
+	T1* mainInterfaz;
+	T2* productosInterfaz;
 public:
 	VistaEmpleado()
 	{
