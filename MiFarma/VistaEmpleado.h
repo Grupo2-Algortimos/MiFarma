@@ -1483,9 +1483,9 @@ public:
 								// Posicionar y mostrar cada elemento
 								Console::SetCursorPosition(ANCHO / 6 - 1, ALTO / 5);
 								cout << "+------------------------------------------------+";
-								Console::SetCursorPosition(ANCHO / 6 - 1, ALTO / 5 + 10);
+								Console::SetCursorPosition(ANCHO / 6 - 1, ALTO / 5 + 11);
 								cout << "+------------------------------------------------+";
-								for (int i = 1; i < 10; i++) {
+								for (int i = 1; i < 11; i++) {
 									Console::SetCursorPosition(ANCHO / 6 - 1, ALTO / 5 + i);
 									cout << "|";
 									Console::SetCursorPosition(ANCHO / 6 + nH, ALTO / 5 + i);
@@ -1501,9 +1501,9 @@ public:
 
 						// Mostrar las instrucciones de navegación
 						Console::SetCursorPosition(ANCHO - 40, ALTO / 5 + 1);
-						cout << "[->] Mover a la siguiente página";
+						cout << "[->] Mover a la siguiente pagina";
 						Console::SetCursorPosition(ANCHO - 40, ALTO / 5 + 2);
-						cout << "[<-] Mover a la página anterior";
+						cout << "[<-] Mover a la pagina anterior";
 						Console::SetCursorPosition(ANCHO - 40, ALTO / 5 + 3);
 						cout << "[ESC] Salir";
 						Console::SetCursorPosition(ANCHO - 40, ALTO / 5 + 10);
