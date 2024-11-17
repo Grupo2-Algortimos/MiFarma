@@ -1493,47 +1493,18 @@ public:
 								// Posicionar y mostrar cada elemento
 								Console::SetCursorPosition(ANCHO / 6 - 1, ALTO / 5);
 								cout << "+------------------------------------------------+";
-								Console::SetCursorPosition(ANCHO / 6 - 1, ALTO / 5 + 1);
-								cout << "|";
-								Console::SetCursorPosition(ANCHO / 6 + nH, ALTO / 5 + 1);
-								cout << "|";
-								Console::SetCursorPosition(ANCHO / 6 - 1, ALTO / 5 + 2);
-								cout << "|";
-								Console::SetCursorPosition(ANCHO / 6 + nH, ALTO / 5 + 2);
-								cout << "|";
-								Console::SetCursorPosition(ANCHO / 6 - 1, ALTO / 5 + 3);
-								cout << "|";
-								Console::SetCursorPosition(ANCHO / 6 + nH, ALTO / 5 + 3);
-								cout << "|";
-								Console::SetCursorPosition(ANCHO / 6 - 1, ALTO / 5 + 4);
-								cout << "|";
-								Console::SetCursorPosition(ANCHO / 6 + nH, ALTO / 5 + 4);
-								cout << "|";
-								Console::SetCursorPosition(ANCHO / 6 - 1, ALTO / 5 + 5);
-								cout << "|";
-								Console::SetCursorPosition(ANCHO / 6 + nH, ALTO / 5 + 5);
-								cout << "|";
-								Console::SetCursorPosition(ANCHO / 6 - 1, ALTO / 5 + 6);
-								cout << "|";
-								Console::SetCursorPosition(ANCHO / 6 + nH, ALTO / 5 + 6);
-								cout << "|";
-								Console::SetCursorPosition(ANCHO / 6 - 1, ALTO / 5 + 7);
-								cout << "|";
-								Console::SetCursorPosition(ANCHO / 6 + nH, ALTO / 5 + 7);
-								cout << "|";
-								Console::SetCursorPosition(ANCHO / 6 - 1, ALTO / 5 + 8);
-								cout << "|";
-								Console::SetCursorPosition(ANCHO / 6 + nH, ALTO / 5 + 8);
-								cout << "|";
-								Console::SetCursorPosition(ANCHO / 6 - 1, ALTO / 5 + 9);
-								cout << "|";
-								Console::SetCursorPosition(ANCHO / 6 + nH, ALTO / 5 + 9);
-								cout << "|";
+								Console::SetCursorPosition(ANCHO / 6 - 1, ALTO / 5 + 10);
+								cout << "+------------------------------------------------+";
+								for (int i = 1; i < 10; i++) {
+									Console::SetCursorPosition(ANCHO / 6 - 1, ALTO / 5 + i);
+									cout << "|";
+									Console::SetCursorPosition(ANCHO / 6 + nH, ALTO / 5 + i);
+									cout << "|";
+								}
 								Console::SetCursorPosition(ANCHO / 6, ALTO / 5 + 1 + contEspacios);
 								cout << "key " << i << " | Nombre: " << ht_usuarios.getTable()[i]->getNombre()
 									<< ", Apellido: " << ht_usuarios.getTable()[i]->getApellido();
-								Console::SetCursorPosition(ANCHO / 6 - 1, ALTO / 5 + 10);
-								cout << "+------------------------------------------------+";
+								
 								contEspacios++;
 							}
 						}
