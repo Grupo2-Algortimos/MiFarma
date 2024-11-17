@@ -1,6 +1,4 @@
 #include "Nodo.h"
-#include <functional>
-#include "Producto.h"
 
 typedef unsigned int uint;
 template <class T>
@@ -23,10 +21,11 @@ public:
             }; //definimos la funcion LAMBDA
     }
     
-    ~Lista();
-    /*Lista() {
-        nodo = new Nodo<T>();
-    };*/
+    ~Lista()
+    {
+        eliminaTodo();
+    }
+
     Lista(Nodo<T>* pNodo) {
         nodo = pNodo;
     };
@@ -45,29 +44,6 @@ public:
     T obtenerInicial();
     T obtenerPos(uint pos);
     T obtenerFinal();
-    string buscarUsuario(T elem);
-    string buscarPassword(T elem);
-    string buscarProducto(T elem);
-
-
-    //~Lista(void);
-    void agregar(T pNodo); //sumar nodos a la lista
-    bool esvacia(void);
-    T cabeza(void); //retorna el dato del primer nodo
-    Lista* resto(void); //retorna el puntero al "resto" de la lista
-    //resto= lo que queda de la lista sin la cabeza
-    string toPrint(string p);
-    T suma(T i);
-    int size();
-    void borrar(void); //borra la cabeza
-    void borrar_last();//borra el ultimo
-    void concat(Lista<T>* l1);// le transfiere los datos de l1 a this
-    Lista<T>* copy(void);// hace una copia de la lista
-    void tomar(int n);//deja "vivos" los n primeros nodos y borra el resto
-    void addOrdenado(T d);// suma nodos ordenados de menor a mayor
-    bool esta(T d); //retorna true cuando d est  en la lista
-    void borrarDato(T d);// borra el nodo que contiene a d
-
 };
 template <class T>
 uint Lista<T>::longitud() {
@@ -85,54 +61,6 @@ void Lista<T>::agregaInicial(T elem) {
         lon++;
     }
 }
-template <class T>
-string Lista<T>::buscarUsuario(T elem) {
-    Nodo<T>* aux = ini;
-    string user;
-    while (aux != nullptr) {
-        Empleado* oNodo = (Empleado*)(aux->elem);
-        Empleado* oDato = (Empleado*)(elem);
-        if (Comp(oNodo->getUser(), oDato->getUser())) {
-            user = oNodo->getUser();
-            return user;
-        }
-        aux = aux->sigte;
-    }
-    return "";
-}
-
-template <class T>
-string Lista<T>::buscarPassword(T elem) {
-    Nodo<T>* aux = ini;
-    string pass;
-    while (aux != nullptr) {
-        Empleado* oNodo = (Empleado*)(aux->elem);
-        Empleado* oDato = (Empleado*)(elem);
-        if (Comp(oNodo->getPassword(), oDato->getPassword())) {
-            pass = oNodo->getPassword();
-            return pass;
-        }
-        aux = aux->sigte;
-    }
-    return "";
-}
-
-template <class T>
-string Lista<T>::buscarProducto(T elem) {
-    Nodo<T>* aux = ini;
-    string pass;
-    while (aux != nullptr) {
-        Empleado* oNodo = (Empleado*)(aux->elem);
-        Empleado* oDato = (Empleado*)(elem);
-        if (Comp(oNodo->getNombre(), oDato->getNombre())) {
-            pass = oNodo->getNombre();
-            return pass;
-        }
-        aux = aux->sigte;
-    }
-    return "";
-}
-
 
 template <class T>
 void Lista<T>::agregaPos(T elem, uint pos) {
@@ -249,15 +177,3 @@ template <class T>
 T Lista<T>::obtenerFinal() {
     return obtenerPos(lon - 1);
 }
-
-template <class T>
-void Lista<T>::agregar(T d) //100
-{
-    Nodo<T>* nuevo = new Nodo<T>(d);
-    nuevo->set_Sgte(nodo);
-    nodo = nuevo;
-}
-
-
-
-

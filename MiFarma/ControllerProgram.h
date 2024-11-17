@@ -32,7 +32,7 @@ private:
 	VistaEmpleado<MainInterfaz, ProductosInterfaz>* vistaEmpleado;
 
 	// hashtable
-	HashTablaA<Usuario<double, int>> ht_usuarios;
+	HashTable<Usuario<double, int>> ht_usuarios;
 
 	//Arboles Binarios de Busqueda
 	ArbolBusqueda<int>* ab_ids_productos;
@@ -96,7 +96,7 @@ public:
 		vistaEmpleado = new VistaEmpleado<MainInterfaz, ProductosInterfaz>();
 
 		//Hash tables
-		ht_usuarios = HashTablaA<Usuario<double, int>>();
+		ht_usuarios = HashTable<Usuario<double, int>>();
 
 		//Otras variables
 		cont_productos_comprados = 0;
@@ -330,7 +330,7 @@ public:
 	{
 		Random r;
 		Lista<Producto<string>*>* l_productosAleatorios = new Lista<Producto<string>*>();
-		int catidad_productos = r.Next(1, 5); // [1-4]
+		int catidad_productos = r.Next(3, 14);
 		int num_alea;
 		for (int j = 0; j < catidad_productos; j++)
 		{
@@ -341,7 +341,7 @@ public:
 		c_pedidos->encolar(pedido1);
 
 		l_productosAleatorios = new Lista<Producto<string>*>();
-		catidad_productos = r.Next(1, 5); // [1-4]
+		catidad_productos = r.Next(3, 14);
 		for (int j = 0; j < catidad_productos; j++)
 		{
 			num_alea = r.Next(0, l_productos->longitud());
@@ -351,7 +351,7 @@ public:
 		c_pedidos->encolar(pedido2);
 
 		l_productosAleatorios = new Lista<Producto<string>*>();
-		catidad_productos = r.Next(1, 5); // [1-4]
+		catidad_productos = r.Next(3, 14);
 		for (int j = 0; j < catidad_productos; j++)
 		{
 			num_alea = r.Next(0, l_productos->longitud());
