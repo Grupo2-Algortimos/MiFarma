@@ -1,6 +1,6 @@
 iDReclamo|fecha|nombre|telefono|distrito|nombreProducto|tipo|detalle|pedido
 R001|10/05/2024|Carlos Martinez|987654321|Miraflores|Ibuprofeno|R|Producto vencido antes de lo indicado|Solicito reembolso o cambio del producto
 R002|12/05/2024|Juliana Gomez|912345678|San Isidro|Paracetamol|Q|El empaque llego danado|Solicito reemplazo por uno en buen estado
-R003|15/05/2024|Raúl Lopez|998765432|Magdalena|Omeprazol|R|No se incluyo en el pedido|Solicito envio del producto faltante
+R003|15/05/2024|Raul Lopez|998765432|Magdalena|Omeprazol|R|No se incluyo en el pedido|Solicito envio del producto faltante
 R004|17/05/2024|Fernanda Perez|954321678|La Molina|Salbutamol Inhalador|Q|El inhalador no funciona correctamente|Solicito un producto en buen estado
 R005|20/05/2024|Hugo Ramirez|956789012|San Miguel|Amoxicilina|R|Producto entregado en presentacion incorrecta|Solicito cambio a la presentacion correcta
