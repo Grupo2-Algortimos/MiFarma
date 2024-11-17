@@ -62,6 +62,19 @@ public:
 	//mostrar reclamo
 
 	void mostrarReclamo(int x, int y) {
+
+		int anchoContenido = 57;
+		for (int i = 0; i < 14; i++)
+		{
+			Console::SetCursorPosition(x - 1, y + i); cout << "|";
+			Console::SetCursorPosition(x + anchoContenido, y + i); cout << "|";
+		}
+		Console::SetCursorPosition(x - 1, y - 1);
+		cout << "=========================  Reclamo  =======================";
+		Console::SetCursorPosition(x - 1, y + 14);
+		cout << "===========================================================";
+
+
 		Console::SetCursorPosition(x, y + 0);
 		cout << "ID Reclamo: " << getIdReclamo();
 		Console::SetCursorPosition(x, y + 1);
@@ -69,7 +82,7 @@ public:
 		Console::SetCursorPosition(x, y + 2);
 		cout << "Informacion del usuario";
 		Console::SetCursorPosition(x, y + 3);
-		cout << "-------------------------------------" << endl;
+		cout << string(anchoContenido, '-');
 		Console::SetCursorPosition(x, y + 4);
 		cout << "Nombre: " << getNombre();
 		Console::SetCursorPosition(x, y + 5);
@@ -77,11 +90,11 @@ public:
 		Console::SetCursorPosition(x, y + 6);
 		cout << "Distrito: " << getDistrito();
 		Console::SetCursorPosition(x, y + 7);
-		cout << "-------------------------------------";
+		cout << string(anchoContenido, '-');
 		Console::SetCursorPosition(x, y + 8);
 		cout << "informacion del Reclamo";
 		Console::SetCursorPosition(x, y + 9);
-		cout << "-------------------------------------";
+		cout << string(anchoContenido, '-');
 		Console::SetCursorPosition(x, y + 10);
 		cout << "Nombre del Producto: " << getNombreProducto();
 		Console::SetCursorPosition(x, y + 11);

@@ -320,17 +320,40 @@ public:
 					mainInterfaz->encuadrar();
 					Console::SetCursorPosition(ANCHO / 6, ALTO / 6 + 0);
 					cout << "=============:: Productos ::=============";
+					Console::SetCursorPosition(ANCHO / 6, ALTO / 6 + 7);
+					cout << "------------------------------------------";
 					if (contProductos < l_productos->longitud() - 3)
 					{
+						Console::SetCursorPosition(ANCHO / 6, ALTO / 6 + 21);
+						cout << "=========================================";
+						Console::SetCursorPosition(ANCHO / 6, ALTO / 6 + 14);
+						cout << "------------------------------------------";
+						for (int i = 0; i < 22; i++)
+						{
+							Console::SetCursorPosition(ANCHO / 6 - 1, ALTO / 6 + i); cout << "|";
+							Console::SetCursorPosition(ANCHO / 6 + 41, ALTO / 6 + i); cout << "|";
+						}
 						l_productos->obtenerPos(contProductos)->mostrarProducto(ANCHO / 6, ALTO / 6 + 1);
 						l_productos->obtenerPos(contProductos + 1)->mostrarProducto(ANCHO / 6, ALTO / 6 + 8);
 						l_productos->obtenerPos(contProductos + 2)->mostrarProducto(ANCHO / 6, ALTO / 6 + 15);
 					}
 					else
 					{
+						for (int i = 0; i < 8; i++)
+						{
+							Console::SetCursorPosition(ANCHO / 6 - 1, ALTO / 6 + i); cout << "|";
+							Console::SetCursorPosition(ANCHO / 6 + 41, ALTO / 6 + i); cout << "|";
+						}
 						l_productos->obtenerPos(contProductos)->mostrarProducto(ANCHO / 6, ALTO / 6 + 1);
 						if (contProductos + 1 < l_productos->longitud())
 						{
+							for (int i = 8; i < 16; i++)
+							{
+								Console::SetCursorPosition(ANCHO / 6 - 1, ALTO / 6 + i); cout << "|";
+								Console::SetCursorPosition(ANCHO / 6 + 41, ALTO / 6 + i); cout << "|";
+							}
+							Console::SetCursorPosition(ANCHO / 6, ALTO / 6 + 9);
+							cout << "=========================================";
 							l_productos->obtenerPos(contProductos + 1)->mostrarProducto(ANCHO / 6, ALTO / 6 + 8);
 						}
 					}
@@ -907,7 +930,7 @@ public:
 		}
 	}
 
-	void eliminarElementoCarrito(Lista<Producto<string>*>* l_productos_comprados) {
+	void eliminarElementoCarrito(Lista<Producto<string>*>* l_productos_comprados, int& cont_productos_comprados) {
 		int contEspacios = 0;
 		string nombreProductoEliminar;
 		bool producto_eliminado = false;
@@ -919,6 +942,7 @@ public:
 			Console::SetCursorPosition(ANCHO / 4, ALTO / 5 + 9);
 			cout << "El producto " << l_productos_comprados->obtenerInicial()->getNombre() << " ha sido retirado correctamente";
 			l_productos_comprados->eliminaInicial();
+			cont_productos_comprados = 0;
 		}
 		else
 		{
@@ -960,11 +984,12 @@ public:
 				nombreProductoEliminar.begin().operator*() = toupper(nombreProductoEliminar.begin().operator*());
 				Console::SetCursorPosition(ANCHO / 4, ALTO / 5 + 9);
 				cout << "El producto " << nombreProductoEliminar << " ha sido retirado correctamente";
+				cont_productos_comprados--;
 			}
 			else
 			{
 				Console::SetCursorPosition(ANCHO / 4, ALTO / 5 + 9);
-				cout << "¡No se encontro el nombre del producto!";
+				cout << "No se encontro el nombre del producto";
 			}
 		}
 	}
@@ -1017,7 +1042,7 @@ public:
 				ordShellProductoMayorAMenor(l_productos_comprados);
 				break;
 			case 3 :
-				eliminarElementoCarrito(l_productos_comprados);
+				eliminarElementoCarrito(l_productos_comprados, cont_productos_comprados);
 				break;
 			case 4:
 				eliminarTodoCarrito(l_productos_comprados, cont_productos_comprados);

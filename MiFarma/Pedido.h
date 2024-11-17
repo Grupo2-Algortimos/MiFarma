@@ -47,33 +47,66 @@ public:
 
 	void mostarInformacion(int x, int y)
 	{
-		Console::SetCursorPosition(x, y + 0);
-		cout << "Id Pedido: " << getIdPedido();
+		for (int i = 1; i < 6; i++)
+		{
+			Console::SetCursorPosition(x - 1, y + i); cout << "|";
+			Console::SetCursorPosition(x + 57, y + i); cout << "|";
+		}
+		const int anchoContenido = 57;
+		Console::SetCursorPosition(x - 1, y + 0);
+		cout << "+" << string(anchoContenido, '-') << "+";
 		Console::SetCursorPosition(x, y + 1);
-		cout << "Nombre de Usuario: " << getNombreUsuario();
+		cout << "Id Pedido: " << getIdPedido();
 		Console::SetCursorPosition(x, y + 2);
-		cout << "Nombre de Repartidor: " << getNombreRepartidor();
+		cout << "Nombre de Usuario: " << getNombreUsuario();
 		Console::SetCursorPosition(x, y + 3);
-		cout << "Direccion: " << getDistrito();
+		cout << "Nombre de Repartidor: " << getNombreRepartidor();
 		Console::SetCursorPosition(x, y + 4);
+		cout << "Direccion: " << getDistrito();
+		Console::SetCursorPosition(x - 1, y + 5);
+		cout << "+" << string(anchoContenido, '-') << "+";
+		Console::SetCursorPosition(x, y + 6);
 		cout << "Productos:";
-		mostrarProductosComprados(x, y + 5);
-
-		Console::SetCursorPosition(x + 30, y + 0);
+		mostrarProductosComprados(x, y + 7);
+		Console::SetCursorPosition(x + 32, y + 1);
 		cout << "Estado: " << getEstado();
-		Console::SetCursorPosition(x + 30, y + 1);
+		Console::SetCursorPosition(x + 32, y + 2);
 		cout << "Modo Entrega: " << getModoEntrega();
-		Console::SetCursorPosition(x + 30, y + 2);
+		Console::SetCursorPosition(x + 32, y + 3);
 		cout << "Costo Total: " << conseguirCostoTotal();
 	}
 
 	void mostrarProductosComprados(int x, int y)
 	{
+		Console::SetCursorPosition(x - 1, y - 1); cout << "|";
+		Console::SetCursorPosition(x + 28, y - 1); cout << "|";
 		for (int i = 0; i < productosComprados->longitud(); i++)
 		{
+			if (i > 10)
+			{
+				Console::SetCursorPosition(x, y + i);
+				cout << "................";
+				break;
+			}
+			Console::SetCursorPosition(x - 1, y + i ); cout << "|";
+			Console::SetCursorPosition(x + 28, y + i); cout << "|";
+
 			Console::SetCursorPosition(x, y + i);
-			cout << productosComprados->obtenerPos(i)->getNombre();
+			cout << productosComprados->obtenerPos(i)->getNombre() << " : x" << productosComprados->obtenerPos(i)->getCantidad();
 		}
+		if (productosComprados->longitud() > 10)
+		{
+			Console::SetCursorPosition(x - 1, y + 12); cout << "|";
+			Console::SetCursorPosition(x + 28, y + 12); cout << "|";
+			Console::SetCursorPosition(x - 1, y + 12);
+			cout << "+" << string(28, '-') << "+";
+		}
+		else
+		{
+			Console::SetCursorPosition(x - 1, y + productosComprados->longitud());
+			cout << "+" << string(28, '-') << "+";
+		}
+
 	}
 	double conseguirCostoTotal()
 	{

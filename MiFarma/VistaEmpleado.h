@@ -307,17 +307,40 @@ public:
 					mainInterfaz->encuadrar();
 					Console::SetCursorPosition(ANCHO / 6, ALTO / 6 + 0);
 					cout << "=============:: Productos ::=============";
+					Console::SetCursorPosition(ANCHO / 6, ALTO / 6 + 7);
+					cout << "------------------------------------------";
 					if (contProductos < l_productos->longitud() - 3)
 					{
+						Console::SetCursorPosition(ANCHO / 6, ALTO / 6 + 21);
+						cout << "=========================================";
+						Console::SetCursorPosition(ANCHO / 6, ALTO / 6 + 14);
+						cout << "------------------------------------------";
+						for (int i = 0; i < 22; i++)
+						{
+							Console::SetCursorPosition(ANCHO / 6 - 1, ALTO / 6 + i); cout << "|";
+							Console::SetCursorPosition(ANCHO / 6 + 41, ALTO / 6 + i); cout << "|";
+						}
 						l_productos->obtenerPos(contProductos)->mostrarProducto(ANCHO / 6, ALTO / 6 + 1);
 						l_productos->obtenerPos(contProductos + 1)->mostrarProducto(ANCHO / 6, ALTO / 6 + 8);
 						l_productos->obtenerPos(contProductos + 2)->mostrarProducto(ANCHO / 6, ALTO / 6 + 15);
 					}
 					else
 					{
+						for (int i = 0; i < 8; i++)
+						{
+							Console::SetCursorPosition(ANCHO / 6 - 1, ALTO / 6 + i); cout << "|";
+							Console::SetCursorPosition(ANCHO / 6 + 41, ALTO / 6 + i); cout << "|";
+						}
 						l_productos->obtenerPos(contProductos)->mostrarProducto(ANCHO / 6, ALTO / 6 + 1);
 						if (contProductos + 1 < l_productos->longitud())
 						{
+							for (int i = 8; i < 16; i++)
+							{
+								Console::SetCursorPosition(ANCHO / 6 - 1, ALTO / 6 + i); cout << "|";
+								Console::SetCursorPosition(ANCHO / 6 + 41, ALTO / 6 + i); cout << "|";
+							}
+							Console::SetCursorPosition(ANCHO / 6, ALTO / 6 + 9);
+							cout << "=========================================";
 							l_productos->obtenerPos(contProductos + 1)->mostrarProducto(ANCHO / 6, ALTO / 6 + 8);
 						}
 					}
@@ -597,13 +620,7 @@ public:
 				{
 					l_productos_ordenados->agregaFinal(l_productos->obtenerPos(i));
 				}
-
-				if (l_productos_ordenados->longitud() > 1) {
-					quickSort(l_productos, 0, l_productos_ordenados->longitud() - 1);
-				}
-
-				//ordShellProductoMenorAMayor(l_productos_ordenados);
-
+				ordenarXPrecio(l_productos_ordenados);
 				while (!salir)
 				{
 					if (tecla_presionada)
@@ -846,7 +863,7 @@ public:
 					{
 						system("cls");
 						mainInterfaz->encuadrar();
-						c_pedidos_aux->front()->mostarInformacion(ANCHO / 4, ALTO / 5);
+						c_pedidos_aux->front()->mostarInformacion(ANCHO / 5 - 10, ALTO / 5);
 						Console::SetCursorPosition(ANCHO - 40, ALTO / 2 + 1);
 						cout << "[->] Siguente Pedido";
 						Console::SetCursorPosition(ANCHO - 40, ALTO / 2 + 2);
@@ -971,7 +988,7 @@ public:
 				{
 					system("cls");
 					mainInterfaz->encuadrar();
-					auxReclamo->mostrarReclamo(ANCHO / 4, ALTO / 5);
+					auxReclamo->mostrarReclamo(ANCHO / 4 - 10, ALTO / 5);
 					Console::SetCursorPosition(ANCHO - 35, ALTO / 2 + 1);
 					cout << "[->] Siguente Reclamo";
 					Console::SetCursorPosition(ANCHO - 35, ALTO / 2 + 2);
