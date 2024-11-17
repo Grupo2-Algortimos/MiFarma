@@ -2,7 +2,16 @@
 #include"Usuario.h"
 #include"Producto.h"
 #include"Pedido.h"
-using namespace std;
+
+
+// Función para truncar cadenas largas y rellenar con espacios si son cortas
+string ajustarTexto(const string& texto, int ancho) {
+	if (texto.length() > ancho) {
+		return texto.substr(0, ancho); // Trunca el texto si es muy largo
+	}
+	return texto + string(ancho - texto.length(), ' '); // Rellena con espacios si es corto
+}
+
 //Recursivas
 // 
 //Contraseña de 10 caracteres máx
@@ -155,7 +164,7 @@ int obtenerPrimerProductoPorCategoria(Lista<Producto<string>*>* l_productos, str
 	return -1;
 }
 
-// ordenamiento avanzado con Mergesort
+// Ordenamiento avanzado con Mergesort
 void merge(Lista<Usuario<double, int>*>* l_usuarios, int inicio, int medio, int fin) {
 	int n1 = medio - inicio + 1;
 	int n2 = fin - medio;
@@ -214,8 +223,45 @@ void mergeSort(Lista<Usuario<double, int>*>* l_usuarios, int inicio, int fin) {
 	}
 }
 
-void ordenarUsuarioxEdad(Lista<Usuario<double, int>*>* l_usuarios) {
-	if (l_usuarios->longitud() > 1) {
-		mergeSort(l_usuarios, 0, l_usuarios->longitud() - 1);
+// ordenamiento Quick sort
+
+int partition(Lista<Producto<string>*>* l_productos, int inicio, int fin) {
+
+	Producto<string>* pivote = l_productos->obtenerPos(fin); // Último elemento como pivote
+	double precioPivote = stod(pivote->getPrecio());
+	int i = inicio - 1;
+
+	for (int j = inicio; j < fin; j++) {
+		Producto<string>* productoJ = l_productos->obtenerPos(j);
+		if (stod(productoJ->getPrecio()) <= precioPivote) {
+			i++;
+			// Intercambiar productos
+			Producto<string>* temp = l_productos->obtenerPos(i);
+			l_productos->modificarPos(productoJ, i);
+			l_productos->modificarPos(temp, j);
+		}
+	}
+
+	// Colocar el pivote en la posición correcta
+	Producto<string>* temp = l_productos->obtenerPos(i + 1);
+	l_productos->modificarPos(pivote, i + 1);
+	l_productos->modificarPos(temp, fin);
+
+	return i + 1;
+}
+
+void quickSort(Lista<Producto<string>*>* l_productos, int inicio, int fin) {
+	if (inicio < fin) {
+		int pi = partition(l_productos, inicio, fin); // Partición
+
+		// Ordenar sublistas recursivamente
+		quickSort(l_productos, inicio, pi - 1);
+		quickSort(l_productos, pi + 1, fin);
+	}
+}
+
+void ordenarXPrecio(Lista<Producto<string>*>* l_productos) {
+	if (l_productos->longitud() > 1) {
+		quickSort(l_productos, 0, l_productos->longitud() - 1);
 	}
 }

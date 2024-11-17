@@ -14,6 +14,7 @@
 #include<list>
 #include<vector>
 #include<functional>
+#include <iomanip>
 //definimos predeterminados
 #define archivoEmpleados "ListaEmpleados.txt"
 #define archivoProductos "ListaProductos.txt"
@@ -33,7 +34,7 @@ int ANCHO = Console::WindowWidth;
 int ALTO = Console::WindowHeight;
 
 //Delivery
-vector<string> repartidores = { "Roberto Bolaños", "Juan Carlos", "Miguel Osbaldo", "Maria de las Nieves"};
+vector<string> repartidores = { "Roberto", "Carlos", "Miguel", "Maria"};
 vector<string> estadosDelivery = { "Pendiente","En camino", "Entregado" };
 vector<string> modosDelivery = { "Motocicleta","Bicicleta" };
 //Nombres de clientes

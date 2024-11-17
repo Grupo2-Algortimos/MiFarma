@@ -33,16 +33,25 @@ public:
 
 	void mostrarInformacion(int x, int y)
 	{
+		const int anchoContenido = 36;
 		Console::SetCursorPosition(x, y + 0);
-		cout << "ID de Boleta: " << getIdBoleta();
+		cout << "+" << string(anchoContenido, '-') << "+";
 		Console::SetCursorPosition(x, y + 1);
-		cout << "Nombre del comprador: " << getNombre();
+		cout << "| " << ajustarTexto("***           BOLETA           ***", anchoContenido - 2) << " |";
 		Console::SetCursorPosition(x, y + 2);
-		cout << "Fecha de la Boleta: " << getFecha();
+		cout << "+" << string(anchoContenido, '-') << "+";
 		Console::SetCursorPosition(x, y + 3);
-		cout << "Costo de la compra: " << getCostoPedido();
+		cout << "| " << ajustarTexto("ID de Boleta: " + getIdBoleta(), anchoContenido - 2) << " |";
 		Console::SetCursorPosition(x, y + 4);
-		cout << "Vuelto para el usuario: " << getVuelto();
+		cout << "| " << ajustarTexto("Nombre del comprador: " + getNombre(), anchoContenido - 2) << " |";
+		Console::SetCursorPosition(x, y + 5);
+		cout << "| " << ajustarTexto("Fecha de la Boleta: " + getFecha(), anchoContenido - 2) << " |";
+		Console::SetCursorPosition(x, y + 6);
+		cout << "| " << ajustarTexto("Costo de la compra: S/. " + getCostoPedido(), anchoContenido - 2) << " |";
+		Console::SetCursorPosition(x, y + 7);
+		cout << "| " << ajustarTexto("Vuelto para el usuario: S/. " + to_string(getVuelto()), anchoContenido - 2) << " |";
+		Console::SetCursorPosition(x, y + 8);
+		cout << "+" << string(anchoContenido, '-') << "+";
 	}
 
 	double getVuelto()
