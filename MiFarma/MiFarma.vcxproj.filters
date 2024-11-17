@@ -13,85 +13,97 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\Estructuras">
+      <UniqueIdentifier>{f665a883-fbcf-46db-a38f-2403525ed3b2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Entitades">
+      <UniqueIdentifier>{ae9705df-e6aa-4579-b6ef-d31636d66e80}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Complementos">
+      <UniqueIdentifier>{50274459-e471-4fe3-937a-2dc55ddcdef2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Principal">
+      <UniqueIdentifier>{651bdc6c-5970-42f4-b5e4-9507a834bb1f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ControllerProgram.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Empleado.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Entidad.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Funciones.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Lista.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Nodo.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Producto.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Proveedor.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Reclamos.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Usuario.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Boleta.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="MainInterfaz.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ProductosInterfaz.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Pedido.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Libreria.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="VistaEmpleado.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="VistaUsuario.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="HashTable.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Estructuras</Filter>
     </ClInclude>
     <ClInclude Include="Pila.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Estructuras</Filter>
     </ClInclude>
-    <ClInclude Include="SedeAsignada.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Grafo.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ArbolBinario.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Nodo.h">
+      <Filter>Header Files\Estructuras</Filter>
     </ClInclude>
     <ClInclude Include="NodoAB.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="ArbolBalanceado.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Estructuras</Filter>
     </ClInclude>
     <ClInclude Include="NodoAVL.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Estructuras</Filter>
+    </ClInclude>
+    <ClInclude Include="Pedido.h">
+      <Filter>Header Files\Entitades</Filter>
+    </ClInclude>
+    <ClInclude Include="Reclamos.h">
+      <Filter>Header Files\Entitades</Filter>
+    </ClInclude>
+    <ClInclude Include="Proveedor.h">
+      <Filter>Header Files\Entitades</Filter>
+    </ClInclude>
+    <ClInclude Include="ArbolBalanceado.h">
+      <Filter>Header Files\Estructuras</Filter>
+    </ClInclude>
+    <ClInclude Include="ArbolBusqueda.h">
+      <Filter>Header Files\Estructuras</Filter>
+    </ClInclude>
+    <ClInclude Include="Boleta.h">
+      <Filter>Header Files\Entitades</Filter>
     </ClInclude>
     <ClInclude Include="Cola.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Estructuras</Filter>
+    </ClInclude>
+    <ClInclude Include="Empleado.h">
+      <Filter>Header Files\Entitades</Filter>
+    </ClInclude>
+    <ClInclude Include="Entidad.h">
+      <Filter>Header Files\Entitades</Filter>
+    </ClInclude>
+    <ClInclude Include="Funciones.h">
+      <Filter>Header Files\Complementos</Filter>
+    </ClInclude>
+    <ClInclude Include="Grafo.h">
+      <Filter>Header Files\Estructuras</Filter>
+    </ClInclude>
+    <ClInclude Include="HashTable.h">
+      <Filter>Header Files\Estructuras</Filter>
+    </ClInclude>
+    <ClInclude Include="Libreria.h">
+      <Filter>Header Files\Complementos</Filter>
+    </ClInclude>
+    <ClInclude Include="MainInterfaz.h">
+      <Filter>Header Files\Complementos</Filter>
+    </ClInclude>
+    <ClInclude Include="ProductosInterfaz.h">
+      <Filter>Header Files\Complementos</Filter>
+    </ClInclude>
+    <ClInclude Include="Producto.h">
+      <Filter>Header Files\Entitades</Filter>
+    </ClInclude>
+    <ClInclude Include="SedeAsignada.h">
+      <Filter>Header Files\Entitades</Filter>
+    </ClInclude>
+    <ClInclude Include="Usuario.h">
+      <Filter>Header Files\Entitades</Filter>
+    </ClInclude>
+    <ClInclude Include="ControllerProgram.h">
+      <Filter>Header Files\Principal</Filter>
+    </ClInclude>
+    <ClInclude Include="VistaEmpleado.h">
+      <Filter>Header Files\Principal</Filter>
+    </ClInclude>
+    <ClInclude Include="VistaUsuario.h">
+      <Filter>Header Files\Principal</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

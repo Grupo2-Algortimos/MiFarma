@@ -34,7 +34,7 @@ public:
 	void vistaEmpleadoPantalla(Lista<Empleado<string>*>* l_empleados, Lista<Producto<string>*>* l_productos, Lista<Proveedor<string>*>* l_proveedores,
 		Lista<Boleta<string>*>* l_boletas, Pila<Reclamo<string>*>* p_reclamos, Cola<Pedido<string>*>* c_pedidos, ArbolBusqueda<int>* ab_ids_productos,
 		ArbolBusqueda<int>* ab_ids_pedidos, ArbolBusqueda<int>* ab_ids_reclamos, ArbolBusqueda<int>* ab_ids_boletas, ArbolBusqueda<int>* ab_ids_proveedores,
-		ArbolBalanceado<double>* abb_precios_productos, ArbolBalanceado<int>* abb_edades_usuarios, HashTablaA<Usuario<double, int>>& ht_usuarios) {
+		ArbolBalanceado<double>* abb_precios_productos, ArbolBalanceado<int>* abb_edades_usuarios, HashTable<Usuario<double, int>>& ht_usuarios) {
 		int op = 0;
 		string master_key = "";
 		do
@@ -84,7 +84,7 @@ public:
 	void loginEmpleado(Lista<Empleado<string>*>* l_empleados, Lista<Producto<string>*>* l_productos, Lista<Proveedor<string>*>* l_proveedores,
 		Lista<Boleta<string>*>* l_boletas, Pila<Reclamo<string>*>* p_reclamos, Cola<Pedido<string>*>* c_pedidos, ArbolBusqueda<int>* ab_ids_productos,
 		ArbolBusqueda<int>* ab_ids_pedidos, ArbolBusqueda<int>* ab_ids_reclamos, ArbolBusqueda<int>* ab_ids_boletas, ArbolBusqueda<int>* ab_ids_proveedores,
-		ArbolBalanceado<double>* abb_precios_productos, ArbolBalanceado<int>* abb_edades_usuarios, HashTablaA<Usuario<double, int>>& ht_usuarios) {
+		ArbolBalanceado<double>* abb_precios_productos, ArbolBalanceado<int>* abb_edades_usuarios, HashTable<Usuario<double, int>>& ht_usuarios) {
 		string user, password;
 		bool salir = false;
 		bool usuario_encontrado = false, contrasena_correcta = false;
@@ -131,9 +131,6 @@ public:
 		}
 	}
 
-
-	
-
 	void registroEmpleado(Lista<Empleado<string>*>* l_empleados) {
 		system("cls");
 		mainInterfaz->encuadrar();
@@ -166,7 +163,7 @@ public:
 	void adminOpciones(Lista<Empleado<string>*>* l_empleados, Lista<Producto<string>*>* l_productos,Lista<Proveedor<string>*>* l_proveedores, 
 		Lista<Boleta<string>*>* l_boletas, Pila<Reclamo<string>*>* p_reclamos, Cola<Pedido<string>*>* c_pedidos, ArbolBusqueda<int>* ab_ids_productos, 
 		ArbolBusqueda<int>* ab_ids_pedidos, ArbolBusqueda<int>* ab_ids_reclamos, ArbolBusqueda<int>* ab_ids_boletas, ArbolBusqueda<int>* ab_ids_proveedores, 
-		ArbolBalanceado<double>* abb_precios_productos, ArbolBalanceado<int>* abb_edades_usuarios, HashTablaA<Usuario<double, int>>& ht_usuarios)
+		ArbolBalanceado<double>* abb_precios_productos, ArbolBalanceado<int>* abb_edades_usuarios, HashTable<Usuario<double, int>>& ht_usuarios)
 	{
 		int opcionM;
 		while (true)
@@ -1345,7 +1342,7 @@ public:
 
 	}
 
-	void crearDataSet(HashTablaA<Usuario<double, int>> &ht_usuarios, ArbolBalanceado<int>* abb_edades_usuarios) {
+	void crearDataSet(HashTable<Usuario<double, int>> &ht_usuarios, ArbolBalanceado<int>* abb_edades_usuarios) {
 		system("cls");
 		mainInterfaz->encuadrar();
 		int N, edad;
@@ -1435,7 +1432,7 @@ public:
 		
 	}
 	
-	void buscarUsuario(HashTablaA<Usuario<double, int>> &ht_usuarios, ArbolBalanceado<int>* abb_edades_usuarios) {
+	void buscarUsuario(HashTable<Usuario<double, int>> &ht_usuarios, ArbolBalanceado<int>* abb_edades_usuarios) {
 		bool salir = false, tecla_presionada = true;
 		int contVentanas = 1;                 // Contador de páginas (ventanas)
 		int paginaActual = 0;                 // Índice de la página actual

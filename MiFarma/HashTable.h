@@ -3,20 +3,20 @@
 #include"Usuario.h"
 
 template <class T>
-class HashTablaA {
+class HashTable {
 private:
     vector<T*> table;    // Vector que contiene punteros a T o nullptr si la posición está vacía
     int currentSize;          // Cantidad de elementos en la tabla
     const T* DELETED;         // Marcador especial para posiciones borradas
 
 public:
-    explicit HashTablaA(int size = 101) : table(size, nullptr), currentSize(0)
+    explicit HashTable(int size = 101) : table(size, nullptr), currentSize(0)
     {
         // `DELETED` es una dirección especial para marcar eliminaciones sin usar memoria real
         DELETED = reinterpret_cast<T*>(0xFFFFFFFF);
     }
 
-	~HashTablaA() {
+	~HashTable() {
 		makeEmpty();
 	}
 
