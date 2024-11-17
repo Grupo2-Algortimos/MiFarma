@@ -3,7 +3,6 @@
 #include"Producto.h"
 #include"Pedido.h"
 
-
 // Función para truncar cadenas largas y rellenar con espacios si son cortas
 string ajustarTexto(const string& texto, int ancho) {
 	if (texto.length() > ancho) {

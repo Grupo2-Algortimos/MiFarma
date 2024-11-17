@@ -9,12 +9,15 @@
 #include"SedeAsignada.h"
 #include"Cola.h"
 #include"Pila.h"
+
+template<class T1, class T2>
 class VistaUsuario
 {
 private:
 	//Declaron Interfaces
-	MainInterfaz* mainInterfaz;
-	ProductosInterfaz* productosInterfaz;
+	T1* mainInterfaz;
+	T2* productosInterfaz;
+	//Declaramos atributos
 	SedeAsignada<int, string> sedeUsuario;
 	bool visto_carrito;
 public:
@@ -37,7 +40,6 @@ public:
 		Lista<Boleta<string>*>* &l_boletas, ArbolBusqueda<int>* ab_ids_productos, ArbolBalanceado<double>* abb_precios_productos)
 	{
 		int op = 0;
-		int i = 0;
 		do
 		{
 			system("cls");
@@ -64,8 +66,7 @@ public:
 			case 2:
 				system("cls");
 				mainInterfaz->encuadrar();
-				registerUsuario(i, l_usuarios);
-				i++;
+				registerUsuario(l_usuarios);
 				break;
 			default:
 				cout << "Opcion no valida. Intente de nuevo.";
@@ -131,7 +132,7 @@ public:
 
 	
 	
-	void registerUsuario(int i, Lista<Usuario<double, int>*>* l_usuarios) {
+	void registerUsuario(Lista<Usuario<double, int>*>* l_usuarios) {
 		string nombre, apellido, telefono, sexo, distrito;
 		string user, password;
 		Usuario<double, int>* auxUsuario;

@@ -14,16 +14,23 @@
 #include<list>
 #include<vector>
 #include<functional>
-#include <iomanip>
-//definimos predeterminados
-#define archivoEmpleados "ListaEmpleados.txt"
-#define archivoProductos "ListaProductos.txt"
-#define archivoReclamo "ListaReclamo.txt"
-#define archivoProveedor "ListaProveedor.txt"
-#define archivoBoletas "ListaBoletas.txt"
-#define archivoUsuarios "ListaUsuarios.txt"
+//Definimos Archivos de Lectura
+#define archivoEmpleadosLectura "LecturaListaEmpleados.txt"
+#define archivoProductosLectura "LecturaListaProductos.txt"
+#define archivoReclamoLectura "LecturaPilaReclamo.txt"
+#define archivoProveedorLectura "LecturaListaProveedor.txt"
+#define archivoBoletasLectura "LecturaListaBoletas.txt"
+#define archivoUsuariosLectura "LecturaListaUsuarios.txt"
+//Definimos Archivos de Escritura
+#define archivoEmpleadosEscritura "EscrituraListaEmpleados.txt"
+#define archivoProductosEscritura "EscrituraListaProductos.txt"
+#define archivoReclamoEscritura "EscrituraPilaReclamo.txt"
+#define archivoProveedorEscritura "EscrituraListaProveedor.txt"
+#define archivoBoletasEscritura "EscrituraListaBoletas.txt"
+#define archivoUsuariosEscritura "EscrituraListaUsuarios.txt"
+#define archivoPedidosEscritura "EscrituraColaPedidos.txt"
 
-//definimos teclas de control
+//Definimos Teclas de Control
 #define TECLA_IZQUIERDA 75
 #define TECLA_DERECHA 77
 #define TECLA_ESCAPE 27

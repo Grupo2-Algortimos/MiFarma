@@ -15,4 +15,9 @@ public:
 		der = nullptr;
 		altura = 0;
 	}
+
+	bool es_vacio()
+	{
+		return izq == nullptr && der == nullptr;
+	}
 };

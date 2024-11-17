@@ -103,28 +103,6 @@ private:
 		return 1 + _cantidad(nodo->izq) + _cantidad(nodo->der);
 	}
 
-	bool _buscar(NodoAVL<T>* nodo, T e)
-	{
-		if (nodo == nullptr) {
-			return false; // Elemento no encontrado
-		}
-		if (nodo->elemento == e) {
-			return true; // Elemento encontrado
-		}
-		else if (e < nodo->elemento) {
-			return _buscar(nodo->izq, e); // Buscar en el subárbol izquierdo
-		}
-		else {
-			return _buscar(nodo->der, e); // Buscar en el subárbol derecho
-		}
-	}
-
-	int _cantidadTotalNodos(NodoAVL<T>* nodo)
-	{
-		if (nodo == nullptr) return 0;
-		return 1 + _cantidadTotalNodos(nodo->izq) + _cantidadTotalNodos(nodo->der);
-	}
-
 	int _cantidadNodoIzquierda(NodoAVL<T>* nodo)
 	{
 		return _cantidad(nodo->izq);

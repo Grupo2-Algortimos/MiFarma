@@ -16,4 +16,6 @@ public:
 	T getElemento() { return elemento; }
 	NodoAB* getIzq() { return izq; }
 	NodoAB* getDer() { return der; }
+
+	bool es_vacio() { return izq == NULL && der == NULL; }
 };

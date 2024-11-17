@@ -67,4 +67,16 @@ public:
 		Console::SetCursorPosition(x, y + 5);
 		cout << "Fecha de vencimiento: " << getFechaCad();		
 	}
+
+	void escribirArchivo(ofstream &archOUT)
+	{
+		archOUT << "ID Prdocuto: " << getIdProduct() << "\n";
+		archOUT << "Nombre: " << getNombre() << "\n";
+		archOUT << "Precio: S/." << getPrecio() << "\n";
+		archOUT << "Categoria: " << getCategoria() << "\n";
+		archOUT << "Volumen: " << getVolumen() << "\n";
+		archOUT << "Fecha de vencimiento: " << getFechaCad() << "\n";
+		archOUT << "------------------------------------------------" << "\n";
+	}
+
 };

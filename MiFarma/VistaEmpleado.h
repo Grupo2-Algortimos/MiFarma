@@ -9,12 +9,14 @@
 #include"ArbolBusqueda.h"
 #include"ArbolBalanceado.h"
 #include"Cola.h"
+
+template<class T1, class T2>
 class VistaEmpleado
 {
 private:
 	//Declaron Interfaces
-	MainInterfaz* mainInterfaz;
-	ProductosInterfaz* productosInterfaz;
+	T1* mainInterfaz;
+	T2* productosInterfaz;
 public:
 	VistaEmpleado()
 	{
@@ -32,7 +34,7 @@ public:
 	void vistaEmpleadoPantalla(Lista<Empleado<string>*>* l_empleados, Lista<Producto<string>*>* l_productos, Lista<Proveedor<string>*>* l_proveedores,
 		Lista<Boleta<string>*>* l_boletas, Pila<Reclamo<string>*>* p_reclamos, Cola<Pedido<string>*>* c_pedidos, ArbolBusqueda<int>* ab_ids_productos,
 		ArbolBusqueda<int>* ab_ids_pedidos, ArbolBusqueda<int>* ab_ids_reclamos, ArbolBusqueda<int>* ab_ids_boletas, ArbolBusqueda<int>* ab_ids_proveedores,
-		ArbolBalanceado<double>* abb_precios_productos, ArbolBalanceado<int>* abb_edades_usuarios, HashTablaA<Usuario<double, int>>& ht_usuarios) {
+		ArbolBalanceado<double>* abb_precios_productos, ArbolBalanceado<int>* abb_edades_usuarios, HashTable<Usuario<double, int>>& ht_usuarios) {
 		int op = 0;
 		string master_key = "";
 		do
@@ -82,7 +84,7 @@ public:
 	void loginEmpleado(Lista<Empleado<string>*>* l_empleados, Lista<Producto<string>*>* l_productos, Lista<Proveedor<string>*>* l_proveedores,
 		Lista<Boleta<string>*>* l_boletas, Pila<Reclamo<string>*>* p_reclamos, Cola<Pedido<string>*>* c_pedidos, ArbolBusqueda<int>* ab_ids_productos,
 		ArbolBusqueda<int>* ab_ids_pedidos, ArbolBusqueda<int>* ab_ids_reclamos, ArbolBusqueda<int>* ab_ids_boletas, ArbolBusqueda<int>* ab_ids_proveedores,
-		ArbolBalanceado<double>* abb_precios_productos, ArbolBalanceado<int>* abb_edades_usuarios, HashTablaA<Usuario<double, int>>& ht_usuarios) {
+		ArbolBalanceado<double>* abb_precios_productos, ArbolBalanceado<int>* abb_edades_usuarios, HashTable<Usuario<double, int>>& ht_usuarios) {
 		string user, password;
 		bool salir = false;
 		bool usuario_encontrado = false, contrasena_correcta = false;
@@ -129,9 +131,6 @@ public:
 		}
 	}
 
-
-	
-
 	void registroEmpleado(Lista<Empleado<string>*>* l_empleados) {
 		system("cls");
 		mainInterfaz->encuadrar();
@@ -164,7 +163,7 @@ public:
 	void adminOpciones(Lista<Empleado<string>*>* l_empleados, Lista<Producto<string>*>* l_productos,Lista<Proveedor<string>*>* l_proveedores, 
 		Lista<Boleta<string>*>* l_boletas, Pila<Reclamo<string>*>* p_reclamos, Cola<Pedido<string>*>* c_pedidos, ArbolBusqueda<int>* ab_ids_productos, 
 		ArbolBusqueda<int>* ab_ids_pedidos, ArbolBusqueda<int>* ab_ids_reclamos, ArbolBusqueda<int>* ab_ids_boletas, ArbolBusqueda<int>* ab_ids_proveedores, 
-		ArbolBalanceado<double>* abb_precios_productos, ArbolBalanceado<int>* abb_edades_usuarios, HashTablaA<Usuario<double, int>>& ht_usuarios)
+		ArbolBalanceado<double>* abb_precios_productos, ArbolBalanceado<int>* abb_edades_usuarios, HashTable<Usuario<double, int>>& ht_usuarios)
 	{
 		int opcionM;
 		while (true)
@@ -190,16 +189,14 @@ public:
 			Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 8);
 			cout << "[8] Buscar Boletas";
 			Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 9);
-			cout << "[9] Actualizar Logistica";
+			cout << "[9] Generar Usuarios";
 			Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 10);
-			cout << "[10] Generar Usuarios";
+			cout << "[10] Buscar Usuario";
 			Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 11);
-			cout << "[11] Buscar Usuario";
+			cout << "[11] Salir";
 			Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 12);
-			cout << "[12] Salir";
-			Console::SetCursorPosition(ANCHO / 3, ALTO / 4 + 13);
 			cout << "Seleccione una opcion : "; cin >> opcionM;
-			if (opcionM == 12)break;
+			if (opcionM == 11)break;
 			system("cls");
 			mainInterfaz->encuadrar();
 			switch (opcionM)
@@ -229,12 +226,9 @@ public:
 				buscarBoletas(l_boletas, ab_ids_boletas);
 				break;
 			case 9:
-				actualizarLogistica();
-				break;
-			case 10:
 				crearDataSet(ht_usuarios, abb_edades_usuarios);
 				break;
-			case 11:
+			case 10:
 				buscarUsuario(ht_usuarios, abb_edades_usuarios);
 				break;
 			}
@@ -1348,12 +1342,7 @@ public:
 
 	}
 
-	void actualizarLogistica()
-	{
-
-	}
-
-	void crearDataSet(HashTablaA<Usuario<double, int>> &ht_usuarios, ArbolBalanceado<int>* abb_edades_usuarios) {
+	void crearDataSet(HashTable<Usuario<double, int>> &ht_usuarios, ArbolBalanceado<int>* abb_edades_usuarios) {
 		system("cls");
 		mainInterfaz->encuadrar();
 		int N, edad;
@@ -1443,7 +1432,7 @@ public:
 		
 	}
 	
-	void buscarUsuario(HashTablaA<Usuario<double, int>> &ht_usuarios, ArbolBalanceado<int>* abb_edades_usuarios) {
+	void buscarUsuario(HashTable<Usuario<double, int>> &ht_usuarios, ArbolBalanceado<int>* abb_edades_usuarios) {
 		bool salir = false, tecla_presionada = true;
 		int contVentanas = 1;                 // Contador de páginas (ventanas)
 		int paginaActual = 0;                 // Índice de la página actual
@@ -1493,9 +1482,9 @@ public:
 								// Posicionar y mostrar cada elemento
 								Console::SetCursorPosition(ANCHO / 6 - 1, ALTO / 5);
 								cout << "+------------------------------------------------+";
-								Console::SetCursorPosition(ANCHO / 6 - 1, ALTO / 5 + 10);
+								Console::SetCursorPosition(ANCHO / 6 - 1, ALTO / 5 + 11);
 								cout << "+------------------------------------------------+";
-								for (int i = 1; i < 10; i++) {
+								for (int i = 1; i < 11; i++) {
 									Console::SetCursorPosition(ANCHO / 6 - 1, ALTO / 5 + i);
 									cout << "|";
 									Console::SetCursorPosition(ANCHO / 6 + nH, ALTO / 5 + i);
@@ -1511,9 +1500,9 @@ public:
 
 						// Mostrar las instrucciones de navegación
 						Console::SetCursorPosition(ANCHO - 40, ALTO / 5 + 1);
-						cout << "[->] Mover a la siguiente página";
+						cout << "[->] Mover a la siguiente pagina";
 						Console::SetCursorPosition(ANCHO - 40, ALTO / 5 + 2);
-						cout << "[<-] Mover a la página anterior";
+						cout << "[<-] Mover a la pagina anterior";
 						Console::SetCursorPosition(ANCHO - 40, ALTO / 5 + 3);
 						cout << "[ESC] Salir";
 						Console::SetCursorPosition(ANCHO - 40, ALTO / 5 + 10);
