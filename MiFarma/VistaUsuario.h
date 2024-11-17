@@ -9,12 +9,14 @@
 #include"SedeAsignada.h"
 #include"Cola.h"
 #include"Pila.h"
+
+template<class T1, class T2>
 class VistaUsuario
 {
 private:
 	//Declaron Interfaces
-	MainInterfaz* mainInterfaz;
-	ProductosInterfaz* productosInterfaz;
+	T1* mainInterfaz;
+	T2* productosInterfaz;
 	SedeAsignada<int, string> sedeUsuario;
 	bool visto_carrito;
 public:

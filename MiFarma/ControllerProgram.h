@@ -28,8 +28,8 @@ private:
 	Pedido<string>* pedido_usuario;
 
 	//Declarando vistas
-	VistaUsuario* vistaUsuario;
-	VistaEmpleado* vistaEmpleado;
+	VistaUsuario<MainInterfaz, ProductosInterfaz>* vistaUsuario;
+	VistaEmpleado<MainInterfaz, ProductosInterfaz>* vistaEmpleado;
 
 	// hashtable
 	HashTablaA<Usuario<double, int>> ht_usuarios;
@@ -92,8 +92,8 @@ public:
 		agregandoPedidos();
 
 		//Vistas
-		vistaUsuario = new VistaUsuario();
-		vistaEmpleado = new VistaEmpleado();
+		vistaUsuario = new VistaUsuario<MainInterfaz, ProductosInterfaz>();
+		vistaEmpleado = new VistaEmpleado<MainInterfaz, ProductosInterfaz>();
 
 		//Hash tables
 		ht_usuarios = HashTablaA<Usuario<double, int>>();
