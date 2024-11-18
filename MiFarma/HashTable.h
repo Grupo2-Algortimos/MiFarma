@@ -10,7 +10,7 @@ private:
     const T* DELETED;         // Marcador especial para posiciones borradas
 
 public:
-    explicit HashTable(int size = 101) : table(size, nullptr), currentSize(0)
+    explicit HashTable(int size = 201) : table(size, nullptr), currentSize(0)
     {
         // `DELETED` es una dirección especial para marcar eliminaciones sin usar memoria real
         DELETED = reinterpret_cast<T*>(0xFFFFFFFF);
@@ -61,7 +61,7 @@ public:
         return true;
     }
 
-    bool remove(const std::string& nombre, const std::string& apellido) {
+    bool remove(const string& nombre, const string& apellido) {
         int index = myhash(nombre, apellido);
         int initialIndex = index;
 
@@ -82,7 +82,7 @@ public:
 		return currentSize == 0;
 	}
 private:
-    int conversor(const std::string& a, const std::string& b) const {
+    int conversor(const string& a, const string& b) const {
         int sumaNombre = 0;
         int sumaApellido = 0;
         for (char c : a) {
@@ -91,11 +91,11 @@ private:
         for (char d : b) {
             sumaApellido += static_cast<int>(d);
         }
-        int operacion = (sumaNombre + sumaApellido) * 50 / 2;
+        int operacion = (sumaNombre + sumaApellido) * 59 / 2;
         return operacion;
     }
 
-    size_t myhash(const std::string& key1, const std::string& key2) const {
+    size_t myhash(const string& key1, const string& key2) const {
         int hashVal = conversor(key1, key2);
         hashVal %= table.size();  // Aritmética modular para obtener el índice
         return hashVal;
