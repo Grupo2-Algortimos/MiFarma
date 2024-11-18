@@ -1199,9 +1199,9 @@ public:
 					cout << "Sede Asignada por defecto: " << sedeAsignada;
 				Console::SetCursorPosition(ANCHO / 6, ALTO / 5 + 2);
 				if (sedeUsuario.getTiempo() != -1)
-					cout << "Tiempor de llegada: " << sedeUsuario.getTiempo() << " minutos";
+					cout << "Tiempo de llegada: " << sedeUsuario.getTiempo() << " minutos";
 				else
-					cout << "Tiempor de llegada: " << 25 << " minutos";
+					cout << "Tiempo de llegada: " << 25 << " minutos";
 				Console::SetCursorPosition(ANCHO / 6, ALTO / 5 + 3);
 				cout << "Monto total: " << pedido_usuario->conseguirCostoTotal();
 				Console::SetCursorPosition(ANCHO / 6, ALTO / 5 + 4);
